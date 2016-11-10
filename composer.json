@@ -1,0 +1,22 @@
+{
+    "name": "shopware/connect-sdk",
+    "description": "PHP SDK to integrate your shop with Shopware Connect",
+    "license": "MIT",
+
+    "autoload": {
+        "psr-0": {
+            "Shopware\\Connect": ["src/main", "test"]
+        }
+    },
+
+    "require-dev": {
+        "behat/behat": "2.4.*@stable",
+        "phpunit/phpunit": "@stable",
+        "phake/phake": "@stable"
+    },
+
+    "config": {
+        "bin-dir": "vendor/bin/"
+    }
+}
+

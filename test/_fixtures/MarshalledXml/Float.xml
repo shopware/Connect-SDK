@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rpc xmlns="urn:bepado:api:rpc" xmlns:rpc="urn:bepado:api:rpc" xmlns:array="urn:bepado:api:array" xmlns:float="urn:bepado:api:float" xmlns:integer="urn:bepado:api:integer" xmlns:boolean="urn:bepado:api:boolean" xmlns:string="urn:bepado:api:string" xmlns:null="urn:bepado:api:null" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:bepado:api:rpc http://api.bepado.com/schema/rpc.xsd urn:bepado:api:array http://api.bepado.com/schema/array.xsd urn:bepado:api:float http://api.bepado.com/schema/float.xsd urn:bepado:api:integer http://api.bepado.com/schema/integer.xsd urn:bepado:api:boolean http://api.bepado.com/schema/boolean.xsd urn:bepado:api:string http://api.bepado.com/schema/string.xsd urn:bepado:api:null http://api.bepado.com/schema/null.xsd">
+  <service>FloatService</service>
+  <command>testFloat</command>
+  <arguments>
+    <float:float>42.3</float:float>
+  </arguments>
+</rpc>

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SDK" basedir="." default="verify">
+
+    <!--
+        Import project specific settings.
+    -->
+    <property file="${basedir}/build.properties" />
+
+    <!--
+        Import the build-commons framework.
+    -->
+    <import file="../base.xml" />
+
+    <property name="docsdir" value="${commons:builddir}/docs" />
+
+    <target name="behat" extensionOf="-test:after~hook">
+        <exec executable="${commons.executable.php}" failonerror="true" dir="${basedir}">
+            <env key="STORAGE" value="InMemory" />
+
+            <arg value="vendor/bin/behat" />
+
+            <arg value="--format" />
+            <arg value="junit,progress" />
+            <arg value="--out" />
+            <arg value="${commons:logsdir}," />
+        </exec>
+        
+        <exec executable="${commons.executable.php}" failonerror="true" dir="${basedir}">
+            <env key="STORAGE" value="MySQLi" />
+
+            <arg value="vendor/bin/behat" />
+
+            <arg value="--format" />
+            <arg value="junit,progress" />
+            <arg value="--out" />
+            <arg value="${commons:logsdir}," />
+        </exec>
+
+        <exec executable="${commons.executable.php}" failonerror="true" dir="${basedir}">
+            <env key="STORAGE" value="PDO" />
+
+            <arg value="vendor/bin/behat" />
+
+            <arg value="--format" />
+            <arg value="junit,progress" />
+            <arg value="--out" />
+            <arg value="${commons:logsdir}," />
+        </exec>
+    </target>
+
+    <target name="api-docs">
+        <mkdir dir="${docsdir}" />
+
+        <!--
+        <exec executable="rst2html" failonerror="true" dir="${basedir}" output="${commons:builddir}/docs/usage.html">
+            <arg value="${basedir}/docs/api.txt" />
+        </exec>
+        -->
+    </target>
+
+    <target name="user-docs" depends="api-docs">
+        <copy todir="${docsdir}">
+            <fileset dir="${basedir}/docs/">
+                <include name="**/*.png" />
+            </fileset>
+        </copy>
+
+        <exec executable="rst2html" failonerror="true" dir="${basedir}" output="${docsdir}/usage.html">
+            <arg value="${basedir}/docs/api.txt" />
+        </exec>
+
+        <echo message="REST API Docs" />
+        <exec executable="pandoc">
+            <arg value="--listings" />
+            <arg value="--template" />
+            <arg value="docs/connect.latex" />
+            <arg value="-o" />
+            <arg value="docs/rest_api.pdf" />
+            <arg value="docs/rest_api.md" />
+        </exec>
+
+        <echo message="Tutorial Setup Docs" />
+        <exec executable="pandoc">
+            <arg value="--listings" />
+            <arg value="--template" />
+            <arg value="docs/connect.latex" />
+            <arg value="-o" />
+            <arg value="docs/tutorial_setup_sdk.pdf" />
+            <arg value="docs/tutorial_setup_sdk.md" />
+        </exec>
+
+        <echo message="Tutorial Export Docs" />
+        <exec executable="pandoc">
+            <arg value="--listings" />
+            <arg value="--template" />
+            <arg value="docs/connect.latex" />
+            <arg value="-o" />
+            <arg value="docs/tutorial_export.pdf" />
+            <arg value="docs/tutorial_export.md" />
+        </exec>
+
+        <echo message="CSV Provider Docs" />
+        <exec executable="pandoc">
+            <arg value="--listings" />
+            <arg value="--template" />
+            <arg value="docs/connect.latex" />
+            <arg value="-o" />
+            <arg value="docs/csv_provider.pdf" />
+            <arg value="docs/csv_provider.md" />
+        </exec>
+
+        <echo message="Variant Docs" />
+        <exec executable="pandoc">
+            <arg value="--listings" />
+            <arg value="--template" />
+            <arg value="docs/connect.latex" />
+            <arg value="-o" />
+            <arg value="docs/variants.pdf" />
+            <arg value="docs/variants.md" />
+        </exec>
+    </target>
+
+    <target name="build-release" depends="user-docs">
+        <exec executable="/usr/bin/php" outputproperty="connect_sdk.current_version" failonerror="true">
+            <arg value="-r" />
+            <arg value="require_once 'src/main/Shopware/Connect/SDK.php';echo \Shopware\Connect\SDK::VERSION;" />
+        </exec>
+
+        <property name="releasedir" value="${commons:builddir}/release/SDK-${connect_sdk.current_version}" />
+
+        <delete>
+            <fileset dir="${commons:builddir}">
+                <include name="release/**/*.*" />
+            </fileset>
+        </delete>
+
+        <mkdir dir="${releasedir}" />
+        <copy todir="${releasedir}" includeEmptyDirs="false">
+            <fileset dir="${basedir}">
+                <exclude name=".gitignore" />
+                <exclude name=".pear/**" />
+                <exclude name="setup/**" />
+                <exclude name="build.*" />
+                <exclude name="composer.*" />
+                <exclude name=".abc/**/*.*" />
+                <exclude name="build/**/*.*" />
+                <exclude name="docs/*.*" />
+                <exclude name="docs/graphics/*.*" />
+                <exclude name="vendor/**/*.*" />
+                <exclude name="**/*.swp" />
+                <exclude name="**/*.swo" />
+                <include name="src/**" />
+                <include name="docs/*.pdf" />
+                <include name="CHANGELOG.md" />
+                <include name="README.md" />
+            </fileset>
+        </copy>
+
+        <mkdir dir="${releasedir}/docs" />
+        <copy todir="${releasedir}/docs">
+            <fileset dir="${docsdir}">
+                <include name="**/*.*" />
+            </fileset>
+        </copy>
+
+        <exec executable="php" dir="${releasedir}">
+            <arg value="${basedir}/composer.phar" />
+            <arg value="update" />
+            <arg value="--no-dev" />
+        </exec>
+
+        <mkdir dir="${releasedir}/src/schema/deltas" />
+        <move todir="${releasedir}/src/schema/deltas">
+            <fileset dir="${releasedir}/src/schema" includes="**/*.sql" />
+        </move>
+
+        <zip destfile="${commons:builddir}/dist/SDK-${connect_sdk.current_version}.zip">
+            <fileset dir="${releasedir}/.." includes="**/*.*" />
+        </zip>
+    </target>
+
+    <target name="check-git-checkout-clean">
+        <!-- Abort if Git working tree is not clean -->
+        <exec executable="git" failonerror="true">
+            <arg value="diff" />
+            <arg value="--quiet" />
+        </exec>
+
+        <!-- Abort if Git staging area is not clean -->
+        <exec executable="git" failonerror="true">
+            <arg value="diff" />
+            <arg value="--cached" />
+            <arg value="--quiet" />
+        </exec>
+    </target>
+
+    <macrodef name="git-commit">
+        <attribute name="file" default="NOT SET"/>
+        <attribute name="message" default="NOT SET"/>
+
+        <sequential>
+            <exec executable="git">
+                <arg value="add" />
+                <arg value="@{file}" />
+            </exec>
+            <exec executable="git">
+                <arg value="commit" />
+                <arg value="-m" />
+                <arg value="@{message}" />
+            </exec>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="git-tag">
+        <attribute name="version" default="NOT SET" />
+
+        <sequential>
+            <exec executable="git">
+                <arg value="tag" />
+                <arg value="-m" />
+                <arg value="v@{version}" />
+                <arg value="v@{version}" />
+            </exec>
+        </sequential>
+    </macrodef>
+
+</project>

@@ -1,0 +1,26 @@
+===================================
+How To Use The Shopware Connect SDK
+===================================
+
+This document describes the extension points of the Shopware Connect SDK and
+how to integrate it with your PHP shop.
+
+The extension points, we need to cover are:
+
+1) Trigger Plugin from web service call
+2) Fetch shop data from plugin
+3) Update shop data from plugin
+4) Store plugin data
+
+In the follwing sections we will describe in detail how you can use the SDK and
+accomplish customization of the four points mentioned.
+
+.. @TODO: Write
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End: 
+   vim: et syn=rst tw=79
