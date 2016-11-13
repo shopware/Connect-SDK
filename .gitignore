@@ -1,0 +1,16 @@
+.abc
+.npm
+.sonar
+src/library
+log
+data
+build
+vendor
+composer.phar
+composer.lock
+.pear
+.idea
+docs/*.log
+docs/*.out
+docs/*.aux
+docs/*.tex

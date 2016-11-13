@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="SDK" basedir="." default="verify">
+<project name="SDK" basedir="" default="verify">
 
     <!--
         Import project specific settings.
@@ -9,7 +9,7 @@
     <!--
         Import the build-commons framework.
     -->
-    <import file="../base.xml" />
+    <import file="setup/src/main/xml/base.xml"/>
 
     <property name="docsdir" value="${commons:builddir}/docs" />
 
