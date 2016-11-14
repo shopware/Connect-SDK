@@ -118,7 +118,7 @@ class ShopPurchaseContext extends SDKContext
                 ),
                 $this->productToShop,
                 $this->logger,
-                new ErrorHandler\Null(),
+                new ErrorHandler\NullErrorHandler(),
                 $this->gateway
             )
         );
