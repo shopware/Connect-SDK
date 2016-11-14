@@ -15,7 +15,7 @@ use Shopware\Connect\Struct;
  *
  * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  */
-class Null extends ErrorHandler
+class NullErrorHandler extends ErrorHandler
 {
     /**
      * Handle error
