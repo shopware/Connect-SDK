@@ -16,7 +16,8 @@
     },
 
     "config": {
-        "bin-dir": "vendor/bin/"
+        "bin-dir": "vendor/bin/",
+        "secure-http": false
     }
 }
 
