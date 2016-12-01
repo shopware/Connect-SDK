@@ -17,13 +17,17 @@ use Shopware\Connect\Struct;
  */
 class PriceRange extends Struct
 {
+    CONST ANY = 'any';
+
     /**
-     * @var string
+     * If it is string then the value must be 'any'
+     *
+     * @var int|string
      */
     public $to;
 
     /**
-     * @var string
+     * @var int
      */
     public $from;
 
