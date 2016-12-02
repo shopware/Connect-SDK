@@ -324,6 +324,145 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $verificator->verify($this->dispatcher, $product, array('default', 'priceExport'));
     }
 
+    public function testPriceRanges()
+    {
+        $product = $this->createValidProduct();
+        $priceRange = new Struct\PriceRange(array(
+            'from' => 1,
+            'to' => 10,
+            'price' => 33,
+        ));
+
+        $product->fixedPrice = false;
+        $product->priceRanges = array($priceRange);
+
+        $verificator = new Product(
+            new ShippingRuleParser\Google(),
+            SDK::PRICE_TYPE_RETAIL
+        );
+        $verificator->verify($this->dispatcher, $product, array('default', 'priceExport'));
+    }
+
+    public function testPriceRangesWithWrongFrom()
+    {
+        $product = $this->createValidProduct();
+        $priceRange = new Struct\PriceRange(array(
+            'from' => '1',
+            'to' => 10,
+            'price' => 13.30,
+        ));
+
+        $product->fixedPrice = false;
+        $product->priceRanges = array($priceRange);
+
+        $this->setExpectedException(
+            '\Shopware\Connect\Exception\VerificationFailedException',
+            "The price range 'from' must be int and is not allowed to be 0 or smaller."
+        );
+
+        $verificator = new Product(
+            new ShippingRuleParser\Google(),
+            SDK::PRICE_TYPE_RETAIL
+        );
+        $verificator->verify($this->dispatcher, $product, array('default', 'priceExport'));
+    }
+
+    public function testPriceRangesWithWrongToString()
+    {
+        $product = $this->createValidProduct();
+        $priceRange = new Struct\PriceRange(array(
+            'from' => 1,
+            'to' => 'string',
+            'price' => 13.30,
+        ));
+
+        $product->fixedPrice = false;
+        $product->priceRanges = array($priceRange);
+
+        $this->setExpectedException(
+            '\Shopware\Connect\Exception\VerificationFailedException',
+            "The price range 'to' must be int bigger from 0 or string with value 'any'."
+        );
+
+        $verificator = new Product(
+            new ShippingRuleParser\Google(),
+            SDK::PRICE_TYPE_RETAIL
+        );
+        $verificator->verify($this->dispatcher, $product, array('default', 'priceExport'));
+    }
+
+    public function testPriceRangesWithWrongToInt()
+    {
+        $product = $this->createValidProduct();
+        $priceRange = new Struct\PriceRange(array(
+            'from' => 1,
+            'to' => 0,
+            'price' => 13.30,
+        ));
+
+        $product->fixedPrice = false;
+        $product->priceRanges = array($priceRange);
+
+        $this->setExpectedException(
+            '\Shopware\Connect\Exception\VerificationFailedException',
+            "The price range 'to' is not allowed to be 0 or smaller."
+        );
+
+        $verificator = new Product(
+            new ShippingRuleParser\Google(),
+            SDK::PRICE_TYPE_RETAIL
+        );
+        $verificator->verify($this->dispatcher, $product, array('default', 'priceExport'));
+    }
+
+    public function testPriceRangesWithWrongToValue()
+    {
+        $product = $this->createValidProduct();
+        $priceRange = new Struct\PriceRange(array(
+            'from' => 1,
+            'to' => 3.2,
+            'price' => 13.30,
+        ));
+
+        $product->fixedPrice = false;
+        $product->priceRanges = array($priceRange);
+
+        $this->setExpectedException(
+            '\Shopware\Connect\Exception\VerificationFailedException',
+            "The price range 'to' must be int or string."
+        );
+
+        $verificator = new Product(
+            new ShippingRuleParser\Google(),
+            SDK::PRICE_TYPE_RETAIL
+        );
+        $verificator->verify($this->dispatcher, $product, array('default', 'priceExport'));
+    }
+
+    public function testPriceRangesWithWrongPrice()
+    {
+        $product = $this->createValidProduct();
+        $priceRange = new Struct\PriceRange(array(
+            'from' => 1,
+            'to' => 3,
+            'price' => -12,
+        ));
+
+        $product->fixedPrice = false;
+        $product->priceRanges = array($priceRange);
+
+        $this->setExpectedException(
+            '\Shopware\Connect\Exception\VerificationFailedException',
+            "The price is not allowed to be 0 or smaller."
+        );
+
+        $verificator = new Product(
+            new ShippingRuleParser\Google(),
+            SDK::PRICE_TYPE_RETAIL
+        );
+        $verificator->verify($this->dispatcher, $product, array('default', 'priceExport'));
+    }
+
     public function testProductDescriptionLimit()
     {
         $product = $this->createValidProduct();

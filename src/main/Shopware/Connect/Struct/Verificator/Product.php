@@ -131,11 +131,11 @@ class Product extends Verificator
             }
 
             if (is_string($priceRange->to) && $priceRange->to !== Struct\PriceRange::ANY){
-                $this->fail("The price range 'to' must be int bigger from  or string with value 'Any' ");
+                $this->fail("The price range 'to' must be int bigger from 0 or string with value 'any'.");
             } elseif(is_int($priceRange->to) && $priceRange->to <= 0) {
                 $this->fail("The price range 'to' is not allowed to be 0 or smaller.");
             } elseif(!is_string($priceRange->to) && !is_int($priceRange->to)){
-                $this->fail("The price range 'to' must be int or string");
+                $this->fail("The price range 'to' must be int or string.");
             }
 
             if (empty($priceRange->price) || $priceRange->price <= 0) {
