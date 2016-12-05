@@ -55,6 +55,9 @@
       <fixedPrice>
         <null:null/>
       </fixedPrice>
+      <priceRanges>
+        <array:array/>
+      </priceRanges>
       <currency>
         <string:string>EUR</string:string>
       </currency>
