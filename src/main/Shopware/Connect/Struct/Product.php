@@ -303,6 +303,16 @@ class Product extends ShopItem
     public $images = array();
 
     /**
+     * List of specific variant image URLs
+     *
+     * Only specific images for the given variant.
+     * This property does not affect products without variants.
+     *
+     * @var string[]
+     */
+    public $variantImages = array();
+
+    /**
      * Product categories.
      *
      * Categories are submitted as an associative array. Each key is the full

@@ -195,6 +195,47 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->verify($product);
     }
 
+    /**
+     * @param mixed $images
+     * @dataProvider dataInvalidImagesIndexing
+     */
+    public function testInvalidVariantImagesIndexing($images)
+    {
+        $product = $this->createValidProduct();
+
+        $product->variantImages = $images;
+
+        $this->setExpectedException('RuntimeException', 'Product#variantImages must be numerically indexed starting with 0.');
+        $this->verify($product);
+    }
+
+    /**
+     * @param mixed $images
+     * @dataProvider dataInvalidImagesBasetype
+     */
+    public function testInvalidVariantImagesBasetype($images)
+    {
+        $product = $this->createValidProduct();
+
+        $product->variantImages = $images;
+
+        $this->setExpectedException('RuntimeException', 'Product#variantImages must be an array.');
+        $this->verify($product);
+    }
+
+    /**
+     * @param mixed $images
+     * @dataProvider dataValidImages
+     */
+    public function testValidVariantImages($images)
+    {
+        $product = $this->createValidProduct();
+
+        $product->variantImages = $images;
+
+        $this->verify($product);
+    }
+
     public function testOnlyScalarAttributes()
     {
         $product = $this->createValidProduct();
