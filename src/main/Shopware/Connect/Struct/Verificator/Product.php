@@ -307,7 +307,7 @@ class Product extends Verificator
         }
 
         if ((strlen($struct->shortDescription) + strlen($struct->longDescription) + strlen($struct->additionalDescription)) > self::DESCRIPTION_SIZE_LIMIT) {
-            throw new \Shopware\Connect\Exception\VerificationFailedException("Product short,long and additional description must be under 5 000 000 characters.");
+            throw new \Shopware\Connect\Exception\VerificationFailedException("Product short, long and additional description must be under 5 000 000 characters.");
         }
 
         if ($struct->minPurchaseQuantity < 1) {

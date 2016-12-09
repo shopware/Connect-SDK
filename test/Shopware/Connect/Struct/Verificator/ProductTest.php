@@ -472,7 +472,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException(
             '\Shopware\Connect\Exception\VerificationFailedException',
-            'Product short,long and additional description must be under 5 000 000 characters.'
+            'Product short, long and additional description must be under 5 000 000 characters.'
         );
 
         $this->verify($product);
