@@ -108,8 +108,7 @@ abstract class ChangeGatewayTest extends \PHPUnit_Framework_TestCase
             array(
                 'cosmetics' => 'Cosmetics',
                 'body_care' => 'Body care',
-            ),
-            'avocado-10906-group'
+            )
         );
 
         $this->assertEquals(
@@ -122,7 +121,6 @@ abstract class ChangeGatewayTest extends \PHPUnit_Framework_TestCase
                             'cosmetics' => 'Cosmetics',
                             'body_care' => 'Body care',
                         ),
-                        'groupId' => 'avocado-10906-group',
                     )
                 )
             ),
