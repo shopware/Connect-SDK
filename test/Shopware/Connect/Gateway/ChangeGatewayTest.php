@@ -112,6 +112,15 @@ abstract class ChangeGatewayTest extends \PHPUnit_Framework_TestCase
             'avocado-10906-group'
         );
 
+        $gateway->recordStreamAssignment(
+            'avocado-10907',
+            '1358342509.1492500267',
+            array(
+                'cosmetics' => 'Cosmetics',
+                'body_care' => 'Body care',
+            )
+        );
+
         $this->assertEquals(
             array(
                 new StreamAssignment(
@@ -123,6 +132,16 @@ abstract class ChangeGatewayTest extends \PHPUnit_Framework_TestCase
                             'body_care' => 'Body care',
                         ),
                         'groupId' => 'avocado-10906-group',
+                    )
+                ),
+                new StreamAssignment(
+                    array(
+                        'sourceId' => 'avocado-10907',
+                        'revision' => '1358342509.1492500267',
+                        'supplierStreams' => array(
+                            'cosmetics' => 'Cosmetics',
+                            'body_care' => 'Body care',
+                        ),
                     )
                 )
             ),
