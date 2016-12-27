@@ -108,6 +108,16 @@ abstract class ChangeGatewayTest extends \PHPUnit_Framework_TestCase
             array(
                 'cosmetics' => 'Cosmetics',
                 'body_care' => 'Body care',
+            ),
+            'avocado-10906-group'
+        );
+
+        $gateway->recordStreamAssignment(
+            'avocado-10907',
+            '1358342509.1492500267',
+            array(
+                'cosmetics' => 'Cosmetics',
+                'body_care' => 'Body care',
             )
         );
 
@@ -117,6 +127,17 @@ abstract class ChangeGatewayTest extends \PHPUnit_Framework_TestCase
                     array(
                         'sourceId' => 'avocado-10906',
                         'revision' => '1358342509.1492500266',
+                        'supplierStreams' => array(
+                            'cosmetics' => 'Cosmetics',
+                            'body_care' => 'Body care',
+                        ),
+                        'groupId' => 'avocado-10906-group',
+                    )
+                ),
+                new StreamAssignment(
+                    array(
+                        'sourceId' => 'avocado-10907',
+                        'revision' => '1358342509.1492500267',
                         'supplierStreams' => array(
                             'cosmetics' => 'Cosmetics',
                             'body_care' => 'Body care',
