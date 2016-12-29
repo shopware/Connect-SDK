@@ -95,10 +95,16 @@ class Order extends Struct
     public $billingAddress;
 
     /**
+     * This property is for external devs to add some extra data
+     *
+     * @var string
+     */
+    public $customAttribute;
+
+    /**
      * __construct
      *
      * @param array $values
-     * @return void
      */
     public function __construct(array $values = array())
     {
@@ -139,6 +145,9 @@ class Order extends Struct
             case 'grossShippingCosts':
                 return $this->shipping->grossShippingCosts;
 
+            case 'customAttribute':
+                return $this->customAttribute;
+
             default:
                 return parent::__get($property);
         }
@@ -168,6 +177,10 @@ class Order extends Struct
 
             case 'grossShippingCosts':
                 $this->shipping->grossShippingCosts = $value;
+                break;
+
+            case 'customAttribute':
+                $this->customAttribute = $value;
                 break;
 
             default:
