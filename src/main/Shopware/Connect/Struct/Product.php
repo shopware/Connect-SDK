@@ -340,6 +340,11 @@ class Product extends ShopItem
     public $categories = array();
 
     /**
+     * @var array
+     */
+    public $properties = array();
+
+    /**
      * Product Tags
      *
      * A list of tags that can help other shops find your product.
