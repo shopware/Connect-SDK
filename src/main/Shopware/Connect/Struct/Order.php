@@ -145,9 +145,6 @@ class Order extends Struct
             case 'grossShippingCosts':
                 return $this->shipping->grossShippingCosts;
 
-            case 'customAttribute':
-                return $this->customAttribute;
-
             default:
                 return parent::__get($property);
         }
@@ -177,10 +174,6 @@ class Order extends Struct
 
             case 'grossShippingCosts':
                 $this->shipping->grossShippingCosts = $value;
-                break;
-
-            case 'customAttribute':
-                $this->customAttribute = $value;
                 break;
 
             default:
