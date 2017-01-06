@@ -509,10 +509,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product = $this->createValidProduct();
         $product->shortDescription = str_repeat('Short Sasse Münsterländer Lagerkorn 32% 0,2L', 200000);
         $product->longDescription = str_repeat('Long Sasse Münsterländer Lagerkorn 32% 0,2L', 200000);
+        $product->additionalDescription = str_repeat('Additional Sasse Münsterländer Lagerkorn 32% 0,2L', 10000);
 
         $this->setExpectedException(
             '\Shopware\Connect\Exception\VerificationFailedException',
-            'Product short and long description must be under 5 000 000 characters.'
+            'Product short, long and additional description must be under 5 000 000 characters.'
         );
 
         $this->verify($product);
