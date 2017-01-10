@@ -56,6 +56,9 @@
       <billingAddress>
         <null:null/>
       </billingAddress>
+      <customAttribute>
+        <null:null/>
+      </customAttribute>
       <shippingCosts>
         <float:float>5</float:float>
       </shippingCosts>
