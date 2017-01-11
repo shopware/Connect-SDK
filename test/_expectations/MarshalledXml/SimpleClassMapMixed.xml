@@ -84,6 +84,9 @@
       <categories>
         <array:array/>
       </categories>
+      <properties>
+        <array:array/>
+      </properties>
       <tags>
         <array:array/>
       </tags>
@@ -207,6 +210,9 @@
         <categories>
           <array:array/>
         </categories>
+        <properties>
+          <array:array/>
+        </properties>
         <tags>
           <array:array/>
         </tags>
