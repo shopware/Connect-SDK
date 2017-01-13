@@ -336,6 +336,7 @@ class ShopProduct extends Struct
     public $title;
     public $shortDescription;
     public $longDescription;
+    public $additionalDescription;
     public $vendor;
     public $vat = 0.19;
     public $price;

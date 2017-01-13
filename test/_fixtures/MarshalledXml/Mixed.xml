@@ -28,6 +28,9 @@
       <longDescription>
         <string:string>Original SecretActive Ingredients: Aluminum Zirconium Trichlorohydrex Gly (19%) (Anhydrous). Inactive Ingredients: Cyclopentasiloxane, Stearyl Alcohol, C12-15 Alkyl Benzoate, PPG-14 Butyl Ether, Hydrogenated Castor Oil, Petrolatum, Phenyl Trimethicone, Talc, Cyclodextrin, Fragrance, Mineral Oil, Behenyl Alcohol.</string:string>
       </longDescription>
+      <additionalDescription>
+        <string:string>Ionic substances contain charged particles called ions. For example, lead bromide contains positively charged lead ions and negatively charged bromide ions.</string:string>
+      </additionalDescription>
       <vendor>
         <string:string>Secret</string:string>
       </vendor>
@@ -85,6 +88,9 @@
         <longDescription>
           <string:string>Original SecretActive Ingredients: Aluminum Zirconium Trichlorohydrex Gly (19%) (Anhydrous). Inactive Ingredients: Cyclopentasiloxane, Stearyl Alcohol, C12-15 Alkyl Benzoate, PPG-14 Butyl Ether, Hydrogenated Castor Oil, Petrolatum, Phenyl Trimethicone, Talc, Cyclodextrin, Fragrance, Mineral Oil, Behenyl Alcohol.</string:string>
         </longDescription>
+        <additionalDescription>
+          <string:string>Ionic substances contain charged particles called ions. For example, lead bromide contains positively charged lead ions and negatively charged bromide ions.</string:string>
+        </additionalDescription>
         <vendor>
           <string:string>Secret</string:string>
         </vendor>
