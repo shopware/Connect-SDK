@@ -85,7 +85,7 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
         ));
         $localProduct = new Struct\Product(array(
             'sourceId' => 10,
-            'availability' => 0,
+            'availability' => 50,
             'purchasePrice' => 5,
             'purchasePriceHash' => PurchasePriceSecurity::hash(5, self::OFFER_VALID_UNTIL, self::APIKEY),
             'offerValidUntil' => self::OFFER_VALID_UNTIL,
@@ -94,6 +94,54 @@ class TransactionServiceTest extends \PHPUnit_Framework_TestCase
         $result = $this->whenCheckProductsWith($localProduct, $remoteProduct);
 
         $this->assertContainsOnly('Shopware\Connect\Struct\Change\InterShop\Unavailable', $result->changes);
+    }
+
+    public function testInvalidPriceHash()
+    {
+        $remoteProduct = new Struct\Product(array(
+            'sourceId' => 10,
+            'availability' => 100,
+            'purchasePrice' => 5,
+            'purchasePriceHash' => PurchasePriceSecurity::hash(10, self::OFFER_VALID_UNTIL, self::APIKEY),
+            'offerValidUntil' => self::OFFER_VALID_UNTIL,
+        ));
+        $localProduct = new Struct\Product(array(
+            'sourceId' => 10,
+            'availability' => 100,
+            'purchasePrice' => 5,
+            'purchasePriceHash' => PurchasePriceSecurity::hash(5, self::OFFER_VALID_UNTIL, self::APIKEY),
+            'offerValidUntil' => self::OFFER_VALID_UNTIL,
+        ));
+
+        $result = $this->whenCheckProductsWith($localProduct, $remoteProduct);
+
+        $this->assertContainsOnly('Shopware\Connect\Struct\Change\InterShop\Update', $result->changes);
+    }
+
+    public function testChangedFixedPrice()
+    {
+        $remoteProduct = new Struct\Product(array(
+            'sourceId' => 10,
+            'availability' => 100,
+            'purchasePrice' => 10,
+            'fixedPrice' => true,
+            'price' => 10,
+            'purchasePriceHash' => PurchasePriceSecurity::hash(10, self::OFFER_VALID_UNTIL, self::APIKEY),
+            'offerValidUntil' => self::OFFER_VALID_UNTIL,
+        ));
+        $localProduct = new Struct\Product(array(
+            'sourceId' => 10,
+            'availability' => 100,
+            'purchasePrice' => 10,
+            'fixedPrice' => true,
+            'price' => 11,
+            'purchasePriceHash' => PurchasePriceSecurity::hash(10, self::OFFER_VALID_UNTIL, self::APIKEY),
+            'offerValidUntil' => self::OFFER_VALID_UNTIL,
+        ));
+
+        $result = $this->whenCheckProductsWith($localProduct, $remoteProduct);
+
+        $this->assertContainsOnly('Shopware\Connect\Struct\Change\InterShop\Update', $result->changes);
     }
 
     public function testNegativeAvailabillity()
