@@ -29,7 +29,7 @@ Feature: Interactions between shops on a purchase
           And A customer adds a product from remote shop 1 to basket
           And The product price has changed in the remote shop
          When The Customer views the order overview
-         Then The customer is informed about the unavailability
+         Then The customer is informed about price change
           And The product availability is updated in the local shop
           And No transaction is logged
 
