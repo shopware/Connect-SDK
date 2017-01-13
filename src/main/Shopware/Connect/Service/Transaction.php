@@ -149,7 +149,7 @@ class Transaction
                     array(
                         'sourceId' => $remoteProduct->sourceId,
                         'shopId' => $myShopId,
-                        'product' => $localProduct,
+                        'product' => $currentNotAvailable,
                         'oldProduct' => $remoteProduct,
                     )
                 );
