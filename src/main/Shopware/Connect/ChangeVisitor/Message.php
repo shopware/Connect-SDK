@@ -43,6 +43,9 @@ class Message extends ChangeVisitor
 
             switch (true) {
                 case ($change instanceof Struct\Change\InterShop\Update):
+                    /**
+                     * The else block can be removed when all shops use version greater than 2.0.3
+                     */
                     if ($change->oldProduct !== null) {
                         $messages[] = new Struct\Message(array(
                             'message' => 'The price of product %product has changed.',
