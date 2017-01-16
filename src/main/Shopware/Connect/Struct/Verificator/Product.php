@@ -396,13 +396,8 @@ class Product extends Verificator
      */
     private function verifyProperties(array $properties)
     {
-        if (empty($properties)) {
-            return;
-        }
-
         /** @var Struct\Property $property */
         foreach ($properties as $property) {
-
             foreach (array('groupName', 'option', 'value') as $key) {
                 if (trim($property->$key) === '' || !$property->$key) {
                     throw new \Shopware\Connect\Exception\VerificationFailedException("Property $key MUST be non-empty.");
@@ -410,6 +405,12 @@ class Product extends Verificator
 
                 if (@iconv('UTF-8', 'UTF-8', $property->$key) != $property->$key) {
                     throw new \Shopware\Connect\Exception\VerificationFailedException("Property $key MUST be UTF-8 encoded.");
+                }
+            }
+
+            foreach (array('groupPosition', 'valuePosition', 'sortMode') as $key) {
+                if (!is_int($property->$key)) {
+                    throw new \Shopware\Connect\Exception\VerificationFailedException("Property $key MUST be int.");
                 }
             }
 
@@ -421,8 +422,8 @@ class Product extends Verificator
                 throw new \Shopware\Connect\Exception\VerificationFailedException("Property filterable MUST be boolean.");
             }
 
-            if (!is_int($property->sortMode)) {
-                throw new \Shopware\Connect\Exception\VerificationFailedException("Property sortMode MUST be int.");
+            if ($property->sortMode > 2 || $property->sortMode < 0) {
+                throw new \Shopware\Connect\Exception\VerificationFailedException("Property sortMode MUST be 0, 1, or 2");
             }
         }
     }

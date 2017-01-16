@@ -23,11 +23,21 @@ class Property extends Struct
     public $groupName;
 
     /**
+     * @var int
+     */
+    public $groupPosition = 0;
+
+    /**
      * @var boolean
      */
     public $comparable;
 
     /**
+     * Example:
+     * 0 - alphabetical sort
+     * 1 - numeric sort
+     * 2 - position sort
+     *
      * @var int
      */
     public $sortMode;
@@ -46,5 +56,10 @@ class Property extends Struct
      * @var string
      */
     public $value;
+
+    /**
+     * @var int
+     */
+    public $valuePosition = 0;
 
 }
