@@ -349,6 +349,13 @@ class Product extends ShopItem
     public $categories = array();
 
     /**
+     * List of properties that helps other shops to filter a product
+     *
+     * @var \Shopware\Connect\Struct\Property[]
+     */
+    public $properties = array();
+
+    /**
      * Product Tags
      *
      * A list of tags that can help other shops find your product.

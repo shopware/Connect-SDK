@@ -344,6 +344,7 @@ class ShopProduct extends Struct
     public $availability;
     public $images = array();
     public $categories = array();
+    public $properties = array();
     public $attributes = array();
     public $variant = array();
     public $translations = array();

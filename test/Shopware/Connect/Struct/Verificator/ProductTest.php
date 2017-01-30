@@ -8,9 +8,9 @@ use Shopware\Connect\ShippingRuleParser;
 
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
-    private $verificator;
+    protected $verificator;
 
-    private function createValidProduct()
+    protected function createValidProduct()
     {
         return new Struct\Product(array(
             'shopId' => 10,
