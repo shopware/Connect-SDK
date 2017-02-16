@@ -244,6 +244,12 @@ class Shopping
                 }
             } elseif ($response instanceof Struct\Message) {
                 $reservation->messages[$shopId] = array($response);
+            } elseif ($response instanceof Struct\Error) {
+                $reservation->messages[$shopId] = array(
+                    new Struct\Message(array(
+                        'message' => $response->message
+                    ))
+                );
             } else {
                 // TODO: How to react on false value returned?
                 // This might occur if a reservation is canceled by the provider shop
