@@ -11,7 +11,7 @@
 
     "require-dev": {
         "behat/behat": "2.4.*@stable",
-        "phpunit/phpunit": "@stable",
+        "phpunit/phpunit": "5.7.*@stable",
         "phake/phake": "@stable"
     },
 
