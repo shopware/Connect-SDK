@@ -105,9 +105,6 @@
       <minPurchaseQuantity>
         <integer:integer>1</integer:integer>
       </minPurchaseQuantity>
-      <customAttribute>
-        <null:null/>
-      </customAttribute>
     </shopproduct>
   </arguments>
 </rpc>
