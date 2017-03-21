@@ -7,9 +7,24 @@ use Shopware\Connect\Struct\Change\FromShop\UpdatePaymentStatus;
 
 class PaymentStatusTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \Shopware\Connect\Service\PaymentStatus
+     */
     private $service;
+
+    /**
+     * @var \Shopware\Connect\Gateway
+     */
     private $gateway;
+
+    /**
+     * @var \Shopware\Connect\ProductFromShop
+     */
     private $fromShop;
+
+    /**
+     * @var \Shopware\Connect\Gateway\ShopConfiguration
+     */
     private $shopConfiguration;
 
     public function setUp()
