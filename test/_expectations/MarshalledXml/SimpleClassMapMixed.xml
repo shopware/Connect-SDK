@@ -10,6 +10,9 @@
       <sku>
         <string:string>SKU00001</string:string>
       </sku>
+      <lastStock>
+        <null:null/>
+      </lastStock>
       <groupId>
         <null:null/>
       </groupId>
@@ -133,6 +136,9 @@
         <sku>
           <string:string>SKU00001</string:string>
         </sku>
+        <lastStock>
+          <null:null/>
+        </lastStock>
         <groupId>
           <null:null/>
         </groupId>
