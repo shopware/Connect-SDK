@@ -102,7 +102,7 @@ class PropertyTest extends ProductTest
         $property = new Struct\Property(array(
             'groupName' => 'GroupName',
             'comparable' => false,
-            'sortMode' => 1,
+            'sortMode' => 0,
             'option' => 'Option',
             'value' => 'Value',
         ));
@@ -145,7 +145,7 @@ class PropertyTest extends ProductTest
         $property = new Struct\Property(array(
             'groupName' => 'GroupName',
             'comparable' => false,
-            'sortMode' => 3,
+            'sortMode' => 2,
             'option' => 'Option',
             'filterable' => false,
             'value' => 'Value',
@@ -155,7 +155,7 @@ class PropertyTest extends ProductTest
 
         $this->setExpectedException(
             '\Shopware\Connect\Exception\VerificationFailedException',
-            "Property sortMode MUST be 0, 1, or 2"
+            "Property sortMode MUST be 0, 1, or 3"
         );
 
         $this->verificator->verify($this->dispatcher, $product, array('default'));
@@ -190,7 +190,7 @@ class PropertyTest extends ProductTest
         $property = new Struct\Property(array(
             'groupName' => 'GroupName',
             'comparable' => false,
-            'sortMode' => 1,
+            'sortMode' => 3,
             'option' => 'Option',
             'filterable' => false,
             'value' => 'Value',
