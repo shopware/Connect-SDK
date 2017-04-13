@@ -108,6 +108,9 @@
       <minPurchaseQuantity>
         <integer:integer>1</integer:integer>
       </minPurchaseQuantity>
+      <customAttribute>
+        <null:null/>
+      </customAttribute>
       <shopId>
         <string:string>f47ac10b-58cc-4372-a567-0e02b2c3d479</string:string>
       </shopId>
