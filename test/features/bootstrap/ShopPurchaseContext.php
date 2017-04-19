@@ -398,6 +398,26 @@ class ShopPurchaseContext extends SDKContext
     }
 
     /**
+     * @Then /^The customer is informed about price change$/
+     */
+    public function theCustomerIsInformedAboutPriceChange()
+    {
+        Assertion::assertEquals(
+            array(
+                new Struct\Message(
+                    array(
+                        'message' => 'The price of product %product has changed.',
+                        'values' => array(
+                            'product' => 'Sindelfingen',
+                        ),
+                    )
+                )
+            ),
+            $this->checkResult->errors
+        );
+    }
+
+    /**
      * @Given /^The product (?:price|availability) is updated in the local shop$/
      */
     public function theProductAvailabilityIsUpdatedInTheLocalShop()
