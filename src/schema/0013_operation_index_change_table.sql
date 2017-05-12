@@ -1,0 +1,1 @@
+ALTER TABLE `sw_connect_change` ADD INDEX `c_operation` (`c_operation`); 
