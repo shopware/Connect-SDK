@@ -25,6 +25,11 @@ class Address extends Struct
     /**
      * @var string
      */
+    public $depatment;
+
+    /**
+     * @var string
+     */
     public $firstName;
 
     /**
@@ -55,7 +60,12 @@ class Address extends Struct
     /**
      * @var string
      */
-    public $additionalAddressLine;
+    public $additionalAddressLine1;
+
+    /**
+     * @var string
+     */
+    public $additionalAddressLine2;
 
     /**
      * @var string
@@ -118,7 +128,7 @@ class Address extends Struct
             case 'line1':
                 return $this->street . ' ' . $this->streetNumber;
             case 'line2':
-                return $this->additionalAddressLine;
+                return $this->additionalAddressLine1;
             default:
                 return parent::__get($property);
         }
@@ -157,7 +167,7 @@ class Address extends Struct
                 $this->streetNumber = $matches['number'];
                 break;
             case 'line2':
-                $this->additionalAddressLine = $value;
+                $this->additionalAddressLine1 = $value;
                 break;
             default:
                 return parent::__get($property);
