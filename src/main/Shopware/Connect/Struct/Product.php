@@ -55,6 +55,11 @@ class Product extends ShopItem
     const ATTRIBUTE_QUANTITY = 'quantity';
 
     /**
+     * Name that one piece of the product has
+     */
+    const ATTRIBUTE_PACKAGEUNIT = 'packageUnit';
+
+    /**
      * Decribes the size of a variant.
      */
     const VARIANT_SIZE = 'size';
