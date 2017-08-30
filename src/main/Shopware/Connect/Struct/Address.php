@@ -25,7 +25,7 @@ class Address extends Struct
     /**
      * @var string
      */
-    public $depatment;
+    public $department;
 
     /**
      * @var string
