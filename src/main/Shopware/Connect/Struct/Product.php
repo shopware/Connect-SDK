@@ -60,6 +60,16 @@ class Product extends ShopItem
     const ATTRIBUTE_PACKAGEUNIT = 'packageUnit';
 
     /**
+     * Minimum purchasable amount
+     */
+    const ATTRIBUTE_BASICUNIT = 'basicUnit';
+
+    /**
+     * Manufacturer number
+     */
+    const ATTRIBUTE_MANUFACTURERNUMBER = 'manufacturerNumber';
+
+    /**
      * Decribes the size of a variant.
      */
     const VARIANT_SIZE = 'size';
