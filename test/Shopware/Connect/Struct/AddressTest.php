@@ -121,6 +121,6 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertSame('Some random data', $address->line2);
-        $this->assertSame('Some random data', $address->additionalAddressLine);
+        $this->assertSame('Some random data', $address->additionalAddressLine1);
     }
 }
