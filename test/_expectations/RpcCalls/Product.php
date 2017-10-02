@@ -21,6 +21,7 @@ return new \Shopware\Connect\Struct\RpcCall(
                     'title' => 'Secret pH Balanced INVISIBLE Solid powder fresh',
                     'url' => 'http://www.amazon.de/Secret-Balanced-INVISIBLE-Solid-powder/dp/B00005308K%3FSubscriptionId%3DAKIAILJJASZAP6AQ5GNQ%26tag%3Dws%26linkCode%3Dsp1%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00005308K',
                     'vendor' => 'Secret',
+                    'configuratorSetType' => null
                 )
             )
         )

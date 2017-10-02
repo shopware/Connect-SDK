@@ -349,4 +349,5 @@ class ShopProduct extends Struct
     public $variant = array();
     public $translations = array();
     public $minPurchaseQuantity = 1;
+    public $configuratorSetType;
 }

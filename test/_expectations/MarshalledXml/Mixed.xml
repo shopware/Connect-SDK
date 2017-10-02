@@ -105,6 +105,9 @@
       <minPurchaseQuantity>
         <integer:integer>1</integer:integer>
       </minPurchaseQuantity>
+      <configuratorSetType>
+        <null:null/>
+      </configuratorSetType>
     </shopproduct>
     <array:array>
       <string:string key="0">foo</string:string>
@@ -222,6 +225,9 @@
         <minPurchaseQuantity>
           <integer:integer>1</integer:integer>
         </minPurchaseQuantity>
+        <configuratorSetType>
+          <null:null/>
+        </configuratorSetType>
       </shopproduct>
     </array:array>
   </arguments>
