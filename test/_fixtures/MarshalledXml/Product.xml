@@ -16,6 +16,9 @@
       <revisionId>
         <string:string>20120905000000000002</string:string>
       </revisionId>
+      <configuratorSetTyoe>
+        <null:null/>
+      </configuratorSetTyoe>
       <ean>
           <null:null/>
       </ean>
