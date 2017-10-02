@@ -123,6 +123,13 @@ class Product extends ShopItem
     public $groupId;
 
     /**
+     * ConfiguratorType for variants.
+     *
+     * @var int
+     */
+    public $configuratorSetType;
+
+    /**
      * The European Article Number (EAN) of the product.
      *
      * @var string

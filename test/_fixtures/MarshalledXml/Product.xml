@@ -16,6 +16,9 @@
       <revisionId>
         <string:string>20120905000000000002</string:string>
       </revisionId>
+      <configuratorSetType>
+        <null:null/>
+      </configuratorSetType>
       <ean>
           <null:null/>
       </ean>

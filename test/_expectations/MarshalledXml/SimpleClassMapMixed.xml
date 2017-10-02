@@ -16,6 +16,9 @@
       <groupId>
         <null:null/>
       </groupId>
+      <configuratorSetType>
+        <null:null/>
+      </configuratorSetType>
       <ean>
         <null:null/>
       </ean>
@@ -148,6 +151,9 @@
         <groupId>
           <null:null/>
         </groupId>
+        <configuratorSetType>
+          <null:null/>
+        </configuratorSetType>
         <ean>
           <null:null/>
         </ean>
