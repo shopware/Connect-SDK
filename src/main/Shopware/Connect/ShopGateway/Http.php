@@ -83,7 +83,7 @@ class Http extends ShopGateway
      */
     public function checkProducts(Struct\Order $order, $shopId)
     {
-        return $this->makeRpcCall(
+        $result = $this->makeRpcCall(
             new RpcCall(
                 array(
                     'service' => 'transaction',
@@ -92,6 +92,12 @@ class Http extends ShopGateway
                 )
             )
         );
+
+        if ($result instanceof Struct\Error) {
+            throw new \Exception($result->message);
+        } else {
+            return $result;
+        }
     }
 
     /**

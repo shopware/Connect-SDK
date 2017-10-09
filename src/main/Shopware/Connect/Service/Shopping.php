@@ -134,8 +134,8 @@ class Shopping
             $shopGateway = $this->shopFactory->getShopGateway($shopId);
             $shopCheckResult = $shopGateway->checkProducts($order, $myShopId);
 
-            if (count($shopCheckResult)) {
-                $this->applyRemoteShopChanges($shopCheckResult);
+            if (count($shopCheckResult->changes)) {
+                $this->applyRemoteShopChanges($shopCheckResult->changes);
             }
 
             $checkResults[] = $shopCheckResult;
