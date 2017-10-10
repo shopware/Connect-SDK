@@ -125,7 +125,7 @@ class Product extends ShopItem
 
     /**
      * ConfiguratorType for variants.
-     * It contains an Enum with 3 possibilities [Standard: 1, Choice: 2, Image: 3].
+     * It contains an Enum with 3 possibilities [Standard: 0, Choice: 1, Image: 2].
      * This value determines how the Variant selection looks in the Shopware-Frontend
      * E.g.
      *  0: preselects a standard variant
