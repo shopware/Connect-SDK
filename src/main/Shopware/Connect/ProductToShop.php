@@ -97,4 +97,14 @@ interface ProductToShop
      * @return void
      */
     public function makeMainVariant($shopId, $sourceId, $groupId);
+
+    /**
+     * Updates the status of an Order
+     *
+     * @param string $localOrderId
+     * @param string $orderStatus
+     * @param string $trackingNumber
+     * @return void
+     */
+    public function updateOrderStatus($localOrderId, $orderStatus, $trackingNumber);
 }
