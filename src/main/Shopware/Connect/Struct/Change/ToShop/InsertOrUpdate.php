@@ -24,4 +24,21 @@ class InsertOrUpdate extends Change
      * @var Product
      */
     public $product;
+
+    /**
+     * @var float
+     */
+    public $discount = 0;
+    /**
+     * @var float
+     */
+    public $merchantMargin = 0;
+    /**
+     * @var float
+     */
+    public $providerMargin = 0;
+    /**
+     * @var int|null
+     */
+    public $rounding = null;
 }
