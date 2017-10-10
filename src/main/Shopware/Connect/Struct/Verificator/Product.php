@@ -7,6 +7,8 @@
 
 namespace Shopware\Connect\Struct\Verificator;
 
+use function GuzzleHttp\Psr7\try_fopen;
+use Shopware\Connect\Exception\VerificationFailedException;
 use Shopware\Connect\Struct\Verificator;
 use Shopware\Connect\Struct\VerificatorDispatcher;
 use Shopware\Connect\Struct;
@@ -323,6 +325,11 @@ class Product extends Verificator
         if ($struct->minPurchaseQuantity < 1) {
             throw new \Shopware\Connect\Exception\VerificationFailedException("Product#minPurchaseQuantity must be positive, greater than 0.");
         }
+
+        if(!$this->isConfiguratorSetTypeAllowed($struct)) {
+            throw new \Shopware\Connect\Exception\VerificationFailedException('ConfiguratorSetType has to be in range 1..3 for Variant Products or NULL for non variant products');
+        }
+
     }
 
     /**
@@ -427,5 +434,21 @@ class Product extends Verificator
                 throw new \Shopware\Connect\Exception\VerificationFailedException("Property sortMode MUST be 0, 1, or 3");
             }
         }
+    }
+
+    private function isConfiguratorSetTypeAllowed(Struct $struct)
+    {
+        return $this->isVariantConfiguratorSetValid($struct) || $this->isNonVariantConfiguratorSetValid($struct);
+    }
+
+    private function isNonVariantConfiguratorSetValid(Struct $struct)
+    {
+        return !$struct->variant && $struct->configuratorSetType === null;
+    }
+
+    private function isVariantConfiguratorSetValid(Struct $struct)
+    {
+        $availableSetTypes = [1, 2, 3];
+        return in_array($struct->configuratorSetType, $availableSetTypes, true) && $struct->variant;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Shopware\Connect\Struct\Verificator;
 
+use Shopware\Connect\Exception\VerificationFailedException;
 use Shopware\Connect\SDK;
 use Shopware\Connect\Struct;
 use Shopware\Connect\ShippingRuleParser;
@@ -22,6 +23,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             'vendor' => 'Foo',
             'shortDescription' => 'Foo Bar',
             'longDescription' => 'Bar Foo',
+            'variant' => ['color' => 'blue'],
+            'configuratorSetType' => 1,
         ));
     }
 
@@ -41,7 +44,36 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testValidProduct()
     {
-        $this->verify($this->createValidProduct());
+        $product = $this->createValidProduct();
+
+        $this->verify($product);
+
+        $product->configuratorSetType = null;
+        $product->variant = [];
+
+        $this->verify($product);
+    }
+
+    /**
+     * @expectedException Shopware\Connect\Exception\VerificationFailedException
+     * @expectedExceptionMessage ConfiguratorSetType has to be in range 1..3 for Variant Products or NULL for non variant products
+     */
+    public function test_configurator_set_is_invalid_without_variants()
+    {
+        $product = $this->createValidProduct();
+        $product->variant = [];
+        $this->verify($product);
+    }
+
+    /**
+     * @expectedException Shopware\Connect\Exception\VerificationFailedException
+     * @expectedExceptionMessage ConfiguratorSetType has to be in range 1..3 for Variant Products or NULL for non variant products
+     */
+    public function test_configurator_set_is_invalid_with_variants()
+    {
+        $product = $this->createValidProduct();
+        $product->configuratorSetType = 4;
+        $this->verify($product);
     }
 
     public function testVendorEmptyIsError()
