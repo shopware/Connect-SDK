@@ -41,4 +41,7 @@ class InsertOrUpdate extends Change
      * @var int|null
      */
     public $rounding = null;
+
+    /** @var  string|null */
+    public $groupId = null;
 }
