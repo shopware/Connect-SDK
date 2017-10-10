@@ -5,6 +5,7 @@ This package contains the SDK for Connect - the Vending Network, http://www.conn
 To request an account for testing the SDK in integration with Connect send an
 e-mail to `info@shopware.com`.
 
+
 ## Installation
 
    $ git clone git@github.com:shopware/Connect-SDK.git
