@@ -55,7 +55,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Shopware\Connect\Exception\VerificationFailedException
-     * @expectedExceptionMessage ConfiguratorSetType has to be in range 1..3 for Variant Products or NULL for non variant products
+     * @expectedExceptionMessage ConfiguratorSetType has to be in range 0..2
      */
     public function test_configurator_set_is_invalid_without_variants()
     {
@@ -67,7 +67,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Shopware\Connect\Exception\VerificationFailedException
-     * @expectedExceptionMessage ConfiguratorSetType has to be in range 1..3 for Variant Products or NULL for non variant products
+     * @expectedExceptionMessage ConfiguratorSetType has to be in range 0..2
      */
     public function test_configurator_set_is_invalid_with_variants()
     {

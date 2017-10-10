@@ -326,7 +326,7 @@ class Product extends Verificator
         }
 
         if(!$this->isConfiguratorSetTypeAllowed($struct)) {
-            throw new \Shopware\Connect\Exception\VerificationFailedException('ConfiguratorSetType has to be in range 1..3 for Variant Products or NULL for non variant products');
+            throw new \Shopware\Connect\Exception\VerificationFailedException('ConfiguratorSetType has to be in range 0..2');
         }
 
     }
