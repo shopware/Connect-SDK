@@ -2,6 +2,7 @@
 /**
  * This file is part of the Shopware Connect SDK Component.
  *
+ *
  * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  */
 
@@ -124,10 +125,16 @@ class Product extends ShopItem
 
     /**
      * ConfiguratorType for variants.
+     * It contains an Enum with 3 possibilities [Standard: 0, Choice: 1, Image: 2].
+     * This value determines how the Variant selection looks in the Shopware-Frontend
+     * E.g.
+     *  0: preselects a standard variant
+     *  1: prompts the user to select a variant
+     *  2: shows an image for each variant the user can select
      *
      * @var int
      */
-    public $configuratorSetType;
+    public $configuratorSetType = 0;
 
     /**
      * The European Article Number (EAN) of the product.
@@ -489,7 +496,6 @@ class Product extends ShopItem
             case 'freeDelivery':
                 // Ignored as of newest version, use $shipping instead
                 break;
-
             default:
                 return parent::__set($property, $value);
         }
