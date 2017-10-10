@@ -1,5 +1,6 @@
 # Shopware Connect SDK
 
+
 This package contains the SDK for Connect - the Vending Network, http://www.connect.shopware.com
 
 To request an account for testing the SDK in integration with Connect send an
