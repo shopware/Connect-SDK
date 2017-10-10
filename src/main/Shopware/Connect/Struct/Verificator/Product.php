@@ -7,8 +7,7 @@
 
 namespace Shopware\Connect\Struct\Verificator;
 
-use function GuzzleHttp\Psr7\try_fopen;
-use Shopware\Connect\Exception\VerificationFailedException;
+
 use Shopware\Connect\Struct\Verificator;
 use Shopware\Connect\Struct\VerificatorDispatcher;
 use Shopware\Connect\Struct;
@@ -443,12 +442,12 @@ class Product extends Verificator
 
     private function isNonVariantConfiguratorSetValid(Struct $struct)
     {
-        return !$struct->variant && $struct->configuratorSetType === null;
+        return !$struct->variant && !$struct->configuratorSetType;
     }
 
     private function isVariantConfiguratorSetValid(Struct $struct)
     {
-        $availableSetTypes = [1, 2, 3];
+        $availableSetTypes = [0, 1, 2];
         return in_array($struct->configuratorSetType, $availableSetTypes, true) && $struct->variant;
     }
 }

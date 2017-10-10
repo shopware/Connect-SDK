@@ -24,7 +24,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             'shortDescription' => 'Foo Bar',
             'longDescription' => 'Bar Foo',
             'variant' => ['color' => 'blue'],
-            'configuratorSetType' => 1,
         ));
     }
 
@@ -62,6 +61,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $product = $this->createValidProduct();
         $product->variant = [];
+        $product->configuratorSetType = 1;
         $this->verify($product);
     }
 

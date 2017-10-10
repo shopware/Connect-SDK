@@ -127,13 +127,13 @@ class Product extends ShopItem
      * It contains an Enum with 3 possibilities [Standard: 1, Choice: 2, Image: 3].
      * This value determines how the Variant selection looks in the Shopware-Frontend
      * E.g.
-     *  1: preselects a standard variant
-     *  2: prompts the user to select a variant
-     *  3: shows an image for each variant the user can select
+     *  0: preselects a standard variant
+     *  1: prompts the user to select a variant
+     *  2: shows an image for each variant the user can select
      *
      * @var int
      */
-    public $configuratorSetType;
+    public $configuratorSetType = 0;
 
     /**
      * The European Article Number (EAN) of the product.
@@ -495,7 +495,6 @@ class Product extends ShopItem
             case 'freeDelivery':
                 // Ignored as of newest version, use $shipping instead
                 break;
-
             default:
                 return parent::__set($property, $value);
         }
