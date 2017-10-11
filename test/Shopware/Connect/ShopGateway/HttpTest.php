@@ -62,6 +62,6 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             1
         );
 
-        $this->assertTrue($result instanceof Struct\Error);
+        $this->assertTrue($result instanceof \Exception);
     }
 }
