@@ -66,6 +66,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ))
         ));
 
-        \Phake::verify($toShop)->updateOrderStatus(10, 'foo123', 'completed');
+        \Phake::verify($toShop)->updateOrderStatus(10, 'completed', 'foo123');
     }
 }

@@ -128,7 +128,7 @@ class ShoppingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(4, $return->shippingCosts[1]->shippingCosts);
         $this->assertEquals(8, $return->shippingCosts[1]->grossShippingCosts);
 
-        $this->assertEquals(8, $return->aggregatedShippingCosts->shippingCosts);
+        $this->assertEquals(7, $return->aggregatedShippingCosts->shippingCosts);
         $this->assertEquals(14, $return->aggregatedShippingCosts->grossShippingCosts);
     }
 
