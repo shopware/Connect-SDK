@@ -47,4 +47,25 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         \Phake::verify($toShop)->update(10, 'foo123', $product);
     }
+
+    public function testRepliacteUpdateOrderStatusToShopChange()
+    {
+        $gateway = \Phake::mock('Shopware\Connect\Gateway');
+        $service = new ProductService(
+            $gateway, $gateway, $gateway,
+            $toShop = \Phake::mock('Shopware\Connect\ProductToShop'),
+            $fromShop = \Phake::mock('Shopware\Connect\ProductFromShop'),
+            $export = \Phake::mock('Shopware\Connect\Service\Export')
+        );
+
+        $service->replicate(array(
+            new Struct\Change\ToShop\UpdateOrderStatus(array(
+                'localOrderId' => 10,
+                'trackingNumber' => 'foo123',
+                'orderStatus' => 'completed',
+            ))
+        ));
+
+        \Phake::verify($toShop)->updateOrderStatus(10, 'foo123', 'completed');
+    }
 }

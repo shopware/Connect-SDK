@@ -27,7 +27,7 @@ abstract class ShopGateway
      *
      * @param Struct\Order $order
      * @param string $shopId
-     * @return Struct\Change[]|Shipping
+     * @return Struct\CheckResult
      */
     abstract public function checkProducts(Struct\Order $order, $shopId);
 
