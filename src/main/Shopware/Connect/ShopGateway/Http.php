@@ -92,7 +92,6 @@ class Http extends ShopGateway
                 )
             )
         );
-
         if ($result instanceof Struct\Error) {
             throw new \Exception($result->message);
         } else {
