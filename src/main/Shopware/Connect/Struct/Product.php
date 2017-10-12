@@ -468,6 +468,45 @@ class Product extends ShopItem
     public $customAttribute;
 
     /**
+     * This property is used internally by connect and represents the the id from updater:product
+     *
+     * @var int
+     */
+    public $productId;
+
+    /**
+     * This property is used internally by connect representing the marketplace this product belongs to
+     * default is 1
+     *
+     * @var int
+     */
+    public $marketplaceId;
+
+    /**
+     * indicates when this product was exported to connect the first time
+     *
+     * @var \DateTime
+     */
+    public $createdAt;
+
+    /**
+     * List of streams.
+     *
+     * <code>
+     * <?php
+     *  array(
+     *      "stream-identifier-A" => "stream-name-A",
+     *      "stream-identifier-B" => "stream-name-B",
+     *  )
+     * ?>
+     * </code>
+     *
+     * @var array
+     */
+    public $supplierStreams = [];
+
+
+    /**
      * Restores a product from a previously stored state array.
      *
      * @param array $state
