@@ -117,6 +117,18 @@
       <customAttribute>
         <null:null/>
       </customAttribute>
+      <productId>
+        <null:null/>
+      </productId>
+      <marketplaceId>
+        <null:null/>
+      </marketplaceId>
+      <createdAt>
+        <null:null/>
+      </createdAt>
+      <supplierStreams>
+        <array:array/>
+      </supplierStreams>
       <shopId>
         <string:string>f47ac10b-58cc-4372-a567-0e02b2c3d479</string:string>
       </shopId>
@@ -252,6 +264,18 @@
         <customAttribute>
           <null:null/>
         </customAttribute>
+        <productId>
+          <null:null/>
+        </productId>
+        <marketplaceId>
+          <null:null/>
+        </marketplaceId>
+        <createdAt>
+          <null:null/>
+        </createdAt>
+        <supplierStreams>
+          <array:array/>
+        </supplierStreams>
         <shopId>
           <string:string>f47ac10b-58cc-4372-a567-0e02b2c3d479</string:string>
         </shopId>
