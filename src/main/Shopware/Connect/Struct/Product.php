@@ -523,7 +523,9 @@ class Product extends ShopItem
             case 'freeDelivery':
                 $val = false; // return by reference hack
                 return $val;
-
+            case 'hasVariants':
+                $val = $this->groupId !== null;
+                return $val;
             default:
                 return parent::__get($property);
         }
@@ -532,8 +534,9 @@ class Product extends ShopItem
     public function __set($property, $value)
     {
         switch ($property) {
-            case 'freeDelivery':
-                // Ignored as of newest version, use $shipping instead
+            // Ignored as of newest version
+            case 'freeDelivery': //use $shipping instead
+            case 'hasVariants': //use groupId !== null
                 break;
             default:
                 return parent::__set($property, $value);
