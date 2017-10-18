@@ -1,4 +1,4 @@
-# v2.0.2
+# v2.0.5
 
 Added function in ProductToShop to update the OrderStatus of an order with Connect-Products. 
 The Connect-Plattform will aggregate the informations of all Connect-Orders within one Order in 
