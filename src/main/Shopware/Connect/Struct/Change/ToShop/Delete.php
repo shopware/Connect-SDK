@@ -17,6 +17,5 @@ use Shopware\Connect\Struct\Change;
  */
 class Delete extends Change
 {
-    /** @var  string|null */
-    public $groupId = null;
+
 }

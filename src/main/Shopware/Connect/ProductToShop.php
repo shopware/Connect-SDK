@@ -101,6 +101,18 @@ interface ProductToShop
     /**
      * Updates the status of an Order
      *
+     * $localOrderId is the ordernumber of the order in your shop
+     * and order status is the combined Status of all Connect Orders in that local Order
+     *
+     * e.g. The order contains Product A from Supplier 1 and Product B from Supplier 2
+     * if none of both delivered their Product order Status will be OrderStatus::STATE_OPEN
+     * if just one of these orders is delivered orderStatus will be OrderStatus::STATE_IN_PROCESS
+     * what probably is mapped by Shopware Status partially delivered
+     * if both suppliers delivered their products status will be OrderStatus::STATE_DELIVERED
+     *
+     * if your supplier uses trackingNumbers $trackingNumber contains all TrackingCodes as a comma-seperated string
+     * as it's suggested by http://community.shopware.com/_detail_1278.html?_ga=2.247960705.727216894.1508309529-1255644534.1501677320#Anpassung_der_eMail-Vorlage_bei_Vewendung_von_mehreren_Sendungsnummern
+     *
      * @param string $localOrderId
      * @param string $orderStatus
      * @param string $trackingNumber

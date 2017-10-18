@@ -25,26 +25,6 @@ class InsertOrUpdate extends Change
      */
     public $product;
 
-    /**
-     * @var float
-     */
-    public $discount = 0;
-    /**
-     * @var float
-     */
-    public $merchantMargin = 0;
-    /**
-     * @var float
-     */
-    public $providerMargin = 0;
-    /**
-     * @var int|null
-     */
-    public $rounding = null;
-
-    /** @var  string|null */
-    public $groupId = null;
-
     public function __set($name, $value)
     {
         //in legacy updater code it is called with ShopProduct struct -> this converts it to the new Product Struct
