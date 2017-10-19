@@ -7,12 +7,10 @@
 
 namespace Shopware\Connect\Struct\Change\ToShop;
 
-use Shopware\Connect\Struct\Change;
-
 /**
  * Represents a change in purchase price.
  */
-class Update extends Change
+class Update extends ToShopChange
 {
     /**
      * @var \Shopware\Connect\Struct\ProductUpdate

@@ -2,6 +2,8 @@
 
 namespace Shopware\Connect\Service;
 
+use Shopware\Connect\Struct\Change\ToShop\InsertOrUpdate;
+
 class ShoppingTest extends \PHPUnit_Framework_TestCase
 {
     public function testEmptyArrayMessageResponseDuringReserve()
@@ -80,6 +82,54 @@ class ShoppingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($reservationId, $return->orders[2]->reservationId);
         $this->assertEquals(4, $return->orders[2]->shipping->shippingCosts);
         $this->assertEquals(8, $return->orders[2]->shipping->grossShippingCosts);
+    }
+
+    public function testCheckProducts() {
+        $shopping = new Shopping(
+            $factory = \Phake::mock('Shopware\Connect\ShopFactory'),
+            \Phake::mock('Shopware\Connect\ChangeVisitor'),
+            \Phake::mock('Shopware\Connect\ProductToShop'),
+            \Phake::mock('Shopware\Connect\Logger'),
+            \Phake::mock('Shopware\Connect\ErrorHandler'),
+            \Phake::mock('Shopware\Connect\Gateway\ShopConfiguration')
+        );
+
+        $gateway1 = \Phake::mock('Shopware\Connect\ShopGateway');
+        $gateway2 = \Phake::mock('Shopware\Connect\ShopGateway');
+        \Phake::when($factory)->getShopGateway(1)->thenReturn($gateway1);
+        \Phake::when($factory)->getShopGateway(2)->thenReturn($gateway2);
+
+
+        \Phake::when($gateway1)->checkProducts(\Phake::anyParameters())
+            ->thenReturn(new \Shopware\Connect\Struct\CheckResult(array(
+                    'shippingCosts' => array(
+                        new \Shopware\Connect\Struct\Shipping(array('shopId' => 1, 'shippingCosts' => 3, 'grossShippingCosts' => 5)),
+                    ),
+                    'changes' => [],
+                )
+            ));
+
+        \Phake::when($gateway2)->checkProducts(\Phake::anyParameters())
+            ->thenReturn(new \Shopware\Connect\Struct\CheckResult(array(
+                    'shippingCosts' => array(
+                        new \Shopware\Connect\Struct\Shipping(array('shopId' => 2, 'shippingCosts' => 4, 'grossShippingCosts' => 8))
+                    ),
+                    'changes' => [],
+                )
+            ));
+
+        $return = $shopping->checkProducts($this->createOrder());
+
+        $this->assertFalse($return->hasErrors());
+
+        $this->assertEquals(2, count($return->shippingCosts));
+        $this->assertEquals(3, $return->shippingCosts[0]->shippingCosts);
+        $this->assertEquals(5, $return->shippingCosts[0]->grossShippingCosts);
+        $this->assertEquals(4, $return->shippingCosts[1]->shippingCosts);
+        $this->assertEquals(8, $return->shippingCosts[1]->grossShippingCosts);
+
+        $this->assertEquals(7, $return->aggregatedShippingCosts->shippingCosts);
+        $this->assertEquals(13, $return->aggregatedShippingCosts->grossShippingCosts);
     }
 
     private function createOrder()
