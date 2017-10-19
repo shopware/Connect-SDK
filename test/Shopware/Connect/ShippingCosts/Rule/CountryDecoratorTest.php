@@ -2,6 +2,7 @@
 
 namespace Shopware\Connect\ShippingCosts\Rule;
 
+use Shopware\Connect\ShippingCosts\Rule;
 use Shopware\Connect\Struct;
 use Phake;
 
@@ -38,7 +39,7 @@ class CountryDecoratorTest extends \PHPUnit_Framework_TestCase
      */
     public function it_is_not_applicable_when_zip_is_excluded()
     {
-        $delegatee = $this->getMock('Shopware\Connect\ShippingCosts\Rule');
+        $delegatee = $this->createMock(Rule::class);
 
         $country = new CountryDecorator(array(
             'countries' => array('DEU'),
