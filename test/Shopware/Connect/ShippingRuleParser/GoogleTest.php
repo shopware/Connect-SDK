@@ -2,8 +2,10 @@
 
 namespace Shopware\Connect\ShippingRuleParser;
 
+use Shopware\Connect\Exception\ParserException;
 use Shopware\Connect\Struct\ShippingRules;
 use Shopware\Connect\ShippingCosts\Rule;
+use Symfony\Component\CssSelector\Exception\ParseException;
 
 class GoogleTest extends \PHPUnit_Framework_TestCase
 {
@@ -215,8 +217,8 @@ class GoogleTest extends \PHPUnit_Framework_TestCase
      */
     public function testParseError($input, $error)
     {
-        $this->setExpectedException('\\Shopware\\Connect\\Exception\\ParserException', $error);
-
+        $this->expectException(ParserException::class);
+        $this->expectExceptionMessage($error);
         $parser = new Google();
         $parser->parseString($input);
     }

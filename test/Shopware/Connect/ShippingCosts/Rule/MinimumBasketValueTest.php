@@ -2,6 +2,7 @@
 
 namespace Shopware\Connect\ShippingCosts\Rule;
 
+use Shopware\Connect\ShippingCosts\Rule;
 use Shopware\Connect\Struct;
 use Shopware\Connect\ShippingCosts\VatConfig;
 use Phake;
@@ -14,16 +15,16 @@ class MinimumBasketValueTest extends \PHPUnit_Framework_TestCase
     public function call_delegatee_if_minimum_value_is_surpassed()
     {
         $order = $this->getOrder();
-        $delegatee = Phake::mock('Shopware\Connect\ShippingCosts\Rule');
-        Phake::when($delegatee)->isApplicable($order)->thenReturn(true);
+        $delegatee = $this->createMock(Rule::class);
+        $delegatee->method('isApplicable')->with($order)->willReturn(true);
 
         $rule = new MinimumBasketValue(array(
             'minimum' => 100,
             'delegatee' => $delegatee
         ));
 
-        $this->assertTrue($rule->isApplicable($order));
-        Phake::verify($delegatee, Phake::times(1))->isApplicable($order);
+        $delegatee->expects($this->once())->method('isApplicable')->with($order);
+        self::assertTrue($rule->isApplicable($order));
     }
 
     /**
@@ -32,15 +33,16 @@ class MinimumBasketValueTest extends \PHPUnit_Framework_TestCase
     public function not_call_delegatee_if_minimum_value_is_surpassed()
     {
         $order = $this->getOrder();
-        $delegatee = Phake::mock('Shopware\Connect\ShippingCosts\Rule');
+        $delegatee = $this->createMock(Rule::class);
 
         $rule = new MinimumBasketValue(array(
             'minimum' => 200,
             'delegatee' => $delegatee
         ));
 
-        $this->assertFalse($rule->isApplicable($order));
-        Phake::verifyNoInteraction($delegatee);
+        $delegatee->expects($this->never())->method('isApplicable');
+        $delegatee->expects($this->never())->method('getShippingCosts');
+        self::assertFalse($rule->isApplicable($order));
     }
 
     /**
@@ -50,19 +52,19 @@ class MinimumBasketValueTest extends \PHPUnit_Framework_TestCase
     {
         $order = $this->getOrder();
         $vatConfig = new VatConfig();
-        $delegatee = Phake::mock('Shopware\Connect\ShippingCosts\Rule');
-        Phake::when($delegatee)->getShippingCosts($order, $vatConfig)->thenReturn(42);
+        $delegatee = $this->createMock(Rule::class);
+        $delegatee->method('getShippingCosts')->with($order, $vatConfig)->willReturn(42);
 
         $rule = new MinimumBasketValue(array(
             'minimum' => 200,
             'delegatee' => $delegatee
         ));
+        $delegatee->expects($this->once())->method('getShippingCosts')->with($order, $vatConfig);
 
-        $this->assertSame(
+        self::assertSame(
             42,
             $rule->getShippingCosts($order, $vatConfig)
         );
-        Phake::verify($delegatee, Phake::times(1))->getShippingCosts($order, $vatConfig);
     }
 
     /**

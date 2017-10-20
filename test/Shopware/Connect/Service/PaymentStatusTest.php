@@ -2,6 +2,8 @@
 
 namespace Shopware\Connect\Service;
 
+use Shopware\Connect\Gateway;
+use Shopware\Connect\ProductFromShop;
 use Shopware\Connect\Struct;
 use Shopware\Connect\Struct\Change\FromShop\UpdatePaymentStatus;
 
@@ -29,9 +31,9 @@ class PaymentStatusTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->gateway = \Phake::mock('Shopware\Connect\Gateway');
-        $this->fromShop = \Phake::mock('Shopware\Connect\ProductFromShop');
-        $this->shopConfiguration = \Phake::mock('Shopware\Connect\Gateway\ShopConfiguration');
+        $this->gateway = $this->createMock(Gateway::class);
+        $this->fromShop = $this->createMock(ProductFromShop::class);
+        $this->shopConfiguration = $this->createMock(Gateway\ShopConfiguration::class);
 
         $this->service = new PaymentStatus(
             $this->gateway,
@@ -42,14 +44,15 @@ class PaymentStatusTest extends \PHPUnit_Framework_TestCase
 
     public function testUpdatePaymentStatus()
     {
-        $this->service->replicate(array(
-            $status = new Struct\PaymentStatus(array(
-                'revision' => '1234'
-            ))
+        $status = new Struct\PaymentStatus(array(
+            'revision' => '1234'
         ));
+        $this->fromShop->expects($this->atLeastOnce())->method('updatePaymentStatus')->with($status);
+        $this->shopConfiguration->expects($this->atLeastOnce())->method('setConfig')->with(PaymentStatus::PAYMENT_REVISION, '1234');
 
-        \Phake::verify($this->fromShop)->updatePaymentStatus($status);
-        \Phake::verify($this->shopConfiguration)->setConfig(PaymentStatus::PAYMENT_REVISION, '1234');
+        $this->service->replicate(array(
+            $status
+        ));
     }
 
     public function testGetChanges()
@@ -57,18 +60,18 @@ class PaymentStatusTest extends \PHPUnit_Framework_TestCase
         $since = 3;
         $limit = 5;
 
-        \Phake::when($this->gateway)->getNextPaymentStatusChanges($since, $limit)->thenReturn(array(
+        $this->gateway->method('getNextPaymentStatusChanges')->with($since, $limit)->willReturn(array(
             new UpdatePaymentStatus(array('paymentStatus' => 'received'))
         ));
 
+        $this->gateway->expects($this->atLeastOnce())->method('getNextPaymentStatusChanges')->with($since, $limit);
+        $this->gateway->expects($this->atLeastOnce())->method('cleanChangesUntil')->with($since);
+
         $changes = $this->service->getChanges($since, $limit);
 
-        $this->assertCount(1, $changes);
+        self::assertCount(1, $changes);
         $change = reset($changes);
-        $this->assertInstanceOf('Shopware\Connect\Struct\Change\FromShop\UpdatePaymentStatus', $change);
-        $this->assertEquals('received', $change->paymentStatus);
-
-        \Phake::verify($this->gateway)->getNextPaymentStatusChanges($since, $limit);
-        \Phake::verify($this->gateway)->cleanChangesUntil($since);
+        self::assertInstanceOf('Shopware\Connect\Struct\Change\FromShop\UpdatePaymentStatus', $change);
+        self::assertEquals('received', $change->paymentStatus);
     }
 }

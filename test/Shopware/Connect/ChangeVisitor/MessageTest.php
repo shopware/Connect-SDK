@@ -8,7 +8,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 {
     public function testPriceDifferencesProducesMessage()
     {
-        $dispatcher = \Phake::mock('Shopware\Connect\Struct\VerificatorDispatcher');
+        $dispatcher = $this->createMock(Struct\VerificatorDispatcher::class);
         $visitor = new Message($dispatcher);
         $messages = $visitor->visit(array(
             new Struct\Change\InterShop\Update(array(
@@ -29,11 +29,11 @@ class MessageTest extends \PHPUnit_Framework_TestCase
             'values' => array('product' => 'oldTitle'),
         )));
 
-        $this->assertEquals($expectedMessages, $messages);
+        self::assertEquals($expectedMessages, $messages);
     }
 
     public function testAvailabilityZeroProducesMessage() {
-        $dispatcher = \Phake::mock('Shopware\Connect\Struct\VerificatorDispatcher');
+        $dispatcher = $this->createMock(Struct\VerificatorDispatcher::class);
         $visitor = new Message($dispatcher);
         $messages = $visitor->visit(array(
             new Struct\Change\InterShop\Unavailable(array(
@@ -47,6 +47,6 @@ class MessageTest extends \PHPUnit_Framework_TestCase
             'values' => array('product' => 'FOO1234', 'availability' => 0),
         )));
 
-        $this->assertEquals($expectedMessages, $messages);
+        self::assertEquals($expectedMessages, $messages);
     }
 }

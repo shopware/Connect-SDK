@@ -52,7 +52,7 @@ class SDKBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $builder = new \Shopware\Connect\SDKBuilder();
 
-        $this->setExpectedException('RuntimeException');
+        $this->expectException(\RuntimeException::class);
         $builder->build();
     }
 }
