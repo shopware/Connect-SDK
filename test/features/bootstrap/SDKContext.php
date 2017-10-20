@@ -4,6 +4,7 @@ namespace Shopware\Connect;
 
 use Behat\Behat\Context\BehatContext;
 
+use Shopware\Connect\ProductFromShop\Test;
 use Shopware\Connect\Rpc;
 use Shopware\Connect\Struct;
 use Shopware\Connect\Struct\Product;
@@ -81,9 +82,10 @@ class SDKContext extends BehatContext
 
     public function initSDK($connection)
     {
-        $this->productToShop = \Phake::mock('\\Shopware\\Connect\\ProductToShop');
-        $this->productFromShop = \Phake::partialMock(
-            '\\Shopware\\Connect\\ProductFromShop\\Test'
+        $mockGenerator = new \PHPUnit_Framework_MockObject_Generator();
+        $this->productToShop = $mockGenerator->getMock(ProductToShop::class);
+        $this->productFromShop = $mockGenerator->getMockForAbstractClass(
+            Test::class
         );
 
         $this->sdk = new SDK(
