@@ -111,7 +111,7 @@ class Shopping
      * remote products. The state will be checked again during
      * reserveProducts().
      *
-     * @param Struct\Order $productList
+     * @param Struct\Order $order
      * @return Struct\CheckResult
      */
     public function checkProducts(Struct\Order $order)

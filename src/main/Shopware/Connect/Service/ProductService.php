@@ -191,6 +191,10 @@ class ProductService
                     $this->toShop->makeMainVariant($change->shopId, $change->sourceId, $change->groupId);
                     break;
 
+                case ($change instanceof Change\ToShop\UpdateOrderStatus):
+                    $this->toShop->updateOrderStatus($change->localOrderId, $change->orderStatus, $change->trackingNumber);
+                    break;
+
                 default:
                     throw new \RuntimeException("Invalid change operation: $change");
             }
