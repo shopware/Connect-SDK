@@ -5,14 +5,14 @@
  * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  */
 namespace Shopware\Connect\Struct\Change\ToShop;
-use Shopware\Connect\Struct\Change;
+
 /**
  * Make main variant change struct
  *
  * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  * @api
  */
-class MakeMainVariant extends Change
+class MakeMainVariant extends ToShopChange
 {
     /**
      * Group id of the product shows if it has variants

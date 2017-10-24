@@ -22,9 +22,9 @@ class SDKTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->gatewayMock = $this->getMock('\\Shopware\\Connect\\Gateway');
-        $this->productToShopMock = $this->getMock('\\Shopware\\Connect\\ProductToShop');
-        $this->productFromShopMock = $this->getMock('\\Shopware\\Connect\\ProductFromShop');
+        $this->gatewayMock = $this->createMock(Gateway::class);
+        $this->productToShopMock = $this->createMock(ProductToShop::class);
+        $this->productFromShopMock = $this->createMock(ProductFromShop::class);
 
         $this->sdk = new SDK(
             'apiKey',

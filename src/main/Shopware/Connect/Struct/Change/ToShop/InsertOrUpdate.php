@@ -7,7 +7,6 @@
 
 namespace Shopware\Connect\Struct\Change\ToShop;
 
-use Shopware\Connect\Struct\Change;
 use Shopware\Connect\Struct\Product;
 
 /**
@@ -16,7 +15,7 @@ use Shopware\Connect\Struct\Product;
  * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  * @api
  */
-class InsertOrUpdate extends Change
+class InsertOrUpdate extends ToShopChange
 {
     /**
      * Product, which is inserted or updated

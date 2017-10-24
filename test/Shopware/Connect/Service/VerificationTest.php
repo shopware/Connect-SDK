@@ -33,7 +33,7 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
     public function testVerify()
     {
         $verificationService = new Verification(
-            $httpClient = $this->getMock('\\Shopware\\Connect\\HttpClient'),
+            $httpClient = $this->createMock(HttpClient::class),
             $this->getGateway()
         );
 
@@ -68,7 +68,7 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
     public function testVerifyFails()
     {
         $verificationService = new Verification(
-            $httpClient = $this->getMock('\\Shopware\\Connect\\HttpClient'),
+            $httpClient = $this->createMock(HttpClient::class),
             $this->getGateway()
         );
 
