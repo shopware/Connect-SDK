@@ -34,7 +34,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testFailOnInvalidResponse($code, $body)
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(\RuntimeException::class);
         $httpClient = $this->createMock(HttpClient::class);
         $httpClient
             ->expects($this->once())
