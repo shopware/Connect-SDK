@@ -13,8 +13,8 @@ class CountryDecoratorTest extends \PHPUnit_Framework_TestCase
      */
     public function it_is_applicable_when_from_matching_country()
     {
-        $delegatee = Phake::mock('Shopware\Connect\ShippingCosts\Rule');
-        Phake::when($delegatee)->isApplicable(\Phake::anyParameters())->thenReturn(true);
+        $delegatee = $this->createMock(Rule::class);
+        $delegatee->method('isApplicable')->with($this->anything())->willReturn(true);
 
         $country = new CountryDecorator(array(
             'countries' => array('DEU'),

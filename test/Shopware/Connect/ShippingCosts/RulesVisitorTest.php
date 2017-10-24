@@ -11,7 +11,22 @@ class RulesVisitorTest extends \PHPUnit_Framework_TestCase
      */
     public function it_recursively_visits_rules()
     {
-        $visitor = \Phake::partialMock('Shopware\Connect\ShippingCosts\RulesVisitor');
+        $visitor = $this->getMockBuilder(RulesVisitor::class)->getMockForAbstractClass();
+
+        $p = $this->anything();
+
+        $visitor->expects($this->at(0))->method('startVisitRules')->with($p);
+        $visitor->expects($this->at(1))->method('startVisitRule')->with($p);
+        $visitor->expects($this->at(2))->method('visitCountryDecorator')->with($p);
+        $visitor->expects($this->at(3))->method('visitMinimumBasketValue')->with($p);
+        $visitor->expects($this->at(4))->method('visitWeightDecorator')->with($p);
+        $visitor->expects($this->at(5))->method('visitFixedPrice')->with($p);
+        $visitor->expects($this->at(6))->method('stopVisitRule')->with($p);
+        $visitor->expects($this->at(7))->method('startVisitRule')->with($p);
+        $visitor->expects($this->at(8))->method('visitUnitPrice')->with($p);
+        $visitor->expects($this->at(9))->method('stopVisitRule')->with($p);
+        $visitor->expects($this->at(10))->method('stopVisitRules')->with($p);
+
         $visitor->visit(new Rules(array('rules' => array(
             new Rule\CountryDecorator(array(
                 'delegatee' => new Rule\MinimumBasketValue(array(
@@ -22,20 +37,5 @@ class RulesVisitorTest extends \PHPUnit_Framework_TestCase
             )),
             new Rule\UnitPrice(),
         ))));
-
-        $p = Phake::anyParameters();
-
-        Phake::inOrder(
-            Phake::verify($visitor)->startVisitRules($p),
-            Phake::verify($visitor, \Phake::times(2))->startVisitRule($p),
-            Phake::verify($visitor)->visitMinimumBasketValue($p),
-            Phake::verify($visitor)->visitWeightDecorator($p),
-            Phake::verify($visitor)->visitFixedPrice($p),
-            Phake::verify($visitor, \Phake::times(2))->stopVisitRule($p),
-            Phake::verify($visitor, \Phake::times(2))->startVisitRule($p),
-            Phake::verify($visitor)->visitUnitPrice($p),
-            Phake::verify($visitor, \Phake::times(2))->stopVisitRule($p),
-            Phake::verify($visitor)->stopVisitRules($p)
-        );
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Shopware\Connect\Struct\Verificator;
 
+use Shopware\Connect\Exception\VerificationFailedException;
 use Shopware\Connect\Struct;
 use Shopware\Connect\ShippingRuleParser;
 
@@ -26,7 +27,7 @@ class TranslationTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->dispatcher = \Phake::mock('Shopware\Connect\Struct\VerificatorDispatcher');
+        $this->dispatcher = $this->createMock(Struct\VerificatorDispatcher::class);
         $this->verificator = new Translation();
     }
 
@@ -45,7 +46,8 @@ class TranslationTest extends \PHPUnit_Framework_TestCase
         $translation = $this->createValidTranslation();
         $translation->variantLabels = 23;
 
-        $this->setExpectedException('\Shopware\Connect\Exception\VerificationFailedException');
+        $this->expectException(VerificationFailedException::class);
+
         $this->verify($translation);
     }
 
@@ -54,7 +56,8 @@ class TranslationTest extends \PHPUnit_Framework_TestCase
         $translation = $this->createValidTranslation();
         $translation->variantLabels[23] = 'dreiundzwanzig';
 
-        $this->setExpectedException('\Shopware\Connect\Exception\VerificationFailedException');
+        $this->expectException(VerificationFailedException::class);
+
         $this->verify($translation);
     }
 
@@ -63,7 +66,8 @@ class TranslationTest extends \PHPUnit_Framework_TestCase
         $translation = $this->createValidTranslation();
         $translation->variantLabels['twentythree'] = 23;
 
-        $this->setExpectedException('\Shopware\Connect\Exception\VerificationFailedException');
+        $this->expectException(VerificationFailedException::class);
+
         $this->verify($translation);
     }
 
@@ -72,7 +76,8 @@ class TranslationTest extends \PHPUnit_Framework_TestCase
         $translation = $this->createValidTranslation();
         $translation->variantValues = 23;
 
-        $this->setExpectedException('\Shopware\Connect\Exception\VerificationFailedException');
+        $this->expectException(VerificationFailedException::class);
+
         $this->verify($translation);
     }
 
@@ -81,7 +86,8 @@ class TranslationTest extends \PHPUnit_Framework_TestCase
         $translation = $this->createValidTranslation();
         $translation->variantValues[23] = 'dreiundzwanzig';
 
-        $this->setExpectedException('\Shopware\Connect\Exception\VerificationFailedException');
+        $this->expectException(VerificationFailedException::class);
+
         $this->verify($translation);
     }
 
@@ -90,7 +96,8 @@ class TranslationTest extends \PHPUnit_Framework_TestCase
         $translation = $this->createValidTranslation();
         $translation->variantValues['twentythree'] = 23;
 
-        $this->setExpectedException('\Shopware\Connect\Exception\VerificationFailedException');
+        $this->expectException(VerificationFailedException::class);
+
         $this->verify($translation);
     }
 }

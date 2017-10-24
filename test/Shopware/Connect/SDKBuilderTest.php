@@ -17,15 +17,15 @@ class SDKBuilderTest extends \PHPUnit_Framework_TestCase
             ->setApiKey('foo')
             ->setApiEndpointUrl('http://foo/bar')
             ->configurePDOGateway(new PDO('sqlite::memory:'))
-            ->setProductToShop(\Phake::mock('Shopware\Connect\ProductToShop'))
-            ->setProductFromShop(\Phake::mock('Shopware\Connect\ProductFromShop'))
-            ->setErrorHandler(\Phake::mock('Shopware\Connect\ErrorHandler'))
+            ->setProductToShop($this->createMock(ProductToShop::class))
+            ->setProductFromShop($this->createMock(ProductFromShop::class))
+            ->setErrorHandler($this->createMock(ErrorHandler::class))
             ->setPluginSoftwareVersion('Foo')
         ;
 
         $sdk = $builder->build();
 
-        $this->assertInstanceOf('Shopware\Connect\SDK', $sdk);
+        $this->assertInstanceOf(SDK::class, $sdk);
     }
 
     public function testBuildSdkWithRequiredOnly()
@@ -39,20 +39,20 @@ class SDKBuilderTest extends \PHPUnit_Framework_TestCase
             ->setApiKey('foo')
             ->setApiEndpointUrl('http://foo/bar')
             ->configurePDOGateway(new PDO('sqlite::memory:'))
-            ->setProductToShop(\Phake::mock('Shopware\Connect\ProductToShop'))
-            ->setProductFromShop(\Phake::mock('Shopware\Connect\ProductFromShop'))
+            ->setProductToShop($this->createMock(ProductToShop::class))
+            ->setProductFromShop($this->createMock(ProductFromShop::class))
         ;
 
         $sdk = $builder->build();
 
-        $this->assertInstanceOf('Shopware\Connect\SDK', $sdk);
+        $this->assertInstanceOf(SDK::class, $sdk);
     }
 
     public function testBuildSdkMissingArgumentsThrowsException()
     {
         $builder = new \Shopware\Connect\SDKBuilder();
 
-        $this->setExpectedException('RuntimeException');
+        $this->expectException(\RuntimeException::class);
         $builder->build();
     }
 }

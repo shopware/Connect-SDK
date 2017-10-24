@@ -11,8 +11,7 @@
 
     "require-dev": {
         "behat/behat": "2.4.*@stable",
-        "phpunit/phpunit": ">=4.8.35 <6@stable",
-        "phake/phake": "@stable"
+        "phpunit/phpunit": ">=4.8.35 <6@stable"
     },
 
     "config": {
@@ -20,4 +19,3 @@
         "secure-http": false
     }
 }
-

@@ -2,6 +2,14 @@
 
 namespace Shopware\Connect\Service;
 
+use Shopware\Connect\ChangeVisitor;
+use Shopware\Connect\ErrorHandler;
+use Shopware\Connect\Gateway\ShopConfiguration;
+use Shopware\Connect\Logger;
+use Shopware\Connect\ProductToShop;
+use Shopware\Connect\ShopFactory;
+use Shopware\Connect\ShopGateway;
+
 use Shopware\Connect\Struct\Change\ToShop\InsertOrUpdate;
 
 class ShoppingTest extends \PHPUnit_Framework_TestCase
@@ -9,56 +17,56 @@ class ShoppingTest extends \PHPUnit_Framework_TestCase
     public function testEmptyArrayMessageResponseDuringReserve()
     {
         $shopping = new Shopping(
-            $factory = \Phake::mock('Shopware\Connect\ShopFactory'),
-            \Phake::mock('Shopware\Connect\ChangeVisitor'),
-            \Phake::mock('Shopware\Connect\ProductToShop'),
-            \Phake::mock('Shopware\Connect\Logger'),
-            \Phake::mock('Shopware\Connect\ErrorHandler'),
-            \Phake::mock('Shopware\Connect\Gateway\ShopConfiguration')
+            $factory = $this->createMock(ShopFactory::class),
+            $this->createMock(ChangeVisitor::class),
+            $this->createMock(ProductToShop::class),
+            $this->createMock(Logger::class),
+            $this->createMock(ErrorHandler::class),
+            $this->createMock(ShopConfiguration::class)
         );
 
-        $gateway = \Phake::mock('Shopware\Connect\ShopGateway');
-        \Phake::when($factory)->getShopGateway(1)->thenReturn($gateway);
-        \Phake::when($factory)->getShopGateway(2)->thenReturn($gateway);
-        \Phake::when($gateway)->reserveProducts(\Phake::anyParameters())->thenReturn(
+        $gateway = $this->createMock(ShopGateway::class);
+        $factory->method('getShopGateway')
+            ->withConsecutive([1],[2])
+            ->willReturn($gateway);
+        $gateway->method('reserveProducts')->with($this->anything())->willReturn(
             new \Shopware\Connect\Struct\CheckResult()
         );
 
         $shippingCosts = new \Shopware\Connect\Struct\Shipping(array('shippingCosts' => 1, 'grossShippingCosts' => 2));
-        \Phake::when($gateway)->checkProducts(\Phake::anyParameters())
-            ->thenReturn(new \Shopware\Connect\Struct\CheckResult(
+        $gateway->method('checkProducts')->with($this->anything())
+            ->willReturn(new \Shopware\Connect\Struct\CheckResult(
                 array('shippingCosts' => array($shippingCosts), 'aggregatedShippingCosts' => $shippingCosts)
             ))
         ;
 
         $return = $shopping->reserveProducts($this->createOrder());
 
-        $this->assertFalse($return->success);
-        $this->assertEquals(2, count($return->messages));
-        $this->assertEquals('An error occured on the remote shop during reservation, order is cancelled.', $return->messages[1][0]->message);
-        $this->assertEquals('An error occured on the remote shop during reservation, order is cancelled.', $return->messages[2][0]->message);
+        self::assertFalse($return->success);
+        self::assertEquals(2, count($return->messages));
+        self::assertEquals('An error occured on the remote shop during reservation, order is cancelled.', $return->messages[1][0]->message);
+        self::assertEquals('An error occured on the remote shop during reservation, order is cancelled.', $return->messages[2][0]->message);
     }
 
     public function testReserveProducts()
     {
         $shopping = new Shopping(
-            $factory = \Phake::mock('Shopware\Connect\ShopFactory'),
-            \Phake::mock('Shopware\Connect\ChangeVisitor'),
-            \Phake::mock('Shopware\Connect\ProductToShop'),
-            \Phake::mock('Shopware\Connect\Logger'),
-            \Phake::mock('Shopware\Connect\ErrorHandler'),
-            \Phake::mock('Shopware\Connect\Gateway\ShopConfiguration')
+            $factory = $this->createMock(ShopFactory::class),
+            $this->createMock(ChangeVisitor::class),
+            $this->createMock(ProductToShop::class),
+            $this->createMock(Logger::class),
+            $this->createMock(ErrorHandler::class),
+            $this->createMock(ShopConfiguration::class)
         );
 
         $reservationId = uniqid();
-        $gateway = \Phake::mock('Shopware\Connect\ShopGateway');
-        \Phake::when($factory)->getShopGateway(1)->thenReturn($gateway);
-        \Phake::when($factory)->getShopGateway(2)->thenReturn($gateway);
-        \Phake::when($gateway)->reserveProducts(\Phake::anyParameters())->thenReturn($reservationId);
+        $gateway = $this->createMock(ShopGateway::class);
+        $factory->method('getShopGateway')->withConsecutive([1],[2])->willReturn($gateway);
+        $gateway->method('reserveProducts')->with($this->anything())->willReturn($reservationId);
 
 
-        \Phake::when($gateway)->checkProducts(\Phake::anyParameters())
-            ->thenReturn(new \Shopware\Connect\Struct\CheckResult(array(
+        $gateway->method('checkProducts')->with($this->anything())
+            ->willReturn(new \Shopware\Connect\Struct\CheckResult(array(
                     'shippingCosts' => array(
                         new \Shopware\Connect\Struct\Shipping(array('shopId' => 1, 'shippingCosts' => 3, 'grossShippingCosts' => 5)),
                         new \Shopware\Connect\Struct\Shipping(array('shopId' => 2, 'shippingCosts' => 4, 'grossShippingCosts' => 8))
@@ -69,39 +77,40 @@ class ShoppingTest extends \PHPUnit_Framework_TestCase
 
         $return = $shopping->reserveProducts($this->createOrder());
 
-        $this->assertTrue($return->success);
-        $this->assertEquals(0, count($return->messages));
-        $this->assertEquals(2, count($return->orders));
+        self::assertTrue($return->success);
+        self::assertEquals(0, count($return->messages));
+        self::assertEquals(2, count($return->orders));
 
-        $this->assertEquals(1, $return->orders[1]->shipping->shopId);
-        $this->assertEquals($reservationId, $return->orders[1]->reservationId);
-        $this->assertEquals(3, $return->orders[1]->shipping->shippingCosts);
-        $this->assertEquals(5, $return->orders[1]->shipping->grossShippingCosts);
+        self::assertEquals(1, $return->orders[1]->shipping->shopId);
+        self::assertEquals($reservationId, $return->orders[1]->reservationId);
+        self::assertEquals(3, $return->orders[1]->shipping->shippingCosts);
+        self::assertEquals(5, $return->orders[1]->shipping->grossShippingCosts);
 
-        $this->assertEquals(2, $return->orders[2]->shipping->shopId);
-        $this->assertEquals($reservationId, $return->orders[2]->reservationId);
-        $this->assertEquals(4, $return->orders[2]->shipping->shippingCosts);
-        $this->assertEquals(8, $return->orders[2]->shipping->grossShippingCosts);
+        self::assertEquals(2, $return->orders[2]->shipping->shopId);
+        self::assertEquals($reservationId, $return->orders[2]->reservationId);
+        self::assertEquals(4, $return->orders[2]->shipping->shippingCosts);
+        self::assertEquals(8, $return->orders[2]->shipping->grossShippingCosts);
     }
 
     public function testCheckProducts() {
         $shopping = new Shopping(
-            $factory = \Phake::mock('Shopware\Connect\ShopFactory'),
-            \Phake::mock('Shopware\Connect\ChangeVisitor'),
-            \Phake::mock('Shopware\Connect\ProductToShop'),
-            \Phake::mock('Shopware\Connect\Logger'),
-            \Phake::mock('Shopware\Connect\ErrorHandler'),
-            \Phake::mock('Shopware\Connect\Gateway\ShopConfiguration')
+            $factory = $this->createMock(ShopFactory::class),
+            $this->createMock(ChangeVisitor::class),
+            $this->createMock(ProductToShop::class),
+            $this->createMock(Logger::class),
+            $this->createMock(ErrorHandler::class),
+            $this->createMock(ShopConfiguration::class)
         );
 
-        $gateway1 = \Phake::mock('Shopware\Connect\ShopGateway');
-        $gateway2 = \Phake::mock('Shopware\Connect\ShopGateway');
-        \Phake::when($factory)->getShopGateway(1)->thenReturn($gateway1);
-        \Phake::when($factory)->getShopGateway(2)->thenReturn($gateway2);
+        $gateway1 = $this->createMock(ShopGateway::class);
+        $gateway2 = $this->createMock(ShopGateway::class);
+        $factory->expects($this->exactly(2))
+            ->method('getShopGateway')
+            ->withConsecutive([1],[2])
+            ->willReturnOnConsecutiveCalls($gateway1, $gateway2);
 
-
-        \Phake::when($gateway1)->checkProducts(\Phake::anyParameters())
-            ->thenReturn(new \Shopware\Connect\Struct\CheckResult(array(
+        $gateway1->method('checkProducts')->with($this->anything())
+            ->willReturn(new \Shopware\Connect\Struct\CheckResult(array(
                     'shippingCosts' => array(
                         new \Shopware\Connect\Struct\Shipping(array('shopId' => 1, 'shippingCosts' => 3, 'grossShippingCosts' => 5)),
                     ),
@@ -109,8 +118,8 @@ class ShoppingTest extends \PHPUnit_Framework_TestCase
                 )
             ));
 
-        \Phake::when($gateway2)->checkProducts(\Phake::anyParameters())
-            ->thenReturn(new \Shopware\Connect\Struct\CheckResult(array(
+        $gateway2->method('checkProducts')->with($this->anything())
+            ->willReturn(new \Shopware\Connect\Struct\CheckResult(array(
                     'shippingCosts' => array(
                         new \Shopware\Connect\Struct\Shipping(array('shopId' => 2, 'shippingCosts' => 4, 'grossShippingCosts' => 8))
                     ),
@@ -120,16 +129,16 @@ class ShoppingTest extends \PHPUnit_Framework_TestCase
 
         $return = $shopping->checkProducts($this->createOrder());
 
-        $this->assertFalse($return->hasErrors());
+        self::assertFalse($return->hasErrors());
 
-        $this->assertEquals(2, count($return->shippingCosts));
-        $this->assertEquals(3, $return->shippingCosts[0]->shippingCosts);
-        $this->assertEquals(5, $return->shippingCosts[0]->grossShippingCosts);
-        $this->assertEquals(4, $return->shippingCosts[1]->shippingCosts);
-        $this->assertEquals(8, $return->shippingCosts[1]->grossShippingCosts);
+        self::assertEquals(2, count($return->shippingCosts));
+        self::assertEquals(3, $return->shippingCosts[0]->shippingCosts);
+        self::assertEquals(5, $return->shippingCosts[0]->grossShippingCosts);
+        self::assertEquals(4, $return->shippingCosts[1]->shippingCosts);
+        self::assertEquals(8, $return->shippingCosts[1]->grossShippingCosts);
 
-        $this->assertEquals(7, $return->aggregatedShippingCosts->shippingCosts);
-        $this->assertEquals(13, $return->aggregatedShippingCosts->grossShippingCosts);
+        self::assertEquals(7, $return->aggregatedShippingCosts->shippingCosts);
+        self::assertEquals(13, $return->aggregatedShippingCosts->grossShippingCosts);
     }
 
     private function createOrder()

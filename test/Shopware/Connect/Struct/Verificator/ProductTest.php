@@ -29,7 +29,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->dispatcher = \Phake::mock('Shopware\Connect\Struct\VerificatorDispatcher');
+        $this->dispatcher = $this->createMock(Struct\VerificatorDispatcher::class);
         $this->verificator = new Product(
             new ShippingRuleParser\Google(),
             SDK::PRICE_TYPE_BOTH
@@ -53,26 +53,26 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->verify($product);
     }
 
-    /**
-     * @expectedException Shopware\Connect\Exception\VerificationFailedException
-     * @expectedExceptionMessage ConfiguratorSetType has to be in range 0..2
-     */
     public function test_configurator_set_is_invalid_without_variants()
     {
         $product = $this->createValidProduct();
         $product->variant = [];
         $product->configuratorSetType = 1;
+
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage('ConfiguratorSetType has to be in range 0..2');
+
         $this->verify($product);
     }
 
-    /**
-     * @expectedException Shopware\Connect\Exception\VerificationFailedException
-     * @expectedExceptionMessage ConfiguratorSetType has to be in range 0..2
-     */
     public function test_configurator_set_is_invalid_with_variants()
     {
         $product = $this->createValidProduct();
         $product->configuratorSetType = 4;
+
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage('ConfiguratorSetType has to be in range 0..2');
+
         $this->verify($product);
     }
 
@@ -81,7 +81,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product = $this->createValidProduct();
         $product->vendor = null;
 
-        $this->setExpectedException('RuntimeException', 'Property vendor MUST be non-empty.');
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Property vendor MUST be non-empty.');
+
         $this->verify($product);
     }
 
@@ -90,7 +92,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product = $this->createValidProduct();
         $product->title = null;
 
-        $this->setExpectedException('RuntimeException', 'Property title MUST be non-empty.');
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Property title MUST be non-empty.');
+
         $this->verify($product);
     }
 
@@ -99,7 +103,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product = $this->createValidProduct();
         $product->shipping = "Invalid:::";
 
-        $this->setExpectedException('RuntimeException', 'Unexpected Delivery name (free text) at position 0 – expected one of: Element separator ":", Country Code (ISO 3166-1) (eg. DE)');
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Unexpected Delivery name (free text) at position 0 – expected one of: Element separator ":", Country Code (ISO 3166-1) (eg. DE)');
+
         $this->verify($product);
     }
 
@@ -132,7 +138,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product = $this->createValidProduct();
         $product->attributes[Struct\Product::ATTRIBUTE_DIMENSION] = $dimension;
 
-        $this->setExpectedException('RuntimeException', 'Product Dimensions Attribute has to be in format ');
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Product Dimensions Attribute has to be in format');
+
         $this->verify($product);
     }
 
@@ -194,7 +202,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $product->images = $images;
 
-        $this->setExpectedException('RuntimeException', 'Product#images must be an array.');
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Product#images must be an array.');
+
         $this->verify($product);
     }
 
@@ -223,7 +233,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $product->images = $images;
 
-        $this->setExpectedException('RuntimeException', 'Product#images must be numerically indexed starting with 0.');
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Product#images must be numerically indexed starting with 0.');
+
         $this->verify($product);
     }
 
@@ -237,7 +249,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $product->variantImages = $images;
 
-        $this->setExpectedException('RuntimeException', 'Product#variantImages must be numerically indexed starting with 0.');
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Product#variantImages must be numerically indexed starting with 0.');
+
         $this->verify($product);
     }
 
@@ -251,7 +265,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $product->variantImages = $images;
 
-        $this->setExpectedException('RuntimeException', 'Product#variantImages must be an array.');
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Product#variantImages must be an array.');
+
         $this->verify($product);
     }
 
@@ -273,7 +289,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product = $this->createValidProduct();
         $product->attributes['ref_quantity'] = new \stdClass();
 
-        $this->setExpectedException('\Shopware\Connect\Exception\VerificationFailedException', 'Attribute ref_quantity MUST be scalar value.');
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage('Attribute ref_quantity MUST be scalar value.');
+
         $this->verify($product);
     }
 
@@ -294,10 +312,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product = $this->createValidProduct();
         $product->translations = 42;
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            'Product#translations must be an array.'
-        );
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage('Product#translations must be an array.');
+
         $this->verify($product);
     }
 
@@ -306,10 +323,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product = $this->createValidProduct();
         $product->translations[23] = new Struct\Translation();
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            'The keys of Product#translations must be strings.'
-        );
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage('The keys of Product#translations must be strings.');
+
         $this->verify($product);
     }
 
@@ -318,10 +334,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product = $this->createValidProduct();
         $product->translations['en'] = 23;
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            'Product#translations must contain only instances of \\Shopware\\Connect\\Struct\\Translation.'
-        );
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage('Product#translations must contain only instances of \Shopware\Connect\Struct\Translation.');
+
         $this->verify($product);
     }
 
@@ -330,10 +345,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product = $this->createValidProduct();
         $product->translations['pb'] = new Struct\Translation();
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            "The keys of Product#translations must only be valid ISO 639-1 codes (e.g. 'de', 'es', ...)."
-        );
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage('The keys of Product#translations must only be valid ISO 639-1 codes (e.g. \'de\', \'es\', ...).');
+
         $this->verify($product);
     }
 
@@ -342,10 +356,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product = $this->createValidProduct();
         $product->translations['EN'] = new Struct\Translation();
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            "The keys of Product#translations must only be valid ISO 639-1 codes (e.g. 'de', 'es', ...)."
-        );
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage('The keys of Product#translations must only be valid ISO 639-1 codes (e.g. \'de\', \'es\', ...).');
+
         $this->verify($product);
     }
 
@@ -372,10 +385,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             "/Kleidung/Hosen/Hosentraeger" => "Hosenträger",
         );
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            'Product#categories must contain all parent categories. Parent category of /Kleidung missing.'
-        );
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage('Product#categories must contain all parent categories. Parent category of /Kleidung missing.');
 
         $this->verify($product);
     }
@@ -385,15 +396,14 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product = $this->createValidProduct();
         $product->fixedPrice = true;
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            'Fixed price is not allowed when export purchasePrice only'
-        );
-
         $verificator = new Product(
             new ShippingRuleParser\Google(),
             SDK::PRICE_TYPE_PURCHASE
         );
+
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage('Fixed price is not allowed when export purchasePrice only');
+
         $verificator->verify($this->dispatcher, $product, array('default', 'priceExport'));
     }
 
@@ -428,15 +438,14 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product->fixedPrice = false;
         $product->priceRanges = array($priceRange);
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            "The price range 'from' must be int and is not allowed to be 0 or smaller."
-        );
-
         $verificator = new Product(
             new ShippingRuleParser\Google(),
             SDK::PRICE_TYPE_RETAIL
         );
+
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage("The price range 'from' must be int and is not allowed to be 0 or smaller.");
+
         $verificator->verify($this->dispatcher, $product, array('default', 'priceExport'));
     }
 
@@ -452,15 +461,14 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product->fixedPrice = false;
         $product->priceRanges = array($priceRange);
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            "The price range 'to' must be int bigger from 0 or string with value 'any'."
-        );
-
         $verificator = new Product(
             new ShippingRuleParser\Google(),
             SDK::PRICE_TYPE_RETAIL
         );
+
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage("The price range 'to' must be int bigger from 0 or string with value 'any'.");
+
         $verificator->verify($this->dispatcher, $product, array('default', 'priceExport'));
     }
 
@@ -476,15 +484,14 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product->fixedPrice = false;
         $product->priceRanges = array($priceRange);
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            "The price range 'to' is not allowed to be 0 or smaller."
-        );
-
         $verificator = new Product(
             new ShippingRuleParser\Google(),
             SDK::PRICE_TYPE_RETAIL
         );
+
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage("The price range 'to' is not allowed to be 0 or smaller.");
+
         $verificator->verify($this->dispatcher, $product, array('default', 'priceExport'));
     }
 
@@ -500,15 +507,14 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product->fixedPrice = false;
         $product->priceRanges = array($priceRange);
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            "The price range 'to' must be int or string."
-        );
-
         $verificator = new Product(
             new ShippingRuleParser\Google(),
             SDK::PRICE_TYPE_RETAIL
         );
+
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage("The price range 'to' must be int or string.");
+
         $verificator->verify($this->dispatcher, $product, array('default', 'priceExport'));
     }
 
@@ -524,15 +530,14 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product->fixedPrice = false;
         $product->priceRanges = array($priceRange);
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            "The price is not allowed to be 0 or smaller."
-        );
-
         $verificator = new Product(
             new ShippingRuleParser\Google(),
             SDK::PRICE_TYPE_RETAIL
         );
+
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage("The price is not allowed to be 0 or smaller.");
+
         $verificator->verify($this->dispatcher, $product, array('default', 'priceExport'));
     }
 
@@ -543,10 +548,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product->longDescription = str_repeat('Long Sasse Münsterländer Lagerkorn 32% 0,2L', 200000);
         $product->additionalDescription = str_repeat('Additional Sasse Münsterländer Lagerkorn 32% 0,2L', 10000);
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            'Product short, long and additional description must be under 5 000 000 characters.'
-        );
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage("Product short, long and additional description must be under 5 000 000 characters.");
 
         $this->verify($product);
     }
@@ -556,10 +559,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product = $this->createValidProduct();
         $product->minPurchaseQuantity = 0;
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            'Product#minPurchaseQuantity must be positive, greater than 0.'
-        );
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage("Product#minPurchaseQuantity must be positive, greater than 0.");
 
         $this->verify($product);
     }

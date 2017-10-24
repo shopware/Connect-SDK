@@ -77,12 +77,12 @@ class ShopPurchaseContext extends SDKContext
 
     public function initSDK($connection)
     {
-        $this->productToShop = \Phake::mock('\\Shopware\\Connect\\ProductToShop');
-        $this->productFromShop = \Phake::mock('\\Shopware\\Connect\\ProductFromShop');
+        $mockGenerator = new \PHPUnit_Framework_MockObject_Generator();
+        $this->productToShop = $mockGenerator->getMock(ProductToShop::class);
+        $this->productFromShop = $mockGenerator->getMock(ProductFromShop::class);
 
-        \Phake::when($this->productFromShop)
-            ->calculateShippingCosts(\Phake::anyParameters())
-            ->thenReturn(
+        $this->productFromShop->method('calculateShippingCosts')
+            ->willReturn(
                 new Struct\Shipping()
             );
 
@@ -204,8 +204,7 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductIsAvailableInNShops($shops)
     {
-        $methodStub = \Phake::when($this->productFromShop)
-            ->getProducts(\Phake::anyParameters());
+        $methodStub = $this->productFromShop->method('getProducts');
 
         $products = array();
         for ($i = 1; $i <= $shops; ++$i) {
@@ -229,7 +228,7 @@ class ShopPurchaseContext extends SDKContext
 
         // this is "wrong" to always return both products of both shops, but
         // the algorithm doesn't mind and the test then works.
-        $methodStub->thenReturn($products);
+        $methodStub->willReturn($products);
     }
 
     /**
@@ -311,9 +310,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductIsNotAvailableInRemoteShop()
     {
-        $methodStub = \Phake::when($this->productFromShop)
-            ->getProducts(\Phake::anyParameters())
-            ->thenReturn(
+        $methodStub = $this->productFromShop
+            ->method('getProducts')
+            ->willReturn(
                 array(
                     new Struct\Product(
                         array(
@@ -340,9 +339,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductDataIsStillValid()
     {
-        $methodStub = \Phake::when($this->productFromShop)
-            ->getProducts(\Phake::anyParameters())
-            ->thenReturn(
+        $methodStub = $this->productFromShop
+            ->method('getProducts')
+            ->willReturn(
                 array(
                     new Struct\Product(
                         array(
@@ -422,10 +421,7 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductAvailabilityIsUpdatedInTheLocalShop()
     {
-        \Phake::verify(
-            $this->productToShop,
-            \Phake::atLeast(1)
-        )->changeAvailability(\Phake::anyParameters());
+        $this->productToShop->expects(new \PHPUnit_Framework_MockObject_Matcher_InvokedCount(1))->method('changeAvailability');
     }
 
     /**
@@ -433,9 +429,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductWasDeletedInTheRemoteShop()
     {
-        $methodStub = \Phake::when($this->productFromShop)
-            ->getProducts(\Phake::anyParameters())
-            ->thenReturn(
+        $methodStub = $this->productFromShop
+            ->method('getProducts')
+            ->willReturn(
                 array()
             );
     }
@@ -465,7 +461,7 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductIsDeletedInTheLocalShop()
     {
-        \Phake::verify($this->productToShop)->delete(\Phake::anyParameters());
+        $this->productToShop->expects(new \PHPUnit_Framework_MockObject_Matcher_InvokedCount(1))->method('delete');
     }
 
     /**
@@ -473,9 +469,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductPriceHasChangedInTheRemoteShop()
     {
-        $methodStub = \Phake::when($this->productFromShop)
-            ->getProducts(\Phake::anyParameters())
-            ->thenReturn(
+        $methodStub = $this->productFromShop
+            ->method('getProducts')
+            ->willReturn(
                 array(
                     new Struct\Product(
                         array(
@@ -513,10 +509,7 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theRemoteShopIsAskedForShippingCosts()
     {
-        \Phake::verify(
-            $this->productFromShop,
-            \Phake::atLeast(1)
-        )->calculateShippingCosts(\Phake::anyParameters());
+        $this->productFromShop->expects(new \PHPUnit_Framework_MockObject_Matcher_InvokedAtLeastCount(1))->method('calculateShippingCosts');
     }
 
     /**
@@ -536,9 +529,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductChangesAvailabilityBetweenCheckAndPurchase()
     {
-        $methodStub = \Phake::when($this->productFromShop)
-            ->getProducts(\Phake::anyParameters())
-            ->thenReturn(
+        $methodStub = $this->productFromShop
+            ->method('getProducts')
+            ->willReturn(
                 array(
                     new Struct\Product(
                         array(
@@ -576,9 +569,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theRemoteShopDeniesTheBuy()
     {
-        $methodStub = \Phake::when($this->productFromShop)
-            ->buy(\Phake::anyParameters())
-            ->thenThrow(
+        $methodStub = $this->productFromShop
+            ->method('buy')
+            ->willThrowException(
                 new \RuntimeException("Buy denied.")
             );
     }
@@ -685,9 +678,9 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theProductPurchasePriceHasChangedInTheRemoteShop()
     {
-        $methodStub = \Phake::when($this->productFromShop)
-            ->getProducts(\Phake::anyParameters())
-            ->thenReturn(
+        $methodStub = $this->productFromShop
+            ->method('getProducts')
+            ->willReturn(
                 array(
                     new Struct\Product(
                         array(

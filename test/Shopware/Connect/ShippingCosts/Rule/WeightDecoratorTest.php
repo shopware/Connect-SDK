@@ -2,6 +2,7 @@
 
 namespace Shopware\Connect\ShippingCosts\Rule;
 
+use Shopware\Connect\ShippingCosts\Rule;
 use Shopware\Connect\Struct;
 use Phake;
 
@@ -12,15 +13,15 @@ class WeightDecoratorTest extends \PHPUnit_Framework_TestCase
      */
     public function it_is_applicable_when_weight_is_less()
     {
-        $delegatee = Phake::mock('Shopware\Connect\ShippingCosts\Rule');
-        Phake::when($delegatee)->isApplicable(\Phake::anyParameters())->thenReturn(true);
+        $delegatee = $this->createMock(Rule::class);
+        $delegatee->method('isApplicable')->with($this->anything())->willReturn(true);
 
         $weight = new WeightDecorator(array(
             'maxWeight' => 10,
             'delegatee' => $delegatee
         ));
 
-        $this->assertTrue(
+        self::assertTrue(
             $weight->isApplicable(
                 new Struct\Order(
                     array(
@@ -53,15 +54,15 @@ class WeightDecoratorTest extends \PHPUnit_Framework_TestCase
      */
     public function it_is_not_applicable_when_big_count_is_larger_max_weight()
     {
-        $delegatee = Phake::mock('Shopware\Connect\ShippingCosts\Rule');
-        Phake::when($delegatee)->isApplicable(\Phake::anyParameters())->thenReturn(true);
+        $delegatee = $this->createMock(Rule::class);
+        $delegatee->method('isApplicable')->with($this->anything())->willReturn(true);
 
         $weight = new WeightDecorator(array(
             'maxWeight' => 10,
             'delegatee' => $delegatee
         ));
 
-        $this->assertFalse(
+        self::assertFalse(
             $weight->isApplicable(
                 new Struct\Order(
                     array(

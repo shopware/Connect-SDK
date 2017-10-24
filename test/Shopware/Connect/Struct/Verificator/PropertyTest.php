@@ -2,6 +2,7 @@
 
 namespace Shopware\Connect\Struct\Verificator;
 
+use Shopware\Connect\Exception\VerificationFailedException;
 use Shopware\Connect\SDK;
 use Shopware\Connect\Struct;
 use Shopware\Connect\ShippingRuleParser;
@@ -22,10 +23,8 @@ class PropertyTest extends ProductTest
 
         $product->properties = array($property);
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            "Property groupName MUST be non-empty."
-        );
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage("Property groupName MUST be non-empty.");
 
         $this->verificator->verify($this->dispatcher, $product, array('default'));
     }
@@ -44,10 +43,8 @@ class PropertyTest extends ProductTest
 
         $product->properties = array($property);
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            "Property option MUST be non-empty."
-        );
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage("Property option MUST be non-empty.");
 
         $this->verificator->verify($this->dispatcher, $product, array('default'));
     }
@@ -66,10 +63,8 @@ class PropertyTest extends ProductTest
 
         $product->properties = array($property);
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            "Property value MUST be non-empty."
-        );
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage("Property value MUST be non-empty.");
 
         $this->verificator->verify($this->dispatcher, $product, array('default'));
     }
@@ -88,10 +83,8 @@ class PropertyTest extends ProductTest
 
         $product->properties = array($property);
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            "Property comparable MUST be boolean."
-        );
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage("Property comparable MUST be boolean.");
 
         $this->verificator->verify($this->dispatcher, $product, array('default'));
     }
@@ -109,10 +102,8 @@ class PropertyTest extends ProductTest
 
         $product->properties = array($property);
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            "Property filterable MUST be boolean."
-        );
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage("Property filterable MUST be boolean.");
 
         $this->verificator->verify($this->dispatcher, $product, array('default'));
     }
@@ -131,10 +122,8 @@ class PropertyTest extends ProductTest
 
         $product->properties = array($property);
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            "Property sortMode MUST be int."
-        );
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage("Property sortMode MUST be int.");
 
         $this->verificator->verify($this->dispatcher, $product, array('default'));
     }
@@ -153,10 +142,8 @@ class PropertyTest extends ProductTest
 
         $product->properties = array($property);
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            "Property sortMode MUST be 0, 1, or 3"
-        );
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage("Property sortMode MUST be 0, 1, or 3");
 
         $this->verificator->verify($this->dispatcher, $product, array('default'));
     }
@@ -176,10 +163,8 @@ class PropertyTest extends ProductTest
 
         $product->properties = array($property);
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            "Property groupPosition MUST be int."
-        );
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage("Property groupPosition MUST be int.");
 
         $this->verificator->verify($this->dispatcher, $product, array('default'));
     }
@@ -199,10 +184,8 @@ class PropertyTest extends ProductTest
 
         $product->properties = array($property);
 
-        $this->setExpectedException(
-            '\Shopware\Connect\Exception\VerificationFailedException',
-            "Property valuePosition MUST be int."
-        );
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage("Property valuePosition MUST be int.");
 
         $this->verificator->verify($this->dispatcher, $product, array('default'));
     }
