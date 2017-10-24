@@ -2,6 +2,7 @@
 
 namespace Shopware\Connect\ShopGateway;
 
+use Shopware\Connect\HttpClient;
 use Shopware\Connect\Rpc\Marshaller;
 use Shopware\Connect\HttpClient\Response;
 use Shopware\Connect\Struct;
@@ -33,7 +34,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testFailOnInvalidResponse($code, $body)
     {
-        $httpClient = $this->getMock('\\Shopware\\Connect\\HttpClient');
+        $httpClient = $this->createMock(HttpClient::class);
         $httpClient
             ->expects($this->once())
             ->method('request')
@@ -43,7 +44,11 @@ class HttpTest extends \PHPUnit_Framework_TestCase
                 'body' => $body,
             ))));
 
-        $requestSigner = $this->getMock('\\Shopware\\Connect\\ShopGateway\\ShopRequestSigner', array('signRequest'), array(), '', false);
+        $requestSigner = $this->getMockBuilder(ShopRequestSigner::class)
+                              ->setMethods(['signRequest'])
+                              ->disableOriginalConstructor()
+                              ->getMock();
+
         $requestSigner
             ->expects($this->any())
             ->method('signRequest')
