@@ -51,4 +51,24 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ))
         ));
     }
+
+    public function testRepliacteUpdateOrderStatusToShopChange()
+    {
+        $gateway = $this->createMock(Gateway::class);
+        $service = new ProductService(
+            $gateway, $gateway, $gateway,
+            $toShop = $this->createMock(ProductToShop::class),
+            $fromShop = $this->createMock(ProductFromShop::class),
+            $export = $this->createMock(Export::class)
+        );
+        $toShop->expects($this->atLeastOnce())->method('updateOrderStatus')->with(10, 'completed', 'foo123');
+
+        $service->replicate(array(
+            new Struct\Change\ToShop\UpdateOrderStatus(array(
+                'localOrderId' => 10,
+                'trackingNumber' => 'foo123',
+                'orderStatus' => 'completed',
+            ))
+        ));
+    }
 }

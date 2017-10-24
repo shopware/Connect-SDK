@@ -129,6 +129,8 @@ class Address extends Struct
                 return $this->street . ' ' . $this->streetNumber;
             case 'line2':
                 return $this->additionalAddressLine1;
+            case 'additionalAddressLine':
+                return $this->additionalAddressLine1;
             default:
                 return parent::__get($property);
         }
@@ -169,8 +171,11 @@ class Address extends Struct
             case 'line2':
                 $this->additionalAddressLine1 = $value;
                 break;
+            case 'additionalAddressLine':
+                $this->additionalAddressLine1 = $value;
+                break;
             default:
-                return parent::__get($property);
+                return parent::__set($property);
         }
     }
 }
