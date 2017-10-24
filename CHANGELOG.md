@@ -1,3 +1,13 @@
+# v2.0.5
+
+Added function in ProductToShop to update the OrderStatus of an order with Connect-Products. 
+The Connect-Plattform will aggregate the informations of all Connect-Orders within one Order in 
+the Merchants-Backend and update the status of these order. All custom implementations of 
+ProductToShop will need to implement these function when upgrading to SDK v2.0.2.
+Please take a look at the ProductToShop interface for a detailed documentation of this function.
+
+    $productToShop->updateOrderStatus(($localOrderId, $orderStatus, $trackingNumber);
+
 # v2.0.1
 
 Add support for Product Stream assignments directly in SDK. This is an optional
