@@ -77,9 +77,12 @@ class Http extends ShopGateway
      * Returns true on success, or an array of Struct\Change with updates for
      * the requested products.
      *
+     * Throws RuntimeException if something went wrong.
+     *
      * @param Struct\Order $order
      * @param string $shopId
      * @return mixed
+     * @throws \RuntimeException
      */
     public function checkProducts(Struct\Order $order, $shopId)
     {
@@ -93,10 +96,10 @@ class Http extends ShopGateway
             )
         );
         if ($result instanceof Struct\Error) {
-            throw new \Exception($result->message);
-        } else {
-            return $result;
+            throw new \RuntimeException($result->message);
         }
+
+        return $result;
     }
 
     /**
