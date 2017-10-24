@@ -34,6 +34,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testFailOnInvalidResponse($code, $body)
     {
+        $this->expectException(\RuntimeException::class);
         $httpClient = $this->createMock(HttpClient::class);
         $httpClient
             ->expects($this->once())
@@ -62,11 +63,9 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             $requestSigner
         );
 
-        $result = $shopGateway->checkProducts(
+        $shopGateway->checkProducts(
             new Struct\Order(),
             1
         );
-
-        $this->assertTrue($result instanceof Struct\Error);
     }
 }
