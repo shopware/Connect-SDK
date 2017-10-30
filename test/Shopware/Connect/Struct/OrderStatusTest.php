@@ -26,7 +26,8 @@ class OrderStatusTest extends \PHPUnit_Framework_TestCase
             'status' => 'foo',
         ));
 
-        $this->setExpectedException('RuntimeException', 'Invalid order state given: foo. Expected one of: open, in_process, delivered, canceled, error');
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Invalid order state given: foo. Expected one of: open, in_process, delivered, canceled, error');
 
         $this->verificator->verify($status);
     }

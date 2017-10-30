@@ -2,9 +2,11 @@
 
 namespace Shopware\Connect\Service;
 
+use Shopware\Connect\HttpClient;
 use Shopware\Connect\HttpClient\Response;
 use Shopware\Connect\Struct\Order;
 use Shopware\Connect\Struct\Shipping;
+use Shopware\Connect\Struct\VerificatorDispatcher;
 
 class SocialNetworkTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,20 +18,21 @@ class SocialNetworkTest extends \PHPUnit_Framework_TestCase
             'id' => 'abcdefg',
             'status' => \Shopware\Connect\Struct\OrderStatus::STATE_OPEN,
         ));
-        $client = \Phake::mock('Shopware\Connect\HttpClient');
+        $client = $this->createMock(HttpClient::class);
 
-        \Phake::when($client)->request(
-            'POST',
-            '/sdk/update-order-status',
-            json_encode($status),
-            array(
-                'Content-Type: application/json',
-                'X-Shopware-Connect-Shop: 1',
-                'X-Shopware-Connect-Key: ' . hash_hmac('sha512', json_encode($status), self::APIKEY)
-            )
-        )->thenReturn(new Response(array('status' => 200)));
+        $client->method('request')
+            ->with(
+                'POST',
+                '/sdk/update-order-status',
+                json_encode($status),
+                array(
+                    'Content-Type: application/json',
+                    'X-Shopware-Connect-Shop: 1',
+                    'X-Shopware-Connect-Key: ' . hash_hmac('sha512', json_encode($status), self::APIKEY)
+                )
+            )->willReturn(new Response(array('status' => 200)));
 
-        $dispatcher = \Phake::mock('Shopware\Connect\Struct\VerificatorDispatcher');
+        $dispatcher = $this->createMock(VerificatorDispatcher::class);
 
         $socialNetwork = new SocialNetwork($client, $dispatcher, 1, self::APIKEY);
         $socialNetwork->updateOrderStatus($status);
@@ -48,20 +51,21 @@ class SocialNetworkTest extends \PHPUnit_Framework_TestCase
             )),
         );
 
-        $client = \Phake::mock('Shopware\Connect\HttpClient');
+        $client = $this->createMock(HttpClient::class);
 
-        \Phake::when($client)->request(
-            'POST',
-            '/sdk/unsubscribe-products',
-            json_encode($productIds),
-            array(
-                'Content-Type: application/json',
-                'X-Shopware-Connect-Shop: 1',
-                'X-Shopware-Connect-Key: ' . hash_hmac('sha512', json_encode($productIds), self::APIKEY)
-            )
-        )->thenReturn(new Response(array('status' => 200)));
+        $client->method('request')
+            ->with(
+                'POST',
+                '/sdk/unsubscribe-products',
+                json_encode($productIds),
+                array(
+                    'Content-Type: application/json',
+                    'X-Shopware-Connect-Shop: 1',
+                    'X-Shopware-Connect-Key: ' . hash_hmac('sha512', json_encode($productIds), self::APIKEY)
+                )
+            )->willReturn(new Response(array('status' => 200)));
 
-        $dispatcher = \Phake::mock('Shopware\Connect\Struct\VerificatorDispatcher');
+        $dispatcher = $this->createMock(VerificatorDispatcher::class);
 
         $socialNetwork = new SocialNetwork($client, $dispatcher, 1, self::APIKEY);
         $socialNetwork->unsubscribeProducts($productIds);
@@ -71,20 +75,21 @@ class SocialNetworkTest extends \PHPUnit_Framework_TestCase
     {
         $changes = 300;
         $json = json_encode(array('count' => $changes));
-        $client = \Phake::mock('Shopware\Connect\HttpClient');
+        $client = $this->createMock(HttpClient::class);
 
-        \Phake::when($client)->request(
-            'POST',
-            '/sdk/calculate-finish-time',
-            $json,
-            array(
-                'Content-Type: application/json',
-                'X-Shopware-Connect-Shop: 1',
-                'X-Shopware-Connect-Key: ' . hash_hmac('sha512', $json, self::APIKEY)
-            )
-        )->thenReturn(new Response(array('status' => 200, 'body' => '{"ok": true, "time": 900}')));
+        $client->method('request')
+            ->with(
+                'POST',
+                '/sdk/calculate-finish-time',
+                $json,
+                array(
+                    'Content-Type: application/json',
+                    'X-Shopware-Connect-Shop: 1',
+                    'X-Shopware-Connect-Key: ' . hash_hmac('sha512', $json, self::APIKEY)
+                )
+            )->willReturn(new Response(array('status' => 200, 'body' => '{"ok": true, "time": 900}')));
 
-        $dispatcher = \Phake::mock('Shopware\Connect\Struct\VerificatorDispatcher');
+        $dispatcher = $this->createMock(VerificatorDispatcher::class);
 
         $socialNetwork = new SocialNetwork($client, $dispatcher, 1, self::APIKEY);
         $socialNetwork->calculateFinishTime($changes);
@@ -94,20 +99,21 @@ class SocialNetworkTest extends \PHPUnit_Framework_TestCase
     public function testGetMarketplaceProductAttributes()
     {
         $content = json_encode(array());
-        $client = \Phake::mock('Shopware\Connect\HttpClient');
+        $client = $this->createMock(HttpClient::class);
 
-        \Phake::when($client)->request(
-            'POST',
-            '/sdk/marketplace/attributes',
-            $content,
-            array(
-                'Content-Type: application/json',
-                'X-Shopware-Connect-Shop: 1',
-                'X-Shopware-Connect-Key: ' . hash_hmac('sha512', $content, self::APIKEY)
-            )
-        )->thenReturn(new Response(array('status' => 200, 'body' => '{"ok": true, "attributes": [{"energy_saving_information": "Energiesparinformationen"}]}')));
+        $client->method('request')
+            ->with(
+                'POST',
+                '/sdk/marketplace/attributes',
+                $content,
+                array(
+                    'Content-Type: application/json',
+                    'X-Shopware-Connect-Shop: 1',
+                    'X-Shopware-Connect-Key: ' . hash_hmac('sha512', $content, self::APIKEY)
+                )
+            )->willReturn(new Response(array('status' => 200, 'body' => '{"ok": true, "attributes": [{"energy_saving_information": "Energiesparinformationen"}]}')));
 
-        $dispatcher = \Phake::mock('Shopware\Connect\Struct\VerificatorDispatcher');
+        $dispatcher = $this->createMock(VerificatorDispatcher::class);
 
         $socialNetwork = new SocialNetwork($client, $dispatcher, 1, self::APIKEY);
         $socialNetwork->getMarketplaceProductAttributes();
@@ -116,20 +122,21 @@ class SocialNetworkTest extends \PHPUnit_Framework_TestCase
     public function testGetMarketplaceSettings()
     {
         $content = json_encode(array());
-        $client = \Phake::mock('Shopware\Connect\HttpClient');
+        $client = $this->createMock(HttpClient::class);
 
-        \Phake::when($client)->request(
-            'POST',
-            '/sdk/marketplace/settings',
-            $content,
-            array(
-                'Content-Type: application/json',
-                'X-Shopware-Connect-Shop: 1',
-                'X-Shopware-Connect-Key: ' . hash_hmac('sha512', $content, self::APIKEY)
-            )
-        )->thenReturn(new Response(array('status' => 200, 'body' => '{"ok": true, "settings": [{"marketplaceName": "Shopware Enterprise Marketplace"}]}')));
+        $client->method('request')
+            ->with(
+                'POST',
+                '/sdk/marketplace/settings',
+                $content,
+                array(
+                    'Content-Type: application/json',
+                    'X-Shopware-Connect-Shop: 1',
+                    'X-Shopware-Connect-Key: ' . hash_hmac('sha512', $content, self::APIKEY)
+                )
+            )->willReturn(new Response(array('status' => 200, 'body' => '{"ok": true, "settings": [{"marketplaceName": "Shopware Enterprise Marketplace"}]}')));
 
-        $dispatcher = \Phake::mock('Shopware\Connect\Struct\VerificatorDispatcher');
+        $dispatcher = $this->createMock(VerificatorDispatcher::class);
 
         $socialNetwork = new SocialNetwork($client, $dispatcher, 1, self::APIKEY);
         $socialNetwork->getMarketplaceSettings();
@@ -140,25 +147,26 @@ class SocialNetworkTest extends \PHPUnit_Framework_TestCase
         $order = new Order();
         $payload = json_encode(array('order' => $order));
 
-        $client = \Phake::mock('Shopware\Connect\HttpClient');
+        $client = $this->createMock(HttpClient::class);
 
-        \Phake::when($client)->request(
-            'POST',
-            '/sdk/shipping-costs',
-            $payload,
-            array(
-                'Content-Type: application/json',
-                'X-Shopware-Connect-Shop: 1',
-                'X-Shopware-Connect-Key: ' . hash_hmac('sha512', $payload, self::APIKEY)
-            )
-        )->thenReturn(new Response(array('status' => 200, 'body' => $this->getShippingResponse())));
+        $client->method('request')
+            ->with(
+                'POST',
+                '/sdk/shipping-costs',
+                $payload,
+                array(
+                    'Content-Type: application/json',
+                    'X-Shopware-Connect-Shop: 1',
+                    'X-Shopware-Connect-Key: ' . hash_hmac('sha512', $payload, self::APIKEY)
+                )
+            )->willReturn(new Response(array('status' => 200, 'body' => $this->getShippingResponse())));
 
-        $dispatcher = \Phake::mock('Shopware\Connect\Struct\VerificatorDispatcher');
+        $dispatcher = $this->createMock(VerificatorDispatcher::class);
 
         $socialNetwork = new SocialNetwork($client, $dispatcher, 1, self::APIKEY);
         $shipping = $socialNetwork->calculateShippingCosts($order);
 
-        $this->assertInstanceOf('Shopware\\Connect\\Struct\\Shipping', $shipping);
+        self::assertInstanceOf(Shipping::class, $shipping);
     }
 
     private function getShippingResponse()

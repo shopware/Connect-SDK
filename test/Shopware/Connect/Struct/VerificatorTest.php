@@ -9,14 +9,12 @@ class VerificatorTest extends \PHPUnit_Framework_TestCase
 {
     public function testExceptionWhenNoGroupRulesExist()
     {
-        $this->setExpectedException(
-            'Shopware\Connect\Exception\VerificationFailedException',
-            "Cannot verify class 'Shopware\Connect\Struct\Dummy' because no validation rules exist for group 'unknown'."
-        );
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage("Cannot verify class 'Shopware\Connect\Struct\Dummy' because no validation rules exist for group 'unknown'.");
 
         $verificator = new DummyVerificator();
         $verificator->verify(
-            \Phake::mock('Shopware\Connect\Struct\VerificatorDispatcher'),
+            $this->createMock(VerificatorDispatcher::class),
             new Dummy(),
             array('unknown')
         );
@@ -24,14 +22,12 @@ class VerificatorTest extends \PHPUnit_Framework_TestCase
 
     public function testFailThrowsException()
     {
-        $this->setExpectedException(
-            'Shopware\Connect\Exception\VerificationFailedException',
-            "this is fail 'foo'."
-        );
+        $this->expectException(VerificationFailedException::class);
+        $this->expectExceptionMessage("this is fail 'foo'.");
 
         $verificator = new DummyVerificator();
         $verificator->verify(
-            \Phake::mock('Shopware\Connect\Struct\VerificatorDispatcher'),
+            $this->createMock(VerificatorDispatcher::class),
             new Dummy(),
             array('fail')
         );

@@ -3,6 +3,8 @@
 namespace Shopware\Connect\HttpClient;
 
 use Shopware\Connect\Struct\ShopConfiguration;
+use Shopware\Connect\Service\Clock;
+use Shopware\Connect\Gateway;
 
 class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
 {
@@ -10,7 +12,7 @@ class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->gatewayMock = $this->getMock('Shopware\Connect\Gateway\ShopConfiguration');
+        $this->gatewayMock = $this->createMock(Gateway\ShopConfiguration::class);
     }
 
     public function testSignRequest()
@@ -26,7 +28,7 @@ class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
 
         $time = 1234567890;
 
-        $clock = $this->getMock('Shopware\Connect\Service\Clock');
+        $clock = $this->createMock(Clock::class);
         $clock->expects($this->once())->method('time')->will($this->returnValue($time));
 
         $signer = new SharedKeyRequestSigner($this->gatewayMock, $clock, null);
@@ -44,7 +46,7 @@ class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
     {
         $this->gatewayMock->expects($this->never())->method('getShopConfiguration');
 
-        $clock = $this->getMock('Shopware\Connect\Service\Clock');
+        $clock = $this->createMock(Clock::class);
 
         $signer = new SharedKeyRequestSigner($this->gatewayMock, $clock, "aaa-bbb-ccc-ddd");
         $token = $signer->verifyRequest(
@@ -63,7 +65,7 @@ class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
     {
         $this->gatewayMock->expects($this->never())->method('getShopConfiguration');
 
-        $clock = $this->getMock('Shopware\Connect\Service\Clock');
+        $clock = $this->createMock(Clock::class);
 
         $signer = new SharedKeyRequestSigner($this->gatewayMock, $clock, "aaa-bbb-ccc-ddd");
         $token = $signer->verifyRequest(
@@ -85,7 +87,7 @@ class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo(42))
             ->will($this->returnValue(new ShopConfiguration(array('key' => 1234))));
 
-        $clock = $this->getMock('Shopware\Connect\Service\Clock');
+        $clock = $this->createMock(Clock::class);
 
         $signer = new SharedKeyRequestSigner($this->gatewayMock, $clock, "aaa-bbb-ccc-ddd");
         $token = $signer->verifyRequest(
@@ -107,7 +109,7 @@ class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo(42))
             ->will($this->returnValue(new ShopConfiguration(array('key' => 1234))));
 
-        $clock = $this->getMock('Shopware\Connect\Service\Clock');
+        $clock = $this->createMock(Clock::class);
 
         $signer = new SharedKeyRequestSigner($this->gatewayMock, $clock, "aaa-bbb-ccc-ddd");
         $token = $signer->verifyRequest(
@@ -126,7 +128,7 @@ class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
     {
         $this->configureDefaultGatewayMock();
 
-        $clock = $this->getMock('Shopware\Connect\Service\Clock');
+        $clock = $this->createMock(Clock::class);
 
         $signer = new SharedKeyRequestSigner($this->gatewayMock, $clock, "aaa-bbb-ccc-ddd");
 
@@ -148,7 +150,7 @@ class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
     {
         $this->configureDefaultGatewayMock();
 
-        $clock = $this->getMock('Shopware\Connect\Service\Clock');
+        $clock = $this->createMock(Clock::class);
 
         $signer = new SharedKeyRequestSigner($this->gatewayMock, $clock, "aaa-bbb-ccc-ddd");
 
@@ -170,7 +172,7 @@ class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
     {
         $this->configureDefaultGatewayMock();
 
-        $clock = $this->getMock('Shopware\Connect\Service\Clock');
+        $clock = $this->createMock(Clock::class);
 
         $signer = new SharedKeyRequestSigner($this->gatewayMock, $clock, "aaa-bbb-ccc-ddd");
 
@@ -193,7 +195,7 @@ class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
     {
         $this->configureDefaultGatewayMock();
 
-        $clock = $this->getMock('Shopware\Connect\Service\Clock');
+        $clock = $this->createMock(Clock::class);
 
         $signer = new SharedKeyRequestSigner($this->gatewayMock, $clock, "aaa-bbb-ccc-ddd");
 
@@ -216,7 +218,7 @@ class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
     {
         $this->configureDefaultGatewayMock();
 
-        $clock = $this->getMock('Shopware\Connect\Service\Clock');
+        $clock = $this->createMock(Clock::class);
 
         $signer = new SharedKeyRequestSigner($this->gatewayMock, $clock, "aaa-bbb-ccc-ddd");
 
@@ -239,7 +241,7 @@ class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
     {
         $this->configureDefaultGatewayMock();
 
-        $clock = $this->getMock('Shopware\Connect\Service\Clock');
+        $clock = $this->createMock(Clock::class);
 
         $signer = new SharedKeyRequestSigner($this->gatewayMock, $clock, "aaa-bbb-ccc-ddd");
 
@@ -296,7 +298,7 @@ class SharedKeyRequestSignerTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo(42))
             ->will($this->returnValue(new ShopConfiguration()));
 
-        $clock = $this->getMock('Shopware\Connect\Service\Clock');
+        $clock = $this->createMock(Clock::class);
 
         $signer = new SharedKeyRequestSigner($this->gatewayMock, $clock, "aaa-bbb-ccc-ddd");
         $token = $signer->verifyRequest(

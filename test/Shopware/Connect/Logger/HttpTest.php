@@ -58,7 +58,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     {
         $order = $this->getValidOrder();
         $logger = new Http(
-            $httpClient = $this->getMock('\\Shopware\\Connect\\HttpClient'),
+            $httpClient = $this->createMock(HttpClient::class),
             self::APIKEY
         );
 
@@ -91,7 +91,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     {
         $order = new Struct\Order();
         $logger = new Http(
-            $httpClient = $this->getMock('\\Shopware\\Connect\\HttpClient'),
+            $httpClient = $this->createMock(HttpClient::class),
             self::APIKEY
         );
 
@@ -105,7 +105,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     {
         $order = $this->getValidOrder();
         $logger = new Http(
-            $httpClient = $this->getMock('\\Shopware\\Connect\\HttpClient'),
+            $httpClient = $this->createMock(HttpClient::class),
             self::APIKEY
         );
 

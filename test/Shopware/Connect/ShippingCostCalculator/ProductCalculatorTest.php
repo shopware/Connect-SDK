@@ -2,6 +2,7 @@
 
 namespace Shopware\Connect\ShippingCostCalculator;
 
+use Shopware\Connect\ShippingCostCalculator;
 use Shopware\Connect\ShippingCosts\Rule;
 use Shopware\Connect\ShippingCosts\Rules;
 use Shopware\Connect\Struct;
@@ -17,7 +18,7 @@ class ProductCalculatorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->aggregate = \Phake::mock('Shopware\Connect\ShippingCostCalculator');
+        $this->aggregate = $this->createMock(ShippingCostCalculator::class);
         $this->calculator = new ProductCalculator(
             $this->aggregate,
             new ShippingRuleParser\Validator(
@@ -33,7 +34,7 @@ class ProductCalculatorTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        \Phake::when($this->aggregate)->calculateShippingCosts(\Phake::anyParameters())->thenReturn(
+        $this->aggregate->method('calculateShippingCosts')->with($this->anything())->willReturn(
             new \Shopware\Connect\Struct\Shipping(array(
                 'isShippable' => true,
                 'shippingCosts' => .0,
@@ -422,13 +423,13 @@ class ProductCalculatorTest extends \PHPUnit_Framework_TestCase
 
         $shippingCosts = $this->calculator->calculateShippingCosts(new Rules(), $order);
 
-        $this->assertInstanceOf('Shopware\Connect\Struct\Shipping', $shippingCosts);
-        $this->assertEquals($expected, $shippingCosts, "Calculated wrong shipping costs for test: $message", 0.01);
+        self::assertInstanceOf('Shopware\Connect\Struct\Shipping', $shippingCosts);
+        self::assertEquals($expected, $shippingCosts, "Calculated wrong shipping costs for test: $message", 0.01);
     }
 
     public function testDoNotCallAggregateWithEmptyOrder()
     {
-        $this->aggregate = \Phake::mock('Shopware\Connect\ShippingCostCalculator');
+        $this->aggregate = $this->createMock(ShippingCostCalculator::class);
         $this->calculator = new ProductCalculator(
             $this->aggregate,
             new ShippingRuleParser\Validator(
@@ -459,7 +460,7 @@ class ProductCalculatorTest extends \PHPUnit_Framework_TestCase
 
         $shippingCosts = $this->calculator->calculateShippingCosts(new Rules(), $order);
 
-        $this->assertInstanceOf('Shopware\Connect\Struct\Shipping', $shippingCosts);
-        \Phake::verifyNoInteraction($this->aggregate);
+        $this->aggregate->expects($this->never())->method('calculateShippingCosts');
+        self::assertInstanceOf(Shipping::class, $shippingCosts);
     }
 }

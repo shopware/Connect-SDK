@@ -50,7 +50,7 @@ abstract class SyncerTest extends \PHPUnit_Framework_TestCase
             'apikey',
             'http://example.com/endpoint',
             $gateway,
-            $this->getMock('\\Shopware\\Connect\\ProductToShop'),
+            $this->createMock(Connect\ProductToShop::class),
             $productFromShop,
             null,
             new NoSecurityRequestSigner()
@@ -94,7 +94,7 @@ abstract class SyncerTest extends \PHPUnit_Framework_TestCase
     protected function getProductFromShop(array $products, $data = 'foo')
     {
         $products = array_map('strval', $products);
-        $provider = $this->getMock('\\Shopware\\Connect\\ProductFromShop');
+        $provider = $this->createMock(Connect\ProductFromShop::class);
         $provider
             ->expects($this->any())
             ->method('getExportedProductIDs')

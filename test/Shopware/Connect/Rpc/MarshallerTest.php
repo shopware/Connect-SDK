@@ -247,7 +247,8 @@ class MarshallerTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->setExpectedException('RuntimeException', 'Cannot unmarshall non-Struct classes such as PDO');
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Cannot unmarshall non-Struct classes such as PDO');
 
         $unmarshaller->unmarshal(
             file_get_contents(
