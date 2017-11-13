@@ -1,3 +1,17 @@
+# v2.0.6
+
+Added some new fields to the Shopware\Connect\Struct\Product class which makes
+it available to be used in Shopware Connect's SocialNetwork and Updater instead of the deprecated class
+Bepado\Common\Struct\Product\ShopProduct. The new fields are:
+
+* (int)  $productId
+* (int)  $marketplaceId
+* (Date) $createdAt
+* (array)$suppliersStreams
+
+When checking if a product is a variant product you're encouraged to check, if $groupId is set
+instead of using the old $hasVariants field.
+
 # v2.0.5
 
 Added function in ProductToShop to update the OrderStatus of an order with Connect-Products. 
