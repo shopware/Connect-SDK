@@ -6,13 +6,28 @@ To request an account for testing the SDK in integration with Connect send an
 e-mail to `info@shopware.com`.
 
 ## Installation
-
-   $ git clone git@github.com:shopware/Connect-SDK.git
-   $ cd Connect-SDK
-   $ git submodule update --init
-
-Via ZIP, go to [Releases](https://github.com/shopware/Connect-SDK/releases)
+#####Via Git
+    $ git clone git@github.com:shopware/Connect-SDK.git
+    $ cd Connect-SDK   
+    $ git submodule update --init
+        
+#####Via ZIP
+go to [Releases](https://github.com/shopware/Connect-SDK/releases)
 and download the latest version.
+
+#####Via Composer
+Require the Repo in your composer.json, where "v2.0.5" should be the latest Release.
+
+      "require": {
+        "shopware/connect-sdk": "dev-master#v2.0.5"
+      },
+      "repositories": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/shopware/Connect-SDK"
+        }
+      ],
+Run `$ composer install` to install the dependencies.
 
 ## Documentation
 
