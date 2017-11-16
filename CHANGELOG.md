@@ -1,3 +1,11 @@
+# v2.0.7
+
+Added some new fields to the `Shopware\Connect\Struct\Product` to be able to sync 
+Cross-Selling products
+
+* `(array) $related`
+* `(array) $similar`
+
 # v2.0.6
 
 Added some new fields to the `Shopware\Connect\Struct\Product` class which makes
@@ -7,7 +15,7 @@ it available to be used in Shopware Connect's SocialNetwork and Updater instead 
 * `(int)  $productId`
 * `(int)  $marketplaceId`
 * `(Date) $createdAt`
-* `(array)$suppliersStreams`
+* `(array)$suppliersStreams`**
 
 When checking if a product is a variant product you're encouraged to check, if `$groupId` is set
 instead of using the old `$hasVariants` field.

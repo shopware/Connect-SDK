@@ -505,6 +505,18 @@ class Product extends ShopItem
      */
     public $supplierStreams = [];
 
+    /**
+     * contains the articleIDs of related products (accessory Products)
+     * @var array
+     */
+    public $related = [];
+
+    /**
+     * contains the articleIDs of similar products
+     * @var array
+     */
+    public $similar = [];
+
 
     /**
      * Restores a product from a previously stored state array.
