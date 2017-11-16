@@ -15,7 +15,7 @@ it available to be used in Shopware Connect's SocialNetwork and Updater instead 
 * `(int)  $productId`
 * `(int)  $marketplaceId`
 * `(Date) $createdAt`
-* `(array)$suppliersStreams`**
+* `(array)$suppliersStreams`
 
 When checking if a product is a variant product you're encouraged to check, if `$groupId` is set
 instead of using the old `$hasVariants` field.
