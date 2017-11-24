@@ -16,10 +16,10 @@ go to [Releases](https://github.com/shopware/Connect-SDK/releases)
 and download the latest version.
 
 #####Via Composer
-Require the Repo in your composer.json, where "v2.0.6" should be the latest Release.
+Require the Repo in your composer.json, where "v2.0.7" should be the latest Release.
 
       "require": {
-        "shopware/connect-sdk": "dev-master#v2.0.6"
+        "shopware/connect-sdk": "dev-master#v2.0.7"
       },
       "repositories": [
         {
