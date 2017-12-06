@@ -103,6 +103,27 @@ class Http extends ShopGateway
     }
 
     /**
+     * @return Shopware\Connect\Struct\RpcCall
+     */
+    public function pingShop()
+    {
+        $result = $this->makeRpcCall(
+            new RpcCall(
+                [
+                    'service' => 'ping',
+                    'command' => 'ping',
+                    'arguments' => [],
+                ]
+            )
+        );
+        if ($result instanceof Struct\Error) {
+            throw new \RuntimeException($result->message);
+        }
+
+        return $result;
+    }
+
+    /**
      * Reserve order in remote shop
      *
      * Products SHOULD be reserved and not be sold out while bing reserved.

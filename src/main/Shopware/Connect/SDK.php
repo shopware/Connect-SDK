@@ -488,6 +488,17 @@ final class SDK
     }
 
     /**
+     * @param $shopId
+     * @return mixed
+     */
+    public function pingShop($shopId)
+    {
+        $this->verifySdkIfNecessary();
+
+        return $this->dependencies->getShoppingService()->pingShop($shopId);
+    }
+
+    /**
      * @param Struct\PaymentStatus $paymentStatus
      */
     public function updatePaymentStatus(Struct\PaymentStatus $paymentStatus)

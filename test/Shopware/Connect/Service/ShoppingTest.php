@@ -10,8 +10,6 @@ use Shopware\Connect\ProductToShop;
 use Shopware\Connect\ShopFactory;
 use Shopware\Connect\ShopGateway;
 
-use Shopware\Connect\Struct\Change\ToShop\InsertOrUpdate;
-
 class ShoppingTest extends \PHPUnit_Framework_TestCase
 {
     public function testEmptyArrayMessageResponseDuringReserve()
@@ -174,5 +172,26 @@ class ShoppingTest extends \PHPUnit_Framework_TestCase
                 ),
             )
         );
+    }
+
+    public function test_pingShop_returns_pong()
+    {
+        $shopping = new Shopping(
+            $factory = $this->createMock(ShopFactory::class),
+            $this->createMock(ChangeVisitor::class),
+            $this->createMock(ProductToShop::class),
+            $this->createMock(Logger::class),
+            $this->createMock(ErrorHandler::class),
+            $this->createMock(ShopConfiguration::class)
+        );
+
+        $shopId = 23;
+        $ping = new Ping();
+        $gateway = $this->createMock(ShopGateway::class);
+        $factory->method('getShopGateway')->with($shopId)->willReturn($gateway);
+        $gateway->method('pingShop')->willReturn($ping->ping());
+
+        $response = $shopping->pingShop($shopId);
+        $this->assertEquals('pong', $response);
     }
 }
