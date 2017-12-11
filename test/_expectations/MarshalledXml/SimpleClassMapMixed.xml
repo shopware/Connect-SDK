@@ -129,6 +129,12 @@
       <supplierStreams>
         <array:array/>
       </supplierStreams>
+      <related>
+        <array:array/>
+      </related>
+      <similar>
+        <array:array/>
+      </similar>
       <shopId>
         <string:string>f47ac10b-58cc-4372-a567-0e02b2c3d479</string:string>
       </shopId>
@@ -276,6 +282,12 @@
         <supplierStreams>
           <array:array/>
         </supplierStreams>
+        <related>
+          <array:array/>
+        </related>
+        <similar>
+          <array:array/>
+        </similar>
         <shopId>
           <string:string>f47ac10b-58cc-4372-a567-0e02b2c3d479</string:string>
         </shopId>
