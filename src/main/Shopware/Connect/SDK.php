@@ -60,7 +60,7 @@ final class SDK
     /**
      * Version constant
      */
-    const VERSION = '2.0.7';
+    const VERSION = '2.0.8';
 
     /**
      * @param string $apiKey API key assigned to you by Shopware Connect
@@ -485,6 +485,17 @@ final class SDK
                 'url' => $shopConfiguration->url,
             )
         );
+    }
+
+    /**
+     * @param $shopId
+     * @return mixed
+     */
+    public function pingShop($shopId)
+    {
+        $this->verifySdkIfNecessary();
+
+        return $this->dependencies->getShoppingService()->pingShop($shopId);
     }
 
     /**

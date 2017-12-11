@@ -121,6 +121,17 @@ class Shopping
     }
 
     /**
+     * @param $shopId
+     * @return mixed
+     */
+    public function pingShop($shopId)
+    {
+        $shopGateway = $this->shopFactory->getShopGateway($shopId);
+
+        return $shopGateway->pingShop();
+    }
+
+    /**
      * @param Struct\Order[<string>] $orders
      * @return Struct\CheckResult
      */

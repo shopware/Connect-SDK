@@ -266,7 +266,7 @@ class DependencyResolver
 
             $this->registry->registerService(
                 'configuration',
-                array('lastRevision', 'replicate'),
+                ['lastRevision', 'replicate'],
                 new Service\Configuration(
                     $this->gateway
                 )
@@ -274,7 +274,7 @@ class DependencyResolver
 
             $this->registry->registerService(
                 'products',
-                array('fromShop', 'getChanges', 'peakFromShop', 'peakProducts', 'toShop', 'replicate', 'getLastRevision', 'lastRevision'),
+                ['fromShop', 'getChanges', 'peakFromShop', 'peakProducts', 'toShop', 'replicate', 'getLastRevision', 'lastRevision'],
                 new Service\ProductService(
                     $this->gateway,
                     $this->gateway,
@@ -287,7 +287,7 @@ class DependencyResolver
 
             $this->registry->registerService(
                 'transaction',
-                array('checkProducts', 'reserveProducts', 'buy', 'confirm'),
+                ['checkProducts', 'reserveProducts', 'buy', 'confirm'],
                 new Service\Transaction(
                     $this->fromShop,
                     $this->gateway,
@@ -301,14 +301,20 @@ class DependencyResolver
 
             $this->registry->registerService(
                 'productPayments',
-                array('lastRevision', 'getChanges'),
+                ['lastRevision', 'getChanges'],
                 $this->getPaymentStatusService()
             );
 
             $this->registry->registerService(
                 'product_payments_from_shop',
-                array('lastRevision', 'replicate'),
+                ['lastRevision', 'replicate'],
                 $this->getPaymentStatusService()
+            );
+
+            $this->registry->registerService(
+                'ping',
+                ['ping'],
+                new Service\Ping()
             );
         }
 

@@ -68,4 +68,11 @@ abstract class ShopGateway
      * @return mixed
      */
     abstract public function confirm($reservationId, $remoteLogTransactionId);
+
+    /**
+     * Check if a remote shop is available.
+     *
+     * @return mixed
+     */
+    abstract public function pingShop();
 }

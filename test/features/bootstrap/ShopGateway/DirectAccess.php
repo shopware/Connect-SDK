@@ -70,6 +70,22 @@ class DirectAccess extends ShopGateway
     }
 
     /**
+     * @return mixed
+     */
+    public function pingShop()
+    {
+        return $this->makeRpcCall(
+            new RpcCall(
+                [
+                    'service' => 'ping',
+                    'command' => 'ping',
+                    'arguments' => [],
+                ]
+            )
+        );
+    }
+
+    /**
      * Reserve order in shop
      *
      * Products SHOULD be reserved and not be sold out while bing reserved.

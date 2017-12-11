@@ -69,6 +69,7 @@ class Authorization extends Rpc\ServiceRegistry
      *
      * @param Struct\RpcCall $rpcCall
      * @return mixed
+     * @throws \Exception
      */
     public function dispatch(Struct\RpcCall $rpcCall)
     {
@@ -99,6 +100,14 @@ class Authorization extends Rpc\ServiceRegistry
                             "No authorization to call 'transaction.checkProducts' for a different order shop."
                         );
                     }
+                }
+                break;
+
+            case 'ping':
+                if ($rpcCall->command !== 'ping') {
+                    throw new SecurityException(
+                        "No Authorization to call service 'ping'."
+                    );
                 }
                 break;
 
