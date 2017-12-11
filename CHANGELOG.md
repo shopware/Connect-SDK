@@ -1,3 +1,17 @@
+# v2.0.8
+
+Introduce new service "pingShop" in order to verify if a remote shop is available. 
+- Returns string ```pong``` on success
+- Throws ```\RuntimeException``` on failure
+
+```
+try {
+    sdk->pingShop($remoteShopId);
+} catch (\RuntimeException $exception) {
+    // Handle exception
+}
+```
+
 # v2.0.7
 
 Added some new fields to the `Shopware\Connect\Struct\Product` to be able to sync 
