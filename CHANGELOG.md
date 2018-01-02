@@ -1,3 +1,8 @@
+# v2.0.10
+Added new property ```messages``` in Shopware\Connect\Struct\Shipping
+It contains array of Shopware\Connect\Struct\Message objects returned by
+supplier shop when remote shipping costs calculation is used
+
 # v2.0.8
 
 Introduce new service "pingShop" in order to verify if a remote shop is available. 
