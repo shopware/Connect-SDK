@@ -69,4 +69,18 @@ class SDKTest extends \PHPUnit_Framework_TestCase
             $responseBody
         );
     }
+
+    public function testIsPriceTypeValid()
+    {
+        //valid PriceTypes
+        $this->assertEquals(true, $this->sdk->isPriceTypeValid(SDK::PRICE_TYPE_PURCHASE));
+        $this->assertEquals(true, $this->sdk->isPriceTypeValid(SDK::PRICE_TYPE_RETAIL));
+        $this->assertEquals(true, $this->sdk->isPriceTypeValid(SDK::PRICE_TYPE_BOTH));
+
+        //invalid
+        $this->assertEquals(false, $this->sdk->isPriceTypeValid(SDK::PRICE_TYPE_NONE));
+        $this->assertEquals(false, $this->sdk->isPriceTypeValid(42));
+        $this->assertEquals(false, $this->sdk->isPriceTypeValid(-2));
+
+    }
 }

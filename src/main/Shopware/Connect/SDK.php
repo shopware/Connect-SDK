@@ -60,7 +60,7 @@ final class SDK
     /**
      * Version constant
      */
-    const VERSION = '2.0.8';
+    const VERSION = '2.0.9';
 
     /**
      * @param string $apiKey API key assigned to you by Shopware Connect
@@ -98,6 +98,22 @@ final class SDK
             $requestSigner,
             $pluginSoftwareVersion
         );
+    }
+
+    /**
+     * Checks if the given PriceType is valid
+     * @param int $priceType
+     * @return bool
+     */
+    public static function isPriceTypeValid($priceType)
+    {
+        $validPriceTypes = [
+            SDK::PRICE_TYPE_PURCHASE,
+            SDK::PRICE_TYPE_RETAIL,
+            SDK::PRICE_TYPE_BOTH,
+        ];
+
+        return in_array($priceType, $validPriceTypes);
     }
 
     /**
