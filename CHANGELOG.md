@@ -3,6 +3,11 @@ Added new property ```messages``` in Shopware\Connect\Struct\Shipping
 It contains array of Shopware\Connect\Struct\Message objects returned by
 supplier shop when remote shipping costs calculation is used
 
+# v2.0.9
+
+Introduced new function in `Shopware\Connect\SDK` that checks if the given priceType Type is valid.
+`$sdk->isPriceTypeValid(SDK::PRICE_TYPE_BOTH)`
+
 # v2.0.8
 
 Introduce new service "pingShop" in order to verify if a remote shop is available. 

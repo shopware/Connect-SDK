@@ -319,7 +319,6 @@ class Shopping
 
             if (!$shopShippingCosts->isShippable) {
                 $shopId = $shopShippingCosts->shopId;
-
                 if (!isset($orders[$shopId]) || !$orders[$shopId] instanceof Struct\Order) {
                     throw new \InvalidArgumentException(
                         'First argument $orders should be array of Shopware\Connect\Struct\Order objects.'

@@ -101,6 +101,22 @@ final class SDK
     }
 
     /**
+     * Checks if the given PriceType is valid
+     * @param int $priceType
+     * @return bool
+     */
+    public static function isPriceTypeValid($priceType)
+    {
+        $validPriceTypes = [
+            SDK::PRICE_TYPE_PURCHASE,
+            SDK::PRICE_TYPE_RETAIL,
+            SDK::PRICE_TYPE_BOTH,
+        ];
+
+        return in_array($priceType, $validPriceTypes);
+    }
+
+    /**
      * Check if the SDK was verified before successfully.
      *
      * @return bool
