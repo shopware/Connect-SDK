@@ -107,11 +107,11 @@ final class SDK
      */
     public static function isPriceTypeValid($priceType)
     {
-        $validPriceTypes = array(
+        $validPriceTypes = [
             SDK::PRICE_TYPE_PURCHASE,
             SDK::PRICE_TYPE_RETAIL,
             SDK::PRICE_TYPE_BOTH,
-        );
+        ];
 
         return in_array($priceType, $validPriceTypes);
     }
