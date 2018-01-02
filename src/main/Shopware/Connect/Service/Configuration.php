@@ -51,6 +51,9 @@ class Configuration
         }
     }
 
+    /**
+     * @param int $priceType
+     */
     private function updatePriceType($priceType)
     {
         if (!$priceType) {

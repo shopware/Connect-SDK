@@ -1,3 +1,8 @@
+# v2.0.9
+
+Introduced new function in `Shopware\Connect\SDK` that checks if the given priceType Type is valid.
+`$sdk->isPriceTypeValid(SDK::PRICE_TYPE_BOTH)`
+
 # v2.0.8
 
 Introduce new service "pingShop" in order to verify if a remote shop is available. 
