@@ -79,8 +79,8 @@ class SDKTest extends \PHPUnit_Framework_TestCase
 
         //invalid
         $this->assertEquals(false, $this->sdk->isPriceTypeValid(SDK::PRICE_TYPE_NONE));
-        $this->assertEquals(false, 42);
-        $this->assertEquals(false, -2);
+        $this->assertEquals(false, $this->sdk->isPriceTypeValid(42));
+        $this->assertEquals(false, $this->sdk->isPriceTypeValid(-2));
 
     }
 }
