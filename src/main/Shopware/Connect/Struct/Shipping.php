@@ -53,4 +53,9 @@ class Shipping extends Struct
      * @var string
      */
     public $service;
+
+    /**
+     * @var Message[]
+     */
+    public $messages = [];
 }
