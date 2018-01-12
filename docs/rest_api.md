@@ -75,20 +75,6 @@ Example:
         "tracking": {"id": "ABCDEFG1234567890"}
     }
 
-## Register Import CSV Url
-
-For accounts that use the CSV shop you can register a feed url to download
-products from instead of using the FTP.
-
-The following call has to be made to register the URL:
-
-    POST https://sn.connect.shopware.com/sdk/provider/import-url
-    X-Shopware-Connect-ShopId: <ShopId>
-    X-Shopware-Connect-Key: <hmac-key>
-
-    {
-        "url": "<import csv url>"
-    }
 
 ## Register Event Hooks
 
@@ -281,35 +267,3 @@ The interesting payment states are:
     </order>
 </order>
 ```
-
-## Request import report list
-
-You can request list off all import reports for certain shop.
-
-Example:
-
-    GET https://sn.connect.shopware.com/api/provider/reports
-    X-Shopware-Connect-ShopId: <ShopId>
-    X-Shopware-Connect-Key: <hmac-key>
-
-    [{"id":"2","date":"1421336826","modified":"1421336787","md5":"624d37d0097d265e71e4ca34ecf7a246","size":"459","encoding":"UTF-8","lines":"1","warnings":"0","errors":"3","issue_lines":"2"},{"id":"1","date":"1420794200","modified":"1420793322","md5":"66fae22027976d2e99c67b5f34475611","size":"5982","encoding":"UTF-8","lines":"17","warnings":"0","errors":"0","issue_lines":"0"}]
-
-## Request single import report
-
-You can request single import report by id.
-
-Example:
-
-    GET http://sn.connect.shopware.com/api/provider/report/1
-    X-Shopware-Connect-ShopId: <ShopId>
-    X-Shopware-Connect-Key: <hmac-key>
-
-    {"issues":[],"id":null,"date":"1420794200","modified":"1420793322","md5":"66fae22027976d2e99c67b5f34475611","size":"5982","encoding":"UTF-8","lines":"17","warnings":"0","errors":"0","issue_lines":"0"}
-
-Example:
-
-    GET http://sn.connect.shopware.com/api/provider/report/2
-    X-Shopware-Connect-ShopId: <ShopId>
-    X-Shopware-Connect-Key: <hmac-key>
-
-    {"issues":[{"severity":"error","message":"Field \"%field%\" must not be empty.","parameters":{"%field%":"title"},"line":"2, 3, 4","field":"title","productId":null,"productTitle":null},{"severity":"error","message":"Field \u0022%field%\u0022 must not be empty.","parameters":{"%field%":"id"},"line":"2, 3","field":"id","productId":null,"productTitle":"Taschenmesser Golinhac Koffer mit 10 Messern in 5 Farben"},{"severity":"warning","message":"Field \"%field%\" must not be empty (recommended).","parameters":{"%field%":"gtin"},"line":"2, 3, 4","field":"gtin","productId":null,"productTitle":null}],"id":"2","date":"1421336826","modified":"1421336787","md5":"624d37d0097d265e71e4ca34ecf7a246","size":"459","encoding":"UTF-8","lines":"5","warnings":"3","errors":"5","issue_lines":"3"}
