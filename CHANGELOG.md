@@ -1,3 +1,7 @@
+# v2.0.11
+Added new property ```merchantShippingCostType``` in Shopware\Connect\Struct\ShopConfiguration.
+It contains string value which will show to merchant which type of shipping cost is selected for this contact. ```shippingCostType``` contains string value with selected shipping costs in case when shop where ShopConfiguration is replicated to is supplier.
+
 # v2.0.10
 Added new property ```messages``` in Shopware\Connect\Struct\Shipping
 It contains array of Shopware\Connect\Struct\Message objects returned by

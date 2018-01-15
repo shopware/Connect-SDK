@@ -60,7 +60,7 @@ final class SDK
     /**
      * Version constant
      */
-    const VERSION = '2.0.10';
+    const VERSION = '2.0.11';
 
     /**
      * @param string $apiKey API key assigned to you by Shopware Connect
