@@ -53,11 +53,11 @@ class ShopConfiguration extends Struct
     /**
      * Defines how the shipping costs are calculated when an account
      * makes orders with products from current supplier.
-     * This field shows to merchant how shipping costs will be calculated.
+     * This field shows to merchant how shipping costs will be calculated for imported products in his shop.
      *
      * @var string
      */
-    public $merchantShippingCostType = 'remote';
+    public $importedProductsShippingCostType = 'remote';
 
     /**
      * @var string
