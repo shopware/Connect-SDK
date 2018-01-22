@@ -7,7 +7,6 @@
 
 namespace Shopware\Connect\Struct\Verificator;
 
-
 use Shopware\Connect\Struct\Verificator;
 use Shopware\Connect\Struct\VerificatorDispatcher;
 use Shopware\Connect\Struct;
@@ -68,7 +67,7 @@ class Product extends Verificator
                 break;
 
             default:
-                $this->fail("Exporting products is not allowed without a price type selected.");
+                $this->fail('Exporting products is not allowed without a price type selected.');
                 break;
         }
         $this->verifyFixedPrice($struct);
@@ -91,7 +90,7 @@ class Product extends Verificator
     protected function verifyPurchasePrice(Struct $struct)
     {
         if (empty($struct->purchasePrice) || $struct->purchasePrice <= 0) {
-            $this->fail("The purchasePrice is not allowed to be 0 or smaller.");
+            $this->fail('The purchasePrice is not allowed to be 0 or smaller.');
         }
     }
 
@@ -101,7 +100,7 @@ class Product extends Verificator
     protected function verifyRetailPrice(Struct $struct)
     {
         if (empty($struct->price) || $struct->price <= 0) {
-            $this->fail("The price is not allowed to be 0 or smaller.");
+            $this->fail('The price is not allowed to be 0 or smaller.');
         }
     }
 
@@ -111,7 +110,7 @@ class Product extends Verificator
     protected function verifyFixedPrice(Struct $struct)
     {
         if ($struct->fixedPrice === true && $this->priceType == SDK::PRICE_TYPE_PURCHASE) {
-            $this->fail("Fixed price is not allowed when export purchasePrice only");
+            $this->fail('Fixed price is not allowed when export purchasePrice only');
         }
     }
 
@@ -126,21 +125,20 @@ class Product extends Verificator
 
         /** @var Struct\PriceRange $priceRange */
         foreach ($struct->priceRanges as $priceRange) {
-
             if (!is_int($priceRange->from) || $priceRange->from <= 0) {
                 $this->fail("The price range 'from' must be int and is not allowed to be 0 or smaller.");
             }
 
-            if (is_string($priceRange->to) && $priceRange->to !== Struct\PriceRange::ANY){
+            if (is_string($priceRange->to) && $priceRange->to !== Struct\PriceRange::ANY) {
                 $this->fail("The price range 'to' must be int bigger from 0 or string with value 'any'.");
-            } elseif(is_int($priceRange->to) && $priceRange->to <= 0) {
+            } elseif (is_int($priceRange->to) && $priceRange->to <= 0) {
                 $this->fail("The price range 'to' is not allowed to be 0 or smaller.");
-            } elseif(!is_string($priceRange->to) && !is_int($priceRange->to)){
+            } elseif (!is_string($priceRange->to) && !is_int($priceRange->to)) {
                 $this->fail("The price range 'to' must be int or string.");
             }
 
             if (empty($priceRange->price) || $priceRange->price <= 0) {
-                $this->fail("The price is not allowed to be 0 or smaller.");
+                $this->fail('The price is not allowed to be 0 or smaller.');
             }
         }
     }
@@ -152,32 +150,32 @@ class Product extends Verificator
      *
      * @param \Shopware\Connect\Struct\VerificatorDispatcher $dispatcher
      * @param \Shopware\Connect\Struct $struct
-     * @return void
      * @throws \RuntimeException
+     * @return void
      */
     protected function verifyDefault(VerificatorDispatcher $dispatcher, Struct $struct)
     {
         /* @var $struct \Shopware\Connect\Struct\Product */
 
-        foreach (array(
+        foreach ([
                 'shopId',
                 'sourceId',
                 'currency',
                 'availability',
                 'vat',
                 'relevance',
-            ) as $property) {
+            ] as $property) {
             if ($struct->$property === null) {
                 throw new \Shopware\Connect\Exception\VerificationFailedException("Property $property MUST be set in product.");
             }
         }
 
-        foreach (array(
+        foreach ([
             'title',
             'sku',
             'shortDescription',
             'longDescription',
-            ) as $property) {
+            ] as $property) {
             if (@iconv('UTF-8', 'UTF-8', $struct->$property) != $struct->$property) {
                 throw new \Shopware\Connect\Exception\VerificationFailedException("Property $property MUST be UTF-8 encoded.");
             }
@@ -185,20 +183,20 @@ class Product extends Verificator
 
         if (!is_array($struct->vendor)) {
             if (@iconv('UTF-8', 'UTF-8', $struct->vendor) != $struct->vendor) {
-                throw new \Shopware\Connect\Exception\VerificationFailedException("Property vendor MUST be UTF-8 encoded.");
+                throw new \Shopware\Connect\Exception\VerificationFailedException('Property vendor MUST be UTF-8 encoded.');
             }
             if (trim($struct->vendor) === '') {
-                throw new \Shopware\Connect\Exception\VerificationFailedException("Property vendor MUST be non-empty.");
+                throw new \Shopware\Connect\Exception\VerificationFailedException('Property vendor MUST be non-empty.');
             }
         } else {
             if (empty($struct->vendor)) {
-                throw new \Shopware\Connect\Exception\VerificationFailedException("Property vendor MUST be non-empty.");
+                throw new \Shopware\Connect\Exception\VerificationFailedException('Property vendor MUST be non-empty.');
             }
             if (!array_key_exists('name', $struct->vendor)) {
-                throw new \Shopware\Connect\Exception\VerificationFailedException("Property vendor MUST have a name.");
+                throw new \Shopware\Connect\Exception\VerificationFailedException('Property vendor MUST have a name.');
             }
 
-            $validKeys = array('name', 'url', 'logo_url', 'page_title', 'description');
+            $validKeys = ['name', 'url', 'logo_url', 'page_title', 'description'];
 
             foreach (array_keys($struct->vendor) as $key) {
                 if (!in_array($key, $validKeys)) {
@@ -207,14 +205,14 @@ class Product extends Verificator
             }
 
             if (@iconv('UTF-8', 'UTF-8', $struct->vendor['name']) != $struct->vendor['name']) {
-                throw new \Shopware\Connect\Exception\VerificationFailedException("Property vendor MUST be UTF-8 encoded.");
+                throw new \Shopware\Connect\Exception\VerificationFailedException('Property vendor MUST be UTF-8 encoded.');
             }
             if (trim($struct->vendor['name']) === '') {
-                throw new \Shopware\Connect\Exception\VerificationFailedException("The name of Property vendor MUST be non-empty.");
+                throw new \Shopware\Connect\Exception\VerificationFailedException('The name of Property vendor MUST be non-empty.');
             }
         }
 
-        foreach (array('title') as $property) {
+        foreach (['title'] as $property) {
             if (trim($struct->$property) === '') {
                 throw new \Shopware\Connect\Exception\VerificationFailedException("Property $property MUST be non-empty.");
             }
@@ -225,55 +223,55 @@ class Product extends Verificator
         }
 
         if (!is_numeric($struct->vat) || $struct->vat < 0 || $struct->vat > 1) {
-            throw new \Shopware\Connect\Exception\VerificationFailedException("Value added tax must be a number between 0 and 1.");
+            throw new \Shopware\Connect\Exception\VerificationFailedException('Value added tax must be a number between 0 and 1.');
         }
 
         if (!is_array($struct->categories)) {
-            throw new \Shopware\Connect\Exception\VerificationFailedException("Invalid Datatype, Product#categories has to be an array.");
+            throw new \Shopware\Connect\Exception\VerificationFailedException('Invalid Datatype, Product#categories has to be an array.');
         }
         $this->verifyCategories($struct->categories);
 
         $this->verifyProperties($struct->properties);
 
         if (!is_array($struct->tags)) {
-            throw new \Shopware\Connect\Exception\VerificationFailedException("Invalid Datatype, Product#tags has to be an array.");
+            throw new \Shopware\Connect\Exception\VerificationFailedException('Invalid Datatype, Product#tags has to be an array.');
         }
 
         if ($struct->relevance < -1 || $struct->relevance > 1) {
-            throw new \Shopware\Connect\Exception\VerificationFailedException("Invalid Value, Product#relevance has to be -1,0,1");
+            throw new \Shopware\Connect\Exception\VerificationFailedException('Invalid Value, Product#relevance has to be -1,0,1');
         }
 
         if ($struct->deliveryWorkDays !== null && !is_numeric($struct->deliveryWorkDays)) {
-            throw new \Shopware\Connect\Exception\VerificationFailedException("Delivery Workdays needs to be either null or a number of days.");
+            throw new \Shopware\Connect\Exception\VerificationFailedException('Delivery Workdays needs to be either null or a number of days.');
         }
 
         if (!is_array($struct->attributes)) {
-            throw new \Shopware\Connect\Exception\VerificationFailedException("Product#attributes has to be an array.");
+            throw new \Shopware\Connect\Exception\VerificationFailedException('Product#attributes has to be an array.');
         }
 
         if (!is_array($struct->images)) {
-            throw new \Shopware\Connect\Exception\VerificationFailedException("Product#images must be an array.");
+            throw new \Shopware\Connect\Exception\VerificationFailedException('Product#images must be an array.');
         }
 
         if (is_array($struct->images) && array_values($struct->images) !== $struct->images) {
-            throw new \Shopware\Connect\Exception\VerificationFailedException("Product#images must be numerically indexed starting with 0.");
+            throw new \Shopware\Connect\Exception\VerificationFailedException('Product#images must be numerically indexed starting with 0.');
         }
 
         if (!is_array($struct->variantImages)) {
-            throw new \Shopware\Connect\Exception\VerificationFailedException("Product#variantImages must be an array.");
+            throw new \Shopware\Connect\Exception\VerificationFailedException('Product#variantImages must be an array.');
         }
 
         if (is_array($struct->variantImages) && array_values($struct->variantImages) !== $struct->variantImages) {
-            throw new \Shopware\Connect\Exception\VerificationFailedException("Product#variantImages must be numerically indexed starting with 0.");
+            throw new \Shopware\Connect\Exception\VerificationFailedException('Product#variantImages must be numerically indexed starting with 0.');
         }
 
         if (!is_array($struct->translations)) {
-            throw new \Shopware\Connect\Exception\VerificationFailedException("Product#translations must be an array.");
+            throw new \Shopware\Connect\Exception\VerificationFailedException('Product#translations must be an array.');
         }
         foreach ($struct->translations as $language => $translation) {
             if (!is_string($language)) {
                 throw new \Shopware\Connect\Exception\VerificationFailedException(
-                    "The keys of Product#translations must be strings."
+                    'The keys of Product#translations must be strings.'
                 );
             }
             if (!Languages::isValidLanguageCode($language)) {
@@ -283,7 +281,7 @@ class Product extends Verificator
             }
             if (!($translation instanceof Struct\Translation)) {
                 throw new \Shopware\Connect\Exception\VerificationFailedException(
-                    "Product#translations must contain only instances of \\Shopware\\Connect\\Struct\\Translation."
+                    'Product#translations must contain only instances of \\Shopware\\Connect\\Struct\\Translation.'
                 );
             }
 
@@ -291,11 +289,11 @@ class Product extends Verificator
         }
 
         if (array_key_exists(Struct\Product::ATTRIBUTE_DIMENSION, $struct->attributes)) {
-            $dimensions = explode("x", $struct->attributes[Struct\Product::ATTRIBUTE_DIMENSION]);
+            $dimensions = explode('x', $struct->attributes[Struct\Product::ATTRIBUTE_DIMENSION]);
 
             if (count(array_filter($dimensions, 'is_numeric')) !== 3) {
                 throw new \Shopware\Connect\Exception\VerificationFailedException(
-                    "Product Dimensions Attribute has to be in format " .
+                    'Product Dimensions Attribute has to be in format ' .
                     "'Length x Width x Height' without spaces, i.e. 20x40x60"
                 );
             }
@@ -303,7 +301,7 @@ class Product extends Verificator
 
         if (array_key_exists(Struct\Product::ATTRIBUTE_WEIGHT, $struct->attributes)) {
             if (!is_numeric($struct->attributes[Struct\Product::ATTRIBUTE_WEIGHT])) {
-                throw new \Shopware\Connect\Exception\VerificationFailedException("Product Weight Attribute has to be a number.");
+                throw new \Shopware\Connect\Exception\VerificationFailedException('Product Weight Attribute has to be a number.');
             }
         }
 
@@ -318,17 +316,16 @@ class Product extends Verificator
         }
 
         if ((strlen($struct->shortDescription) + strlen($struct->longDescription) + strlen($struct->additionalDescription)) > self::DESCRIPTION_SIZE_LIMIT) {
-            throw new \Shopware\Connect\Exception\VerificationFailedException("Product short, long and additional description must be under 5 000 000 characters.");
+            throw new \Shopware\Connect\Exception\VerificationFailedException('Product short, long and additional description must be under 5 000 000 characters.');
         }
 
         if ($struct->minPurchaseQuantity < 1) {
-            throw new \Shopware\Connect\Exception\VerificationFailedException("Product#minPurchaseQuantity must be positive, greater than 0.");
+            throw new \Shopware\Connect\Exception\VerificationFailedException('Product#minPurchaseQuantity must be positive, greater than 0.');
         }
 
-        if(!$this->isConfiguratorSetTypeAllowed($struct)) {
+        if (!$this->isConfiguratorSetTypeAllowed($struct)) {
             throw new \Shopware\Connect\Exception\VerificationFailedException('ConfiguratorSetType has to be in range 0..2');
         }
-
     }
 
     /**
@@ -338,32 +335,32 @@ class Product extends Verificator
     {
         if (!Units::exists($struct->attributes[Struct\Product::ATTRIBUTE_UNIT])) {
             throw new \Shopware\Connect\Exception\VerificationFailedException(sprintf(
-                "Unit has to be one value from the available Shopware Connect units, %s given",
+                'Unit has to be one value from the available Shopware Connect units, %s given',
                 $struct->attributes[Struct\Product::ATTRIBUTE_UNIT]
             ));
         }
 
         if (!array_key_exists(Struct\Product::ATTRIBUTE_QUANTITY, $struct->attributes)) {
             throw new \Shopware\Connect\Exception\VerificationFailedException(
-                "When unit is given for product, specifying the quantity is required."
+                'When unit is given for product, specifying the quantity is required.'
             );
         }
 
         if (!is_numeric($struct->attributes[Struct\Product::ATTRIBUTE_QUANTITY])) {
             throw new \Shopware\Connect\Exception\VerificationFailedException(
-                "Product Quantity Attribute has to be a number."
+                'Product Quantity Attribute has to be a number.'
             );
         }
 
         if (!array_key_exists(Struct\Product::ATTRIBUTE_REFERENCE_QUANTITY, $struct->attributes)) {
             throw new \Shopware\Connect\Exception\VerificationFailedException(
-                "When unit is given for product, specifying the reference quantity is required."
+                'When unit is given for product, specifying the reference quantity is required.'
             );
         }
 
         if (!is_numeric($struct->attributes[Struct\Product::ATTRIBUTE_REFERENCE_QUANTITY])) {
             throw new \Shopware\Connect\Exception\VerificationFailedException(
-                "Product Quantity Attribute has to be a numeric."
+                'Product Quantity Attribute has to be a numeric.'
             );
         }
     }
@@ -373,7 +370,7 @@ class Product extends Verificator
      */
     private function verifyCategories(array $categories)
     {
-        $parentCategoryMap = array();
+        $parentCategoryMap = [];
         foreach ($categories as $category => $label) {
             $categoryParts = array_filter(explode('/', $category));
 
@@ -391,7 +388,7 @@ class Product extends Verificator
         foreach ($parentCategoryMap as $category => $parentCategory) {
             if (!isset($categories[$category])) {
                 throw new \Shopware\Connect\Exception\VerificationFailedException(
-                    'Product#categories must contain all parent categories. Parent category of '.$category.' missing.'
+                    'Product#categories must contain all parent categories. Parent category of ' . $category . ' missing.'
                 );
             }
         }
@@ -404,7 +401,7 @@ class Product extends Verificator
     {
         /** @var Struct\Property $property */
         foreach ($properties as $property) {
-            foreach (array('groupName', 'option', 'value') as $key) {
+            foreach (['groupName', 'option', 'value'] as $key) {
                 if (trim($property->$key) === '' || !$property->$key) {
                     throw new \Shopware\Connect\Exception\VerificationFailedException("Property $key MUST be non-empty.");
                 }
@@ -414,23 +411,23 @@ class Product extends Verificator
                 }
             }
 
-            foreach (array('groupPosition', 'valuePosition', 'sortMode') as $key) {
+            foreach (['groupPosition', 'valuePosition', 'sortMode'] as $key) {
                 if (!is_int($property->$key)) {
                     throw new \Shopware\Connect\Exception\VerificationFailedException("Property $key MUST be int.");
                 }
             }
 
             if (!is_bool($property->comparable)) {
-                throw new \Shopware\Connect\Exception\VerificationFailedException("Property comparable MUST be boolean.");
+                throw new \Shopware\Connect\Exception\VerificationFailedException('Property comparable MUST be boolean.');
             }
 
             if (!is_bool($property->filterable)) {
-                throw new \Shopware\Connect\Exception\VerificationFailedException("Property filterable MUST be boolean.");
+                throw new \Shopware\Connect\Exception\VerificationFailedException('Property filterable MUST be boolean.');
             }
 
-            $availableSortModes = array(0,1,3);
+            $availableSortModes = [0,1,3];
             if (!in_array($property->sortMode, $availableSortModes)) {
-                throw new \Shopware\Connect\Exception\VerificationFailedException("Property sortMode MUST be 0, 1, or 3");
+                throw new \Shopware\Connect\Exception\VerificationFailedException('Property sortMode MUST be 0, 1, or 3');
             }
         }
     }
@@ -448,6 +445,7 @@ class Product extends Verificator
     private function isVariantConfiguratorSetValid(Struct $struct)
     {
         $availableSetTypes = [0, 1, 2];
+
         return in_array($struct->configuratorSetType, $availableSetTypes, true) && $struct->variant;
     }
 }

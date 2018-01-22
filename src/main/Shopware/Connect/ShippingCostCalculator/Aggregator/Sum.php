@@ -37,7 +37,7 @@ class Sum extends Aggregator
                     $next->deliveryWorkDays
                 );
 
-                $shipping->service = implode(', ', array_filter(array_unique(array_merge(explode(', ', $shipping->service), array($next->service)))));
+                $shipping->service = implode(', ', array_filter(array_unique(array_merge(explode(', ', $shipping->service), [$next->service]))));
 
                 return $shipping;
             },

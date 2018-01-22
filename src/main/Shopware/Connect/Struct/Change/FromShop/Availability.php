@@ -23,4 +23,4 @@ class Availability extends Change
      * @var int
      */
     public $availability;
-} 
+}

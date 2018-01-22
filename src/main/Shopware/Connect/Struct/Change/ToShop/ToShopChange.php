@@ -6,5 +6,4 @@ use Shopware\Connect\Struct\Change;
 
 class ToShopChange extends Change
 {
-
 }

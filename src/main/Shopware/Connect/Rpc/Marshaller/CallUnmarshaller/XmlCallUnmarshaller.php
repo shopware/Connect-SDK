@@ -42,6 +42,7 @@ class XmlCallUnmarshaller extends CallUnmarshaller
     public function unmarshal($data)
     {
         $this->document = $this->loadXml($data);
+
         return $this->unmarshalRpcCall(
             $this->document->documentElement
         );
@@ -53,14 +54,14 @@ class XmlCallUnmarshaller extends CallUnmarshaller
 
         foreach ($element->childNodes as $child) {
             /** @var \DOMElement $child */
-            switch($child->localName) {
-                case "service":
+            switch ($child->localName) {
+                case 'service':
                     $rpcCall->service = $child->textContent;
                     break;
-                case "command":
+                case 'command':
                     $rpcCall->command = $child->textContent;
                     break;
-                case "arguments":
+                case 'arguments':
                     foreach ($child->childNodes as $argument) {
                         /** @var \DOMElement $argument */
                         $rpcCall->arguments[] = $this->valueUnmarshaller->unmarshal($argument);
@@ -76,14 +77,14 @@ class XmlCallUnmarshaller extends CallUnmarshaller
 
     /**
      * @param string $data
-     * @return \DOMDocument
      * @throws \UnexpectedValueException
+     * @return \DOMDocument
      */
     private function loadXml($data)
     {
         if (!is_string($data) ||
             !$data) {
-            throw new \UnexpectedValueException("XML string is required for unmarshalling.");
+            throw new \UnexpectedValueException('XML string is required for unmarshalling.');
         }
 
         $oldErrorState = libxml_use_internal_errors(true);

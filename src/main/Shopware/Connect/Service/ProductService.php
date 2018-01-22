@@ -11,7 +11,6 @@ use Shopware\Connect\Gateway;
 use Shopware\Connect\ProductToShop;
 use Shopware\Connect\ProductFromShop;
 use Shopware\Connect\Struct\Change;
-use Shopware\Connect\Struct;
 use Shopware\Connect\Gateway\ChangeGateway;
 use Shopware\Connect\Gateway\RevisionGateway;
 use Shopware\Connect\Gateway\ShopConfiguration;
@@ -133,7 +132,7 @@ class ProductService
     public function peakProducts(array $ids)
     {
         if (count($ids) > 50) {
-            throw new \InvalidArgumentException("Too many products requested.");
+            throw new \InvalidArgumentException('Too many products requested.');
         }
 
         return $this->fromShop->getProducts($ids);
@@ -176,7 +175,7 @@ class ProductService
                     break;
 
                 case ($change instanceof Change\ToShop\Availability):
-                    $this->toShop->changeAvailability($change->shopId, $change->sourceId, (int)$change->availability);
+                    $this->toShop->changeAvailability($change->shopId, $change->sourceId, (int) $change->availability);
                     break;
 
                 case ($change instanceof Change\ToShop\Update):
@@ -203,6 +202,7 @@ class ProductService
         $this->revision->storeLastRevision($change->revision);
 
         $this->toShop->commit();
+
         return $change->revision;
     }
 

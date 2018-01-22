@@ -3,16 +3,11 @@
 namespace Bepado\DevTools;
 
 use Bepado\SDK\Struct;
-use Bepado\SDK\SDKBuilder;
-use Bepado\SDK\Gateway\InMemory;
-use Bepado\SDK\ShippingCosts;
-use Bepado\SDK\ProductFromShop;
-use Bepado\SDK\ProductToShop;
 use Bepado\SDK\Rpc;
 
 function peakProducts($shopUrl, $apiKey, array $ids)
 {
-    return call($shopUrl, $apiKey, 'products', 'peakProducts', array($ids));
+    return call($shopUrl, $apiKey, 'products', 'peakProducts', [$ids]);
 }
 
 function call($shopUrl, $apiKey, $service, $method, $args)
@@ -23,11 +18,11 @@ function call($shopUrl, $apiKey, $service, $method, $args)
     );
     $xml = $marshaller->marshal(
         new Struct\RpcCall(
-            array(
+            [
                 'service' => $service,
                 'command' => $method,
                 'arguments' => $args,
-            )
+            ]
         )
     );
     request($shopUrl, $xml, $apiKey);
@@ -42,11 +37,11 @@ function request($shopUrl, $xml, $apiKey)
 
     $authHeaderContent = 'SharedKey party="connect",nonce="' . $nonce . '"';
 
-    $headers = array(
-        'Authentication: ' .  $authHeaderContent,
+    $headers = [
+        'Authentication: ' . $authHeaderContent,
         'X-Shopware-Connect-Authorization: ' . $authHeaderContent,
         'Date: ' . $requestDate
-    );
+    ];
 
     $httpResponse = $httpClient->request(
         'POST',

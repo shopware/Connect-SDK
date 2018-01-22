@@ -9,7 +9,6 @@ namespace Shopware\Connect\ShippingCosts\Rule;
 
 use Shopware\Connect\ShippingCosts\Rule;
 use Shopware\Connect\Struct\Order;
-use Shopware\Connect\Struct\OrderItem;
 use Shopware\Connect\Struct\Shipping;
 use Shopware\Connect\ShippingCosts\VatConfig;
 
@@ -103,7 +102,7 @@ class Product extends Rule
     public function getShippingCosts(Order $order, VatConfig $vatConfig)
     {
         return new Shipping(
-            array(
+            [
                 'rule' => $this,
                 'service' => $this->service,
                 'deliveryWorkDays' => $this->deliveryWorkDays,
@@ -111,7 +110,7 @@ class Product extends Rule
                     ($vatConfig->isNet ? 1 : 1 + $this->vat),
                 'grossShippingCosts' => $this->price * $this->orderItemCount *
                     (!$vatConfig->isNet ? 1 : 1 + $this->vat),
-            )
+            ]
         );
     }
 }

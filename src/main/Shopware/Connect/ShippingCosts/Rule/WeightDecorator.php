@@ -41,8 +41,7 @@ class WeightDecorator extends Rule
     {
         return
             $this->lessOrEqualMaximumWeight($order) &&
-            $this->delegatee->isApplicable($order)
-        ;
+            $this->delegatee->isApplicable($order);
     }
 
     private function lessOrEqualMaximumWeight(Struct\Order $order)

@@ -100,7 +100,12 @@ class SDKBuilder
         $socket = null
     ) {
         $this->gateway = new Gateway\MySQLi(
-            $host, $username, $passwd, $dbname, $port, $socket
+            $host,
+            $username,
+            $passwd,
+            $dbname,
+            $port,
+            $socket
         );
 
         return $this;
@@ -179,8 +184,7 @@ class SDKBuilder
             !$this->gateway ||
             !$this->productToShop ||
             !$this->productFromShop) {
-
-            throw new \RuntimeException("Missing required argument for building SDK.");
+            throw new \RuntimeException('Missing required argument for building SDK.');
         }
 
         return new SDK(

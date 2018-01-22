@@ -29,7 +29,7 @@ class Metric extends Rpc\ServiceRegistry
      *
      * @var array
      */
-    protected $metrics = array();
+    protected $metrics = [];
 
     /**
      * @var string
@@ -61,8 +61,8 @@ class Metric extends Rpc\ServiceRegistry
     /**
      * @param string $name
      * @param string $command
-     * @return array
      * @throws \UnexpectedValueException
+     * @return array
      */
     public function getService($name, $command)
     {
@@ -89,14 +89,14 @@ class Metric extends Rpc\ServiceRegistry
     {
         if (!isset($this->metrics[$rpcCall->service]) ||
             !isset($this->metrics[$rpcCall->service][$rpcCall->command])) {
-            return array();
+            return [];
         }
 
         return call_user_func_array(
-            array(
+            [
                 $this->metrics[$rpcCall->service][$rpcCall->command],
                 $rpcCall->command
-            ),
+            ],
             $rpcCall->arguments
         );
     }
@@ -116,18 +116,18 @@ class Metric extends Rpc\ServiceRegistry
         $version = strpos(SDK::VERSION, '$') === 0 ? 'dev' : SDK::VERSION;
 
         $response = new Struct\Response(
-            array(
+            [
                 'result' => $this->serviceRegistry->dispatch($rpcCall),
                 'metrics' => $this->getMetrics($rpcCall),
                 'version' => sprintf('%s/%s', $version, $this->pluginSoftwareVersion)
-            )
+            ]
         );
 
         $response->metrics[] = new Struct\Metric\Time(
-            array(
+            [
                 'name' => 'sdk.' . $rpcCall->service . '.' . $rpcCall->command,
                 'time' => microtime(true) - $start,
-            )
+            ]
         );
 
         return $response;

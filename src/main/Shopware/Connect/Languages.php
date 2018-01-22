@@ -17,7 +17,7 @@ class Languages
     /**
      * @var string[]
      */
-    private static $languageCodes = array(
+    private static $languageCodes = [
         'aa', 'ab', 'af', 'am', 'ar', 'as', 'ay', 'az',
         'ba', 'be', 'bg', 'bh', 'bi', 'bn', 'bo', 'br',
         'ca', 'co', 'cs', 'cy', 'da', 'de', 'dz', 'el',
@@ -36,7 +36,7 @@ class Languages
         'ti', 'tk', 'tl', 'tn', 'to', 'tr', 'ts', 'tt',
         'tw', 'ug', 'uk', 'ur', 'uz', 'vi', 'vo', 'wo',
         'xh', 'yi', 'yo', 'za', 'zh', 'zu',
-    );
+    ];
 
     /**
      * Checks for a valid ISO 639-1 language code (lower case).

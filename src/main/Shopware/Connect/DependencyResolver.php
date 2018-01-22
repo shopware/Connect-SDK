@@ -7,9 +7,6 @@
 
 namespace Shopware\Connect;
 
-use Shopware\Connect\Rpc;
-use Shopware\Connect\Struct\RpcCall;
-
 /**
  * SDK Dependency Resolver
  *
@@ -334,63 +331,37 @@ class DependencyResolver
     {
         if ($this->verificator === null) {
             $this->verificator = new Struct\VerificatorDispatcher(
-                array(
-                    'Shopware\\Connect\\Struct\\Order' =>
-                        new Struct\Verificator\Order(),
-                    'Shopware\\Connect\\Struct\\OrderItem' =>
-                        new Struct\Verificator\OrderItem(),
-                    'Shopware\\Connect\\Struct\\Product' =>
-                        new Struct\Verificator\Product(
+                [
+                    'Shopware\\Connect\\Struct\\Order' => new Struct\Verificator\Order(),
+                    'Shopware\\Connect\\Struct\\OrderItem' => new Struct\Verificator\OrderItem(),
+                    'Shopware\\Connect\\Struct\\Product' => new Struct\Verificator\Product(
                             new ShippingRuleParser\Google(),
                             $this->getGateway()->getConfig(SDK::CONFIG_PRICE_TYPE)
                         ),
-                    'Shopware\\Connect\\Struct\\Translation' =>
-                        new Struct\Verificator\Translation(),
-                    'Shopware\\Connect\\Struct\\Change\\FromShop\\Insert' =>
-                        new Struct\Verificator\Change\InsertOrUpdate(),
-                    'Shopware\\Connect\\Struct\\Change\\FromShop\\Update' =>
-                        new Struct\Verificator\Change\InsertOrUpdate(),
-                    'Shopware\\Connect\\Struct\\Change\\FromShop\\Delete' =>
-                        new Struct\Verificator\Change(),
-                    'Shopware\\Connect\\Struct\\Change\\FromShop\\Availability' =>
-                        new Struct\Verificator\Change\Availability(),
-                    'Shopware\\Connect\\Struct\\Change\\FromShop\\StreamAssignment' =>
-                        new Struct\Verificator\Change\StreamAssignment(),
-                    'Shopware\\Connect\\Struct\\Change\\FromShop\\MakeMainVariant' =>
-                        new Struct\Verificator\Change\MakeMainVariant(),
-                    'Shopware\\Connect\\Struct\\Change\\ToShop\\InsertOrUpdate' =>
-                        new Struct\Verificator\Change\InsertOrUpdate(),
-                    'Shopware\\Connect\\Struct\\Change\\ToShop\\Delete' =>
-                        new Struct\Verificator\Change\Delete(),
-                    'Shopware\\Connect\\Struct\\Change\\ToShop\\Availability' =>
-                        new Struct\Verificator\Change\Availability(),
-                    'Shopware\\Connect\\Struct\\Change\\InterShop\\Update' =>
-                        new Struct\Verificator\Change\InterShopUpdate(),
-                    'Shopware\\Connect\\Struct\\Change\\InterShop\\Delete' =>
-                        new Struct\Verificator\Change\InterShopDelete(),
-                    'Shopware\\Connect\\Struct\\Change\\InterShop\\Unavailable' =>
-                        new Struct\Verificator\Change\InterShopUnavailable(),
-                    'Shopware\\Connect\\Struct\\ShopConfiguration' =>
-                        new Struct\Verificator\ShopConfiguration(),
-                    'Shopware\\Connect\\Struct\\Reservation' =>
-                        new Struct\Verificator\Reservation(),
-                    'Shopware\\Connect\\Struct\\Message' =>
-                        new Struct\Verificator\Message(),
-                    'Shopware\\Connect\\Struct\\Address' =>
-                        new Struct\Verificator\Address(),
-                    'Shopware\\Connect\\Struct\\ProductList' =>
-                        new Struct\Verificator\ProductList(),
-                    'Shopware\\Connect\\Struct\\Tracking' =>
-                        new Struct\Verificator\Tracking(),
-                    'Shopware\\Connect\\Struct\\OrderStatus' =>
-                        new Struct\Verificator\OrderStatus(),
-                    'Shopware\\Connect\\Struct\\PaymentStatus' =>
-                        new Struct\Verificator\PaymentStatus(),
-                    'Shopware\\Connect\\Struct\\Shipping' =>
-                        new Struct\Verificator\Shipping(),
-                    'Shopware\\Connect\\Struct\\ShippingRules' =>
-                        new Struct\Verificator\ShippingRules(),
-                )
+                    'Shopware\\Connect\\Struct\\Translation' => new Struct\Verificator\Translation(),
+                    'Shopware\\Connect\\Struct\\Change\\FromShop\\Insert' => new Struct\Verificator\Change\InsertOrUpdate(),
+                    'Shopware\\Connect\\Struct\\Change\\FromShop\\Update' => new Struct\Verificator\Change\InsertOrUpdate(),
+                    'Shopware\\Connect\\Struct\\Change\\FromShop\\Delete' => new Struct\Verificator\Change(),
+                    'Shopware\\Connect\\Struct\\Change\\FromShop\\Availability' => new Struct\Verificator\Change\Availability(),
+                    'Shopware\\Connect\\Struct\\Change\\FromShop\\StreamAssignment' => new Struct\Verificator\Change\StreamAssignment(),
+                    'Shopware\\Connect\\Struct\\Change\\FromShop\\MakeMainVariant' => new Struct\Verificator\Change\MakeMainVariant(),
+                    'Shopware\\Connect\\Struct\\Change\\ToShop\\InsertOrUpdate' => new Struct\Verificator\Change\InsertOrUpdate(),
+                    'Shopware\\Connect\\Struct\\Change\\ToShop\\Delete' => new Struct\Verificator\Change\Delete(),
+                    'Shopware\\Connect\\Struct\\Change\\ToShop\\Availability' => new Struct\Verificator\Change\Availability(),
+                    'Shopware\\Connect\\Struct\\Change\\InterShop\\Update' => new Struct\Verificator\Change\InterShopUpdate(),
+                    'Shopware\\Connect\\Struct\\Change\\InterShop\\Delete' => new Struct\Verificator\Change\InterShopDelete(),
+                    'Shopware\\Connect\\Struct\\Change\\InterShop\\Unavailable' => new Struct\Verificator\Change\InterShopUnavailable(),
+                    'Shopware\\Connect\\Struct\\ShopConfiguration' => new Struct\Verificator\ShopConfiguration(),
+                    'Shopware\\Connect\\Struct\\Reservation' => new Struct\Verificator\Reservation(),
+                    'Shopware\\Connect\\Struct\\Message' => new Struct\Verificator\Message(),
+                    'Shopware\\Connect\\Struct\\Address' => new Struct\Verificator\Address(),
+                    'Shopware\\Connect\\Struct\\ProductList' => new Struct\Verificator\ProductList(),
+                    'Shopware\\Connect\\Struct\\Tracking' => new Struct\Verificator\Tracking(),
+                    'Shopware\\Connect\\Struct\\OrderStatus' => new Struct\Verificator\OrderStatus(),
+                    'Shopware\\Connect\\Struct\\PaymentStatus' => new Struct\Verificator\PaymentStatus(),
+                    'Shopware\\Connect\\Struct\\Shipping' => new Struct\Verificator\Shipping(),
+                    'Shopware\\Connect\\Struct\\ShippingRules' => new Struct\Verificator\ShippingRules(),
+                ]
             );
         }
 
@@ -419,10 +390,10 @@ class DependencyResolver
         if ($this->marshaller === null) {
             $this->marshaller = new Rpc\Marshaller\CallMarshaller\XmlCallMarshaller(
                 new \Shopware\Connect\XmlHelper(),
-                new Rpc\Marshaller\Converter\ChainingConverter(array(
+                new Rpc\Marshaller\Converter\ChainingConverter([
                     new Rpc\Marshaller\Converter\ExceptionToErrorConverter(),
                     new Rpc\Marshaller\Converter\LegacyOrderConverter(),
-                ))
+                ])
             );
         }
 
@@ -560,10 +531,10 @@ class DependencyResolver
     {
         $version = strpos(SDK::VERSION, '$') === 0 ? 'dev' : SDK::VERSION;
 
-        $headers = array(
+        $headers = [
             'X-Connect-SDK-Version: ' . $version,
             'Accept: applications/x-shopware-connect-json-' . $version,
-        );
+        ];
 
         $client = new HttpClient\Stream($server);
         $client->addDefaultHeaders($headers);

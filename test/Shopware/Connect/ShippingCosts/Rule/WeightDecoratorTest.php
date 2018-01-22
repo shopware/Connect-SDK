@@ -4,7 +4,6 @@ namespace Shopware\Connect\ShippingCosts\Rule;
 
 use Shopware\Connect\ShippingCosts\Rule;
 use Shopware\Connect\Struct;
-use Phake;
 
 class WeightDecoratorTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,34 +15,34 @@ class WeightDecoratorTest extends \PHPUnit_Framework_TestCase
         $delegatee = $this->createMock(Rule::class);
         $delegatee->method('isApplicable')->with($this->anything())->willReturn(true);
 
-        $weight = new WeightDecorator(array(
+        $weight = new WeightDecorator([
             'maxWeight' => 10,
             'delegatee' => $delegatee
-        ));
+        ]);
 
         self::assertTrue(
             $weight->isApplicable(
                 new Struct\Order(
-                    array(
-                        'orderItems' => array(
-                            new Struct\OrderItem(array(
+                    [
+                        'orderItems' => [
+                            new Struct\OrderItem([
                                 'count' => 1,
-                                'product' => new Struct\Product(array(
-                                    'attributes' => array(
+                                'product' => new Struct\Product([
+                                    'attributes' => [
                                         Struct\Product::ATTRIBUTE_WEIGHT => 2
-                                    )
-                                ))
-                            )),
-                            new Struct\OrderItem(array(
+                                    ]
+                                ])
+                            ]),
+                            new Struct\OrderItem([
                                 'count' => 1,
-                                'product' => new Struct\Product(array(
-                                    'attributes' => array(
+                                'product' => new Struct\Product([
+                                    'attributes' => [
                                         Struct\Product::ATTRIBUTE_WEIGHT => 3
-                                    )
-                                ))
-                            )),
-                        )
-                    )
+                                    ]
+                                ])
+                            ]),
+                        ]
+                    ]
                 )
             )
         );
@@ -57,26 +56,26 @@ class WeightDecoratorTest extends \PHPUnit_Framework_TestCase
         $delegatee = $this->createMock(Rule::class);
         $delegatee->method('isApplicable')->with($this->anything())->willReturn(true);
 
-        $weight = new WeightDecorator(array(
+        $weight = new WeightDecorator([
             'maxWeight' => 10,
             'delegatee' => $delegatee
-        ));
+        ]);
 
         self::assertFalse(
             $weight->isApplicable(
                 new Struct\Order(
-                    array(
-                        'orderItems' => array(
-                            new Struct\OrderItem(array(
+                    [
+                        'orderItems' => [
+                            new Struct\OrderItem([
                                 'count' => 10,
-                                'product' => new Struct\Product(array(
-                                    'attributes' => array(
+                                'product' => new Struct\Product([
+                                    'attributes' => [
                                         Struct\Product::ATTRIBUTE_WEIGHT => 2
-                                    )
-                                ))
-                            )),
-                        )
-                    )
+                                    ]
+                                ])
+                            ]),
+                        ]
+                    ]
                 )
             )
         );

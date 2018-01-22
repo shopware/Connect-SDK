@@ -7,7 +7,6 @@
 
 namespace Shopware\Connect;
 
-use Bepado\Common;
 use Shopware\Connect\Struct\ShopConfiguration;
 
 class SDKTest extends \PHPUnit_Framework_TestCase
@@ -40,10 +39,10 @@ class SDKTest extends \PHPUnit_Framework_TestCase
     public function testGetShop()
     {
         $shopId = 1234;
-        $shopConfig = new ShopConfiguration(array(
+        $shopConfig = new ShopConfiguration([
             'displayName' => 'Test-Shop',
             'url' => 'http://foo',
-        ));
+        ]);
 
         $this->gatewayMock
             ->expects($this->once())
@@ -61,10 +60,10 @@ class SDKTest extends \PHPUnit_Framework_TestCase
 
     public function testPingRequest()
     {
-        $responseBody = $this->sdk->handle('', array('HTTP_X_SHOPWARE_CONNECT_PING' => ''));
+        $responseBody = $this->sdk->handle('', ['HTTP_X_SHOPWARE_CONNECT_PING' => '']);
 
         $this->assertEquals(
-            '<?xml version="1.0" encoding="utf-8"?>'. "\n"
+            '<?xml version="1.0" encoding="utf-8"?>' . "\n"
                 . '<pong/>',
             $responseBody
         );
@@ -81,6 +80,5 @@ class SDKTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $this->sdk->isPriceTypeValid(SDK::PRICE_TYPE_NONE));
         $this->assertEquals(false, $this->sdk->isPriceTypeValid(42));
         $this->assertEquals(false, $this->sdk->isPriceTypeValid(-2));
-
     }
 }

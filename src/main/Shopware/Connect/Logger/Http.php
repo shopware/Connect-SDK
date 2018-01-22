@@ -48,16 +48,16 @@ class Http extends Logger
      */
     protected function doLog(Struct\Order $order)
     {
-        $hash = hash_hmac("sha256", $order->localOrderId . $order->orderShop . $order->providerShop, $this->apiKey);
+        $hash = hash_hmac('sha256', $order->localOrderId . $order->orderShop . $order->providerShop, $this->apiKey);
 
         $response = $this->httpClient->request(
             'POST',
             '/transaction',
             json_encode($order),
-            array(
+            [
                 'Content-Type: application/json',
                 'X-Shopware-Connect-Order-Hash: ' . $hash
-            )
+            ]
         );
 
         if ($response->status >= 400) {
@@ -65,7 +65,7 @@ class Http extends Logger
             if ($error = json_decode($response->body)) {
                 $message = $error->message;
             }
-            throw new \RuntimeException("Logging failed: " . $message);
+            throw new \RuntimeException('Logging failed: ' . $message);
         }
 
         return json_decode($response->body);
@@ -79,16 +79,16 @@ class Http extends Logger
      */
     public function confirm($logTransactionId)
     {
-        $hash = hash_hmac("sha256", $logTransactionId, $this->apiKey);
+        $hash = hash_hmac('sha256', $logTransactionId, $this->apiKey);
 
         $response = $this->httpClient->request(
             'POST',
             '/transaction/confirm',
             json_encode($logTransactionId),
-            array(
+            [
                 'Content-Type: application/json',
                 'X-Shopware-Connect-Order-Hash: ' . $hash
-            )
+            ]
         );
 
         if ($response->status >= 400) {
@@ -96,9 +96,7 @@ class Http extends Logger
             if ($error = json_decode($response->body)) {
                 $message = $error->message;
             }
-            throw new \RuntimeException("Logging confirmation failed: " . $message);
+            throw new \RuntimeException('Logging confirmation failed: ' . $message);
         }
-
-        return;
     }
 }

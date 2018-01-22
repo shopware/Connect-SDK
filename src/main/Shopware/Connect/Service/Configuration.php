@@ -8,8 +8,6 @@
 namespace Shopware\Connect\Service;
 
 use Shopware\Connect\Gateway;
-use Shopware\Connect\HttpClient;
-use Shopware\Connect\Struct;
 use Shopware\Connect\SDK;
 
 /**
@@ -60,12 +58,12 @@ class Configuration
             return;
         }
 
-        $validPriceTypes = array(
+        $validPriceTypes = [
             SDK::PRICE_TYPE_PURCHASE,
             SDK::PRICE_TYPE_RETAIL,
             SDK::PRICE_TYPE_BOTH,
             SDK::PRICE_TYPE_NONE,
-        );
+        ];
 
         if (!in_array($priceType, $validPriceTypes)) {
             return;

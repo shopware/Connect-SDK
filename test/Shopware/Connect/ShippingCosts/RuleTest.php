@@ -14,9 +14,9 @@ abstract class RuleTest extends \PHPUnit_Framework_TestCase
     protected function getValidOrder()
     {
         return new Order(
-            array(
+            [
                 // @TODO: Fill order with values, as required
-            )
+            ]
         );
     }
 }

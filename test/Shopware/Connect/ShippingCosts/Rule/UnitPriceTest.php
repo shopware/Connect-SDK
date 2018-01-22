@@ -12,40 +12,40 @@ class UnitPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function it_multiplies_price_by_unit()
     {
-        $rule = new UnitPrice(array(
+        $rule = new UnitPrice([
             'price' => 10,
-        ));
+        ]);
 
         $this->assertEquals(
-            new Struct\Shipping(array(
+            new Struct\Shipping([
                 'rule' => $rule,
                 'shippingCosts' => 50.,
                 'grossShippingCosts' => 55.,
                 'deliveryWorkDays' => 10,
-            )),
+            ]),
             $rule->getShippingCosts(
-                new Struct\Order(array(
-                    'orderItems' => array(
-                        new Struct\OrderItem(array(
+                new Struct\Order([
+                    'orderItems' => [
+                        new Struct\OrderItem([
                             'count' => 2,
-                            'product' => new Struct\Product(array(
+                            'product' => new Struct\Product([
                                 'purchasePrice' => 20,
                                 'vat' => 0.19
-                            ))
-                        )),
-                        new Struct\OrderItem(array(
+                            ])
+                        ]),
+                        new Struct\OrderItem([
                             'count' => 3,
-                            'product' => new Struct\Product(array(
+                            'product' => new Struct\Product([
                                 'purchasePrice' => 20,
                                 'vat' => 0.19
-                            ))
-                        )),
-                    )
-                )),
-                new VatConfig(array(
+                            ])
+                        ]),
+                    ]
+                ]),
+                new VatConfig([
                     'vat' => 0.1,
                     'isNet' => true,
-                ))
+                ])
             ),
             'Wrong shipping costs',
             0.01
@@ -57,33 +57,33 @@ class UnitPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function it_multiplies_price_by_unit_gross_shipping_costs()
     {
-        $rule = new UnitPrice(array(
+        $rule = new UnitPrice([
             'price' => 10,
-        ));
+        ]);
 
         $this->assertEquals(
-            new Struct\Shipping(array(
+            new Struct\Shipping([
                 'rule' => $rule,
                 'shippingCosts' => 18.18,
                 'grossShippingCosts' => 20.,
                 'deliveryWorkDays' => 10,
-            )),
+            ]),
             $rule->getShippingCosts(
-                new Struct\Order(array(
-                    'orderItems' => array(
-                        new Struct\OrderItem(array(
+                new Struct\Order([
+                    'orderItems' => [
+                        new Struct\OrderItem([
                             'count' => 2,
-                            'product' => new Struct\Product(array(
+                            'product' => new Struct\Product([
                                 'purchasePrice' => 20,
                                 'vat' => 0.19
-                            ))
-                        )),
-                    )
-                )),
-                new VatConfig(array(
+                            ])
+                        ]),
+                    ]
+                ]),
+                new VatConfig([
                     'vat' => 0.1,
                     'isNet' => false,
-                ))
+                ])
             ),
             'Wrong shipping costs',
             0.01

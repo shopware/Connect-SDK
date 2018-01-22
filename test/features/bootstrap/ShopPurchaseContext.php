@@ -2,22 +2,10 @@
 
 namespace Shopware\Connect;
 
-use Behat\Behat\Context\ClosuredContextInterface;
-use Behat\Behat\Context\TranslatedContextInterface;
-use Behat\Behat\Context\BehatContext;
-use Behat\Behat\Exception\PendingException;
-use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
-
-use Shopware\Connect\Struct;
-use Shopware\Connect\Controller;
-use Shopware\Connect\ShippingCostCalculator;
 use Shopware\Connect\ShippingCosts\Rule;
 use Shopware\Connect\ShippingCosts\Rules;
-use Shopware\Connect\ErrorHandler;
-use Shopware\Connect\RPC;
 
-use \PHPUnit_Framework_Assert as Assertion;
+use PHPUnit_Framework_Assert as Assertion;
 
 require_once __DIR__ . '/SDKContext.php';
 
@@ -137,7 +125,7 @@ class ShopPurchaseContext extends SDKContext
     private function distributeShopConfiguration()
     {
         $billingAddress = new Struct\Address(
-            array(
+            [
                 'name' => 'Shop Doe',
                 'line1' => 'Shop-Street 42',
                 'zip' => '12345',
@@ -145,7 +133,7 @@ class ShopPurchaseContext extends SDKContext
                 'country' => 'DEU',
                 'email' => 'shop@qafoo.com',
                 'phone' => '+12345678',
-            )
+            ]
         );
 
         $this->gateway->setBillingAddress($billingAddress);
@@ -156,37 +144,37 @@ class ShopPurchaseContext extends SDKContext
             $this->gateway->setShopConfiguration(
                 'shop-' . $i,
                 new Struct\ShopConfiguration(
-                    array(
+                    [
                         'serviceEndpoint' => 'http://shop' . $i . '.example.com/',
                         'shippingCostType' => 'remote',
-                    )
+                    ]
                 )
             );
 
-            $rules = new Rules(array(
-                'rules' => array(
+            $rules = new Rules([
+                'rules' => [
                     new Rule\FixedPrice(
-                        array(
+                        [
                             'price' => $i * 2,
-                        )
+                        ]
                     )
-                )
-            ));
+                ]
+            ]);
 
-            $this->gateway->storeShippingCosts('shop-' . $i, 'shop', "", $rules, $rules);
-            $this->remoteGateway->storeShippingCosts('shop-' . $i, 'shop', "", $rules, $rules);
+            $this->gateway->storeShippingCosts('shop-' . $i, 'shop', '', $rules, $rules);
+            $this->remoteGateway->storeShippingCosts('shop-' . $i, 'shop', '', $rules, $rules);
             // for shared state reasons
-            $this->gateway->storeShippingCosts('shop-' . $i, 'shop-' . $i, "", $rules, $rules);
-            $this->remoteGateway->storeShippingCosts('shop-' . $i, 'shop-' . $i, "", $rules, $rules);
+            $this->gateway->storeShippingCosts('shop-' . $i, 'shop-' . $i, '', $rules, $rules);
+            $this->remoteGateway->storeShippingCosts('shop-' . $i, 'shop-' . $i, '', $rules, $rules);
         }
 
         $this->remoteGateway->setShopConfiguration(
             'shop',
             new Struct\ShopConfiguration(
-                array(
+                [
                     'serviceEndpoint' => 'http://shop.example.com/',
                     'shippingCostType' => 'remote',
-                )
+                ]
             )
         );
     }
@@ -206,10 +194,10 @@ class ShopPurchaseContext extends SDKContext
     {
         $methodStub = $this->productFromShop->method('getProducts');
 
-        $products = array();
+        $products = [];
         for ($i = 1; $i <= $shops; ++$i) {
             $products[] = new Struct\Product(
-                array(
+                [
                     'shopId' => 'shop-' . $i,
                     'sourceId' => '23-' . $i,
                     'price' => 42.23,
@@ -220,9 +208,9 @@ class ShopPurchaseContext extends SDKContext
                     'currency' => 'EUR',
                     'availability' => 5,
                     'title' => 'Sindelfingen',
-                    'categories' => array('/others'),
+                    'categories' => ['/others'],
                     'vendor' => 'Foo',
-                )
+                ]
             );
         }
 
@@ -240,7 +228,7 @@ class ShopPurchaseContext extends SDKContext
             $this->order = new Struct\Order();
 
             $this->order->deliveryAddress = new Struct\Address(
-                array(
+                [
                     'name' => 'John Doe',
                     'line1' => 'Foo-Street 42',
                     'zip' => '12345',
@@ -248,17 +236,17 @@ class ShopPurchaseContext extends SDKContext
                     'country' => 'DEU',
                     'email' => 'foo@qafoo.com',
                     'phone' => '+12345678',
-                )
+                ]
             );
             $this->order->billingAddress = $this->order->deliveryAddress;
             $this->order->orderShop = 'shop-1';
         }
 
         $this->order->orderItems[] = new Struct\OrderItem(
-            array(
+            [
                 'count' => 1,
                 'product' => new Struct\Product(
-                    array(
+                    [
                         'shopId' => 'shop-' . $remoteShop,
                         'sourceId' => '23-' . $remoteShop,
                         'price' => 42.23,
@@ -269,11 +257,11 @@ class ShopPurchaseContext extends SDKContext
                         'currency' => 'EUR',
                         'availability' => 5,
                         'title' => 'Sindelfingen',
-                        'categories' => array('/others'),
+                        'categories' => ['/others'],
                         'vendor' => 'Foo',
-                    )
+                    ]
                 ),
-            )
+            ]
         );
     }
 
@@ -313,9 +301,9 @@ class ShopPurchaseContext extends SDKContext
         $methodStub = $this->productFromShop
             ->method('getProducts')
             ->willReturn(
-                array(
+                [
                     new Struct\Product(
-                        array(
+                        [
                             'shopId' => 'shop-1',
                             'sourceId' => '23-1',
                             'price' => 42.23,
@@ -326,11 +314,11 @@ class ShopPurchaseContext extends SDKContext
                             'currency' => 'EUR',
                             'availability' => 0,
                             'title' => 'Sindelfingen',
-                            'categories' => array('/others'),
+                            'categories' => ['/others'],
                             'vendor' => 'Foo',
-                        )
+                        ]
                     ),
-                )
+                ]
             );
     }
 
@@ -342,9 +330,9 @@ class ShopPurchaseContext extends SDKContext
         $methodStub = $this->productFromShop
             ->method('getProducts')
             ->willReturn(
-                array(
+                [
                     new Struct\Product(
-                        array(
+                        [
                             'shopId' => 'shop-1',
                             'sourceId' => '23-1',
                             'price' => 42.23,
@@ -356,10 +344,10 @@ class ShopPurchaseContext extends SDKContext
                             'availability' => 5,
                             'title' => 'Sindelfingen',
                             'vendor' => 'Foo',
-                            'categories' => array('/others'),
-                        )
+                            'categories' => ['/others'],
+                        ]
                     ),
-                )
+                ]
             );
     }
 
@@ -381,17 +369,17 @@ class ShopPurchaseContext extends SDKContext
     public function theCustomerIsInformedAboutTheUnavailability()
     {
         Assertion::assertEquals(
-            array(
+            [
                 new Struct\Message(
-                    array(
+                    [
                         'message' => 'Availability of product %product changed to %availability.',
-                        'values' => array(
+                        'values' => [
                             'product' => '23-1',
                             'availability' => 0,
-                        ),
-                    )
+                        ],
+                    ]
                 )
-            ),
+            ],
             $this->checkResult->errors
         );
     }
@@ -402,16 +390,16 @@ class ShopPurchaseContext extends SDKContext
     public function theCustomerIsInformedAboutPriceChange()
     {
         Assertion::assertEquals(
-            array(
+            [
                 new Struct\Message(
-                    array(
+                    [
                         'message' => 'The price of product %product has changed.',
-                        'values' => array(
+                        'values' => [
                             'product' => 'Sindelfingen',
-                        ),
-                    )
+                        ],
+                    ]
                 )
-            ),
+            ],
             $this->checkResult->errors
         );
     }
@@ -432,7 +420,7 @@ class ShopPurchaseContext extends SDKContext
         $methodStub = $this->productFromShop
             ->method('getProducts')
             ->willReturn(
-                array()
+                []
             );
     }
 
@@ -442,16 +430,16 @@ class ShopPurchaseContext extends SDKContext
     public function theCustomerIsInformedAboutTheDeletedProduct()
     {
         Assertion::assertEquals(
-            array(
+            [
                 new Struct\Message(
-                    array(
+                    [
                         'message' => 'Product %product does not exist anymore.',
-                        'values' => array(
+                        'values' => [
                             'product' => '23-1',
-                        ),
-                    )
+                        ],
+                    ]
                 )
-            ),
+            ],
             $this->checkResult->errors
         );
     }
@@ -472,9 +460,9 @@ class ShopPurchaseContext extends SDKContext
         $methodStub = $this->productFromShop
             ->method('getProducts')
             ->willReturn(
-                array(
+                [
                     new Struct\Product(
-                        array(
+                        [
                             'shopId' => 'shop-1',
                             'sourceId' => '23-1',
                             'price' => 45.23,
@@ -486,10 +474,10 @@ class ShopPurchaseContext extends SDKContext
                             'availability' => 5,
                             'title' => 'Sindelfingen',
                             'vendor' => 'Foo',
-                            'categories' => array('/others'),
-                        )
+                            'categories' => ['/others'],
+                        ]
                     ),
-                )
+                ]
             );
     }
 
@@ -499,7 +487,7 @@ class ShopPurchaseContext extends SDKContext
     public function theProductIsReservedInTheRemoteShop()
     {
         Assertion::assertTrue($this->reserveResult instanceof Struct\Reservation, "Expected a Struct\Reservation object.");
-        Assertion::assertTrue($this->reserveResult->success, "Result should be success.");
+        Assertion::assertTrue($this->reserveResult->success, 'Result should be success.');
         Assertion::assertEquals(0, count($this->reserveResult->messages));
         Assertion::assertEquals(1, count($this->reserveResult->orders));
     }
@@ -532,9 +520,9 @@ class ShopPurchaseContext extends SDKContext
         $methodStub = $this->productFromShop
             ->method('getProducts')
             ->willReturn(
-                array(
+                [
                     new Struct\Product(
-                        array(
+                        [
                             'shopId' => 'shop-1',
                             'sourceId' => '23-1',
                             'price' => 42.23,
@@ -546,10 +534,10 @@ class ShopPurchaseContext extends SDKContext
                             'availability' => 0,
                             'vendor' => 'Foo',
                             'title' => 'Sindelfingen',
-                            'categories' => array('/others'),
-                        )
+                            'categories' => ['/others'],
+                        ]
                     ),
-                )
+                ]
             );
     }
 
@@ -560,7 +548,7 @@ class ShopPurchaseContext extends SDKContext
     {
         Assertion::assertTrue($this->reserveResult instanceof Struct\Reservation, "Expected a Struct\Reservation object.");
         $this->dependencies->getVerificator()->verify($this->reserveResult);
-        Assertion::assertFalse($this->reserveResult->success, "Result should not be success.");
+        Assertion::assertFalse($this->reserveResult->success, 'Result should not be success.');
         Assertion::assertNotEquals(0, count($this->reserveResult->messages));
     }
 
@@ -572,7 +560,7 @@ class ShopPurchaseContext extends SDKContext
         $methodStub = $this->productFromShop
             ->method('buy')
             ->willThrowException(
-                new \RuntimeException("Buy denied.")
+                new \RuntimeException('Buy denied.')
             );
     }
 
@@ -603,7 +591,7 @@ class ShopPurchaseContext extends SDKContext
         );
         Assertion::assertTrue(
             $logMessages[$expectedLogMessage] instanceof Struct\Order,
-            "Log message should contain an Order."
+            'Log message should contain an Order.'
         );
     }
 
@@ -616,11 +604,11 @@ class ShopPurchaseContext extends SDKContext
 
         Assertion::assertFalse(
             isset($logMessages[0]),
-            "No remote shop transaction logs expected"
+            'No remote shop transaction logs expected'
         );
         Assertion::assertFalse(
             isset($logMessages[1]),
-            "No local shop  transaction logs expected"
+            'No local shop  transaction logs expected'
         );
     }
 
@@ -639,7 +627,7 @@ class ShopPurchaseContext extends SDKContext
         Assertion::assertEquals(
             'confirm-' . ($location === 'remote' ? 1 : 2),
             $logMessages[$expectedLogMessage],
-            "Log message should contain an confirmation key."
+            'Log message should contain an confirmation key.'
         );
     }
 
@@ -653,7 +641,7 @@ class ShopPurchaseContext extends SDKContext
         Assertion::assertLessThan(
             4,
             count($logMessages),
-            "No confirmation messages expected."
+            'No confirmation messages expected.'
         );
     }
 
@@ -681,9 +669,9 @@ class ShopPurchaseContext extends SDKContext
         $methodStub = $this->productFromShop
             ->method('getProducts')
             ->willReturn(
-                array(
+                [
                     new Struct\Product(
-                        array(
+                        [
                             'shopId' => 'shop-1',
                             'sourceId' => '23-1',
                             'price' => 42.23,
@@ -695,10 +683,10 @@ class ShopPurchaseContext extends SDKContext
                             'availability' => 0,
                             'title' => 'Sindelfingen',
                             'vendor' => 'Foo',
-                            'categories' => array('/others'),
-                        )
+                            'categories' => ['/others'],
+                        ]
                     ),
-                )
+                ]
             );
     }
 
@@ -716,21 +704,21 @@ class ShopPurchaseContext extends SDKContext
     public function theCustomerIsInformedAboutTheChangedShippingCosts()
     {
         Assertion::assertTrue($this->reserveResult instanceof Struct\Reservation, "Expected a Struct\Reservation object.");
-        Assertion::assertFalse($this->reserveResult->success, "Result should not be success.");
+        Assertion::assertFalse($this->reserveResult->success, 'Result should not be success.');
         Assertion::assertEquals(
-            array(
-                'shop-1' => array(
+            [
+                'shop-1' => [
                     new Struct\Message(
-                        array(
+                        [
                             'message' => 'Shipping costs have changed from %oldValue to %newValue.',
-                            'values' => array(
+                            'values' => [
                                 'oldValue' => '2.38',
                                 'newValue' => '0.60',
-                            ),
-                        )
+                            ],
+                        ]
                     )
-                )
-            ),
+                ]
+            ],
             $this->reserveResult->messages
         );
     }
@@ -741,17 +729,17 @@ class ShopPurchaseContext extends SDKContext
     public function theCustomerIsInformedAboutNotShippableOrder()
     {
         Assertion::assertTrue($this->reserveResult instanceof Struct\Reservation, "Expected a Struct\Reservation object.");
-        Assertion::assertFalse($this->reserveResult->success, "Result should not be success.");
+        Assertion::assertFalse($this->reserveResult->success, 'Result should not be success.');
         Assertion::assertEquals(
-            array(
-                'shop-1' => array(new Struct\Message(
-                    array( 'message' => 'Products cannot be shipped to %country.',
-                        'values' => array(
+            [
+                'shop-1' => [new Struct\Message(
+                    [ 'message' => 'Products cannot be shipped to %country.',
+                        'values' => [
                             'country' => 'DEU',
-                        ),
-                    )
-                ))
-            ),
+                        ],
+                    ]
+                )]
+            ],
             $this->reserveResult->messages
         );
     }
@@ -761,28 +749,30 @@ class ShopPurchaseContext extends SDKContext
      */
     public function theShopConfiguredNetShippingCostsOfAndCustomerCostsOf($intrashopCosts, $customerCosts)
     {
-        $intrashopRules = new Rules(array(
-            'rules' => array(
-                new Rule\FixedPrice(array(
+        $intrashopRules = new Rules([
+            'rules' => [
+                new Rule\FixedPrice(
+                    [
                         'price' => $intrashopCosts,
-                    )
+                    ]
                 )
-            )
-        ));
-        $customerRules = new Rules(array(
-            'rules' => array(
-                new Rule\FixedPrice(array(
+            ]
+        ]);
+        $customerRules = new Rules([
+            'rules' => [
+                new Rule\FixedPrice(
+                    [
                         'price' => $customerCosts,
-                    )
+                    ]
                 )
-            )
-        ));
+            ]
+        ]);
 
-        $this->gateway->storeShippingCosts('shop-1', 'shop', (string)time(), $intrashopRules, $customerRules);
-        $this->remoteGateway->storeShippingCosts('shop-1', 'shop', (string)time(), $intrashopRules, $customerRules);
+        $this->gateway->storeShippingCosts('shop-1', 'shop', (string) time(), $intrashopRules, $customerRules);
+        $this->remoteGateway->storeShippingCosts('shop-1', 'shop', (string) time(), $intrashopRules, $customerRules);
         // shared state madness
-        $this->gateway->storeShippingCosts('shop-1', 'shop-1', (string)time(), $intrashopRules, $customerRules);
-        $this->remoteGateway->storeShippingCosts('shop-1', 'shop-1', (string)time(), $intrashopRules, $customerRules);
+        $this->gateway->storeShippingCosts('shop-1', 'shop-1', (string) time(), $intrashopRules, $customerRules);
+        $this->remoteGateway->storeShippingCosts('shop-1', 'shop-1', (string) time(), $intrashopRules, $customerRules);
     }
 
     /**
@@ -793,7 +783,7 @@ class ShopPurchaseContext extends SDKContext
         Assertion::assertEquals(
             $this->checkResult->aggregatedShippingCosts->shippingCosts,
             $costs,
-            "Net Customer shipping cost comparison failed."
+            'Net Customer shipping cost comparison failed.'
         );
     }
 
@@ -807,7 +797,7 @@ class ShopPurchaseContext extends SDKContext
         Assertion::assertEquals(
             $this->checkResult->orders['shop-' . $shop]->shippingCosts,
             $costs,
-            "Net Intrashop shipping cost comparison failed."
+            'Net Intrashop shipping cost comparison failed.'
         );
     }
 

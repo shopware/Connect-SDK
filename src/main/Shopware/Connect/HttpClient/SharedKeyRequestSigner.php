@@ -70,11 +70,11 @@ class SharedKeyRequestSigner implements RequestSigner
 
         $authHeaderContent = 'SharedKey party="' . $myShopId . '",nonce="' . $nonce . '"';
 
-        return array(
+        return [
             $this->createHttpHeader(self::HTTP_AUTH_HEADER, $authHeaderContent),
             $this->createHttpHeader(self::HTTP_CUSTOM_AUTH_HEADER, $authHeaderContent),
             $this->createHttpHeader(self::HTTP_DATE_HEADER, $requestDate)
-        );
+        ];
     }
 
     /**
@@ -99,83 +99,83 @@ class SharedKeyRequestSigner implements RequestSigner
 
         if ($authHeader == '') {
             return new AuthenticationToken(
-                array(
+                [
                     'authenticated' => false,
                     'errorMessage' => 'No authorization header found. Only: ' . $this->getHeaderNames($headers),
-                )
+                ]
             );
         }
 
         if (!isset($headers[self::HTTP_DATE_HEADER_KEY])) {
             return new AuthenticationToken(
-                array(
+                [
                     'authenticated' => false,
                     'errorMessage' => 'No date header found.',
-                )
+                ]
             );
         }
 
-        list($type, $params) = explode(" ", $authHeader, 2);
+        list($type, $params) = explode(' ', $authHeader, 2);
 
-        if ($type !== "SharedKey") {
+        if ($type !== 'SharedKey') {
             return new AuthenticationToken(
-                array(
+                [
                     'authenticated' => false,
                     'errorMessage' => 'Authorization type is not "SharedKey".',
-                )
+                ]
             );
         }
 
-        $party = "";
+        $party = '';
         if (preg_match('(^(party="([^"]+)\",nonce="([^"]+)")$)', $params, $matches)) {
             $party = $matches[2];
             $actualNonce = $matches[3];
 
-            if ($party === "connect") {
+            if ($party === 'connect') {
                 $verificationKey = $this->apiKey;
             } elseif (is_numeric($party)) {
                 $configuration = $this->gateway->getShopConfiguration($party);
                 if (!isset($configuration->key)) {
                     return new AuthenticationToken(
-                        array(
+                        [
                             'authenticated' => false,
                             'userIdentifier' => $party,
                             'errorMessage' => 'Missing SharedKey.',
-                        )
+                        ]
                     );
                 }
                 $verificationKey = $configuration->key;
-                $party = (int)$party;
+                $party = (int) $party;
             } else {
                 return new AuthenticationToken(
-                    array(
+                    [
                         'authenticated' => false,
                         'errorMessage' => 'Unrecognized party in SharedKey authorization.'
-                    )
+                    ]
                 );
             }
 
             $expectedNonce = $this->generateNonce($headers['HTTP_DATE'], $body, $verificationKey);
 
             if ($this->stringsEqual($actualNonce, $expectedNonce)) {
-                return new AuthenticationToken(array('authenticated' => true, 'userIdentifier' => $party));
+                return new AuthenticationToken(['authenticated' => true, 'userIdentifier' => $party]);
             }
 
             return new AuthenticationToken(
-                array(
+                [
                     'authenticated' => false,
                     'userIdentifier' => $party,
                     'errorMessage' => 'Nounce does not match.',
-                )
+                ]
             );
         }
 
         return new AuthenticationToken(
-            array(
+            [
                 'authenticated' => false,
                 'userIdentifier' => $party,
                 'errorMessage' => 'Could not match SharedKey elements at invalid nounce.',
-            )
+            ]
         );
     }
 
@@ -241,7 +241,7 @@ class SharedKeyRequestSigner implements RequestSigner
 
         $result = 0;
 
-        for ($i = 0; $i < strlen($a); $i++) {
+        for ($i = 0; $i < strlen($a); ++$i) {
             $result |= ord($a[$i]) ^ ord($b[$i]);
         }
 

@@ -17,5 +17,5 @@ class TotalShippingCosts extends Shipping
      *
      * @var array<int,Shipping>
      */
-    public $shops = array();
+    public $shops = [];
 }

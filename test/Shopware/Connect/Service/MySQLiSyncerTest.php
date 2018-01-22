@@ -7,7 +7,6 @@
 
 namespace Shopware\Connect\Service;
 
-use Bepado\Common;
 use Shopware\Connect;
 
 require_once __DIR__ . '/SyncerTest.php';

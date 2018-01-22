@@ -126,7 +126,7 @@ abstract class SyncerTest extends \PHPUnit_Framework_TestCase
     public static function getProduct($productId, $data = 'foo')
     {
         return new Connect\Struct\Product(
-            array(
+            [
                 'shopId' => 'shop-1',
                 'sourceId' => (string) $productId,
                 'title' => $data,
@@ -135,8 +135,8 @@ abstract class SyncerTest extends \PHPUnit_Framework_TestCase
                 'purchasePrice' => $productId * .89,
                 'currency' => 'EUR',
                 'availability' => $productId,
-                'categories' => array('/others'),
-            )
+                'categories' => ['/others'],
+            ]
         );
     }
 
@@ -162,6 +162,7 @@ abstract class SyncerTest extends \PHPUnit_Framework_TestCase
                     if (isset($change->product)) {
                         $change->product = null;
                     }
+
                     return $change;
                 },
                 $changes
@@ -171,24 +172,25 @@ abstract class SyncerTest extends \PHPUnit_Framework_TestCase
 
     public function testInitialBuild()
     {
-        $sdk = $this->getSdk($this->getProductFromShop(array(1, 2)));
+        $sdk = $this->getSdk($this->getProductFromShop([1, 2]));
         $sdk->recreateChangesFeed();
 
         $this->assertChanges(
-            array(
-                new Insert(array('sourceId' => '1')),
-                new Insert(array('sourceId' => '2')),
-            ),
+            [
+                new Insert(['sourceId' => '1']),
+                new Insert(['sourceId' => '2']),
+            ],
             $changes = $this->makeRpcCall(
                 new RpcCall(
-                    array(
+                    [
                         'service' => 'products',
                         'command' => 'fromShop',
-                        'arguments' => array(null, 100),
-                    )
+                        'arguments' => [null, 100],
+                    ]
                 )
             )
         );
+
         return end($changes)->revision;
     }
 
@@ -198,18 +200,18 @@ abstract class SyncerTest extends \PHPUnit_Framework_TestCase
     public function testReIndex()
     {
         $revision = $this->testInitialBuild();
-        $sdk = $this->getSdk($this->getProductFromShop(array(1, 2)));
+        $sdk = $this->getSdk($this->getProductFromShop([1, 2]));
         $sdk->recreateChangesFeed();
 
         $this->assertChanges(
-            array(),
+            [],
             $this->makeRpcCall(
                 new RpcCall(
-                    array(
+                    [
                         'service' => 'products',
                         'command' => 'fromShop',
-                        'arguments' => array($revision, 100),
-                    )
+                        'arguments' => [$revision, 100],
+                    ]
                 )
             )
         );
@@ -221,21 +223,21 @@ abstract class SyncerTest extends \PHPUnit_Framework_TestCase
     public function testProductUpdate()
     {
         $revision = $this->testInitialBuild();
-        $sdk = $this->getSdk($this->getProductFromShop(array(1, 2), 'update'));
+        $sdk = $this->getSdk($this->getProductFromShop([1, 2], 'update'));
         $sdk->recreateChangesFeed();
 
         $this->assertChanges(
-            array(
-                new Update(array('sourceId' => '1')),
-                new Update(array('sourceId' => '2')),
-            ),
+            [
+                new Update(['sourceId' => '1']),
+                new Update(['sourceId' => '2']),
+            ],
             $this->makeRpcCall(
                 new RpcCall(
-                    array(
+                    [
                         'service' => 'products',
                         'command' => 'fromShop',
-                        'arguments' => array($revision, 100),
-                    )
+                        'arguments' => [$revision, 100],
+                    ]
                 )
             )
         );
@@ -247,31 +249,31 @@ abstract class SyncerTest extends \PHPUnit_Framework_TestCase
     public function testReFetchChanges()
     {
         $revision = $this->testInitialBuild();
-        $sdk = $this->getSdk($this->getProductFromShop(array(1, 2), 'update'));
+        $sdk = $this->getSdk($this->getProductFromShop([1, 2], 'update'));
         $sdk->recreateChangesFeed();
 
         $this->makeRpcCall(
             new RpcCall(
-                array(
+                [
                     'service' => 'products',
                     'command' => 'fromShop',
-                    'arguments' => array($revision, 100),
-                )
+                    'arguments' => [$revision, 100],
+                ]
             )
         );
 
         $this->assertChanges(
-            array(
-                new Update(array('sourceId' => '1')),
-                new Update(array('sourceId' => '2')),
-            ),
+            [
+                new Update(['sourceId' => '1']),
+                new Update(['sourceId' => '2']),
+            ],
             $this->makeRpcCall(
                 new RpcCall(
-                    array(
+                    [
                         'service' => 'products',
                         'command' => 'fromShop',
-                        'arguments' => array($revision, 100),
-                    )
+                        'arguments' => [$revision, 100],
+                    ]
                 )
             )
         );
@@ -283,21 +285,21 @@ abstract class SyncerTest extends \PHPUnit_Framework_TestCase
     public function testProductDelete()
     {
         $revision = $this->testInitialBuild();
-        $sdk = $this->getSdk($this->getProductFromShop(array()));
+        $sdk = $this->getSdk($this->getProductFromShop([]));
         $sdk->recreateChangesFeed();
 
         $this->assertChanges(
-            array(
-                new Delete(array('sourceId' => '1')),
-                new Delete(array('sourceId' => '2')),
-            ),
+            [
+                new Delete(['sourceId' => '1']),
+                new Delete(['sourceId' => '2']),
+            ],
             $this->makeRpcCall(
                 new RpcCall(
-                    array(
+                    [
                         'service' => 'products',
                         'command' => 'fromShop',
-                        'arguments' => array($revision, 100),
-                    )
+                        'arguments' => [$revision, 100],
+                    ]
                 )
             )
         );
@@ -305,9 +307,9 @@ abstract class SyncerTest extends \PHPUnit_Framework_TestCase
 
     public function testFeatures()
     {
-        $features = array(
+        $features = [
             'sellNotInStock' => true
-        );
+        ];
         $this->getGateway()->setFeatures($features);
 
         $result = $this->getGateway()->getFeatures();

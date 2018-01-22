@@ -7,7 +7,7 @@
 
 namespace Shopware\Connect\Struct;
 
-use \Shopware\Connect\Struct;
+use Shopware\Connect\Struct;
 
 /**
  * Base class for metric structs

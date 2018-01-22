@@ -25,26 +25,26 @@ use Shopware\Connect\ShippingCosts\Rules;
  */
 class InMemory extends Gateway
 {
-    protected $products = array();
-    protected $changes = array();
+    protected $products = [];
+    protected $changes = [];
     protected $lastRevision;
-    protected $shopConfiguration = array();
+    protected $shopConfiguration = [];
     protected $shopId = null;
     protected $lastVerificationDate = null;
-    protected $categories = array();
+    protected $categories = [];
     protected $categoriesLastRevision = null;
-    protected $reservations = array();
-    protected $shippingCosts = array();
+    protected $reservations = [];
+    protected $shippingCosts = [];
     protected $shippingCostsRevision;
-    protected $features = array();
-    protected $config = array();
+    protected $features = [];
+    protected $config = [];
     protected $billingAddress;
 
     /**
      * @var array
      */
-    protected $types = array(
-        self::TYPE_PRODUCT => array(
+    protected $types = [
+        self::TYPE_PRODUCT => [
             self::PRODUCT_INSERT,
             self::PRODUCT_UPDATE,
             self::PRODUCT_DELETE,
@@ -52,11 +52,11 @@ class InMemory extends Gateway
             self::STREAM_ASSIGNMENT,
             self::STREAM_DELETE,
             self::MAIN_VARIANT,
-        ),
-        self::TYPE_PAYMENT => array(
+        ],
+        self::TYPE_PAYMENT => [
             self::PAYMENT_UPDATE
-        ),
-    );
+        ],
+    ];
 
     /**
      * @param $offset
@@ -67,7 +67,7 @@ class InMemory extends Gateway
     protected function doNextChange($offset, $limit, array $types)
     {
         $record = $offset === null;
-        $changes = array();
+        $changes = [];
         $i = 0;
         foreach ($this->changes as $revision => $data) {
             if (!in_array($data['type'], $types)) {
@@ -87,7 +87,7 @@ class InMemory extends Gateway
             }
 
             $changes[] = $this->createChange($data);
-            $i++;
+            ++$i;
         }
 
         return $changes;
@@ -147,7 +147,7 @@ class InMemory extends Gateway
     public function getUnprocessedChangesCount($offset, $limit)
     {
         $record = $offset === null;
-        $changes = array();
+        $changes = [];
         $i = 0;
         $count = 0;
         foreach ($this->changes as $revision => $data) {
@@ -164,10 +164,10 @@ class InMemory extends Gateway
             }
 
             if ($i >= $limit) {
-                $count++;
+                ++$count;
             }
 
-            $i++;
+            ++$i;
         }
 
         return $count;
@@ -222,12 +222,12 @@ class InMemory extends Gateway
     {
         $this->checkRevisionExists($revision);
 
-        $this->changes[$revision] = array(
+        $this->changes[$revision] = [
             'type'     => self::PRODUCT_INSERT,
             'sourceId' => $id,
             'revision' => $revision,
             'product'  => $product
-        );
+        ];
         $this->products[$id] = $hash;
     }
 
@@ -244,12 +244,12 @@ class InMemory extends Gateway
     {
         $this->checkRevisionExists($revision);
 
-        $this->changes[$revision] = array(
+        $this->changes[$revision] = [
             'type'     => self::PRODUCT_UPDATE,
             'sourceId' => $id,
             'revision' => $revision,
             'product'  => $product
-        );
+        ];
         $this->products[$id] = $hash;
     }
 
@@ -266,12 +266,12 @@ class InMemory extends Gateway
     {
         $this->checkRevisionExists($revision);
 
-        $this->changes[$revision] = array(
+        $this->changes[$revision] = [
             'type'     => self::PRODUCT_STOCK,
             'sourceId' => $id,
             'revision' => $revision,
             'product'  => $product
-        );
+        ];
         $this->products[$id] = $hash;
     }
 
@@ -286,11 +286,11 @@ class InMemory extends Gateway
     {
         $this->checkRevisionExists($revision);
 
-        $this->changes[$revision] = array(
+        $this->changes[$revision] = [
             'type'     => self::PRODUCT_DELETE,
             'sourceId' => $id,
             'revision' => $revision
-        );
+        ];
         unset($this->products[$id]);
     }
 
@@ -306,13 +306,13 @@ class InMemory extends Gateway
     {
         $this->checkRevisionExists($revision);
 
-        $this->changes[$revision] = array(
+        $this->changes[$revision] = [
             'type'     => self::STREAM_ASSIGNMENT,
             'sourceId' => $id,
             'revision' => $revision,
             'supplierStreams' => $supplierStreams,
             'groupId' => $groupId,
-        );
+        ];
     }
 
     /**
@@ -323,11 +323,11 @@ class InMemory extends Gateway
     {
         $this->checkRevisionExists($revision);
 
-        $this->changes[$revision] = array(
+        $this->changes[$revision] = [
             'type'     => self::STREAM_DELETE,
             'sourceId' => $streamId,
             'revision' => $revision,
-        );
+        ];
     }
 
     /**
@@ -339,12 +339,12 @@ class InMemory extends Gateway
     {
         $this->checkRevisionExists($revision);
 
-        $this->changes[$revision] = array(
+        $this->changes[$revision] = [
             'type' => self::MAIN_VARIANT,
             'sourceId' => $id,
             'revision' => $revision,
             'groupId' => $groupId,
-        );
+        ];
     }
 
     /**
@@ -358,12 +358,12 @@ class InMemory extends Gateway
     {
         $this->checkRevisionExists($revision);
 
-        $this->changes[$revision] = array(
+        $this->changes[$revision] = [
             'type'     => self::PAYMENT_UPDATE,
             'sourceId' => $paymentStatus->localOrderId,
             'revision' => $revision,
             'paymentStatus' => $paymentStatus,
-        );
+        ];
     }
 
     /**
@@ -390,7 +390,7 @@ class InMemory extends Gateway
      *
      * @param string $id
      * @param string $hash
-     * @return boolean
+     * @return bool
      */
     public function hasChanged($id, $hash)
     {
@@ -454,7 +454,7 @@ class InMemory extends Gateway
                 sprintf(
                     'You are not connected to shop %s. Known shops are: %s.',
                     $shopId,
-                    implode(", ", array_keys($this->shopConfiguration))
+                    implode(', ', array_keys($this->shopConfiguration))
                 )
             );
         }
@@ -515,10 +515,10 @@ class InMemory extends Gateway
     public function createReservation(Order $order)
     {
         $reservationId = md5(microtime());
-        $this->reservations[$reservationId] = array(
+        $this->reservations[$reservationId] = [
             'order' => $order,
             'state' => 'new',
-        );
+        ];
 
         return $reservationId;
     }
@@ -608,7 +608,7 @@ class InMemory extends Gateway
     {
         if (!isset($this->shippingCosts[$fromShop][$toShop])) {
             $pairs = array_map(function ($fromShop) {
-                return $fromShop . ": " . implode(", ", array_keys($this->shippingCosts[$fromShop]));
+                return $fromShop . ': ' . implode(', ', array_keys($this->shippingCosts[$fromShop]));
             }, array_keys($this->shippingCosts));
 
             throw new \RuntimeException("Unknown shops $fromShop-$toShop, knowing " . implode(', ', $pairs));
@@ -625,8 +625,9 @@ class InMemory extends Gateway
      */
     public static function __set_state(array $state)
     {
-        $gateway = new InMemory();
+        $gateway = new self();
         $gateway->setInternalState($state);
+
         return $gateway;
     }
 

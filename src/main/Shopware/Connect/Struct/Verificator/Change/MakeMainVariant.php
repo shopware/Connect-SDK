@@ -1,4 +1,5 @@
 <?php
+
 namespace Shopware\Connect\Struct\Verificator\Change;
 
 use Shopware\Connect\Struct\Verificator\Change;

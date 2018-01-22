@@ -42,6 +42,6 @@ class OrderItem extends Struct
      */
     public static function __set_state(array $state)
     {
-        return new OrderItem($state);
+        return new self($state);
     }
 }

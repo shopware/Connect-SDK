@@ -26,10 +26,10 @@ class ExceptionToErrorConverter extends Converter
     {
         if ($object instanceof \Exception) {
             return new RpcError(
-                array(
+                [
                     'message' => $object->getMessage(),
                     'code' => $object->getCode(),
-                )
+                ]
             );
         }
 

@@ -16,16 +16,16 @@ abstract class ErrorHandler
 
     public function registerHandlers()
     {
-        if (defined("PHPUNIT")) {
+        if (defined('PHPUNIT')) {
             // Do not overwrite error handlers in PHPUnit tests. Can cause
             // silent aborts.
             return;
         }
 
         ini_set('display_errors', false);
-        $this->oldExceptionHandler = set_exception_handler(array($this, 'handleException'));
+        $this->oldExceptionHandler = set_exception_handler([$this, 'handleException']);
 
-        register_shutdown_function(array($this, 'handleShutdown'));
+        register_shutdown_function([$this, 'handleShutdown']);
     }
 
     public function restore()
@@ -38,7 +38,7 @@ abstract class ErrorHandler
     {
         $error = error_get_last();
 
-        if ($error === NULL) {
+        if ($error === null) {
             return;
         }
 

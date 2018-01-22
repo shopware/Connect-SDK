@@ -4,6 +4,7 @@
  *
  * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH
  */
+
 namespace Shopware\Connect\Struct\Change\ToShop;
 
 /**

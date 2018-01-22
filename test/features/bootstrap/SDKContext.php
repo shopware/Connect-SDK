@@ -5,8 +5,6 @@ namespace Shopware\Connect;
 use Behat\Behat\Context\BehatContext;
 
 use Shopware\Connect\ProductFromShop\Test;
-use Shopware\Connect\Rpc;
-use Shopware\Connect\Struct;
 use Shopware\Connect\Struct\Product;
 use Shopware\Connect\Service\PurchasePriceSecurity;
 
@@ -112,7 +110,7 @@ class SDKContext extends BehatContext
     protected function getProduct($productId, $data = 'foo')
     {
         return new Product(
-            array(
+            [
                 'sourceId' => (string) $productId,
                 'title' => $data,
                 'price' => $productId * .89,
@@ -121,9 +119,9 @@ class SDKContext extends BehatContext
                 'offerValidUntil' => self::OFFER_VALID_UNTIL,
                 'currency' => 'EUR',
                 'availability' => $productId,
-                'categories' => array('/others'),
+                'categories' => ['/others'],
                 'vendor' => 'Something',
-            )
+            ]
         );
     }
 

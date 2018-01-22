@@ -8,8 +8,6 @@
 namespace Shopware\Connect\ShippingRuleParser;
 
 use Shopware\Connect\ShippingRuleParser;
-use Shopware\Connect\Struct\ShippingRules;
-use Shopware\Connect\ShippingCosts\Rule;
 use Shopware\Connect\Struct\VerificatorDispatcher;
 
 class Validator extends ShippingRuleParser
@@ -52,6 +50,7 @@ class Validator extends ShippingRuleParser
         $rules = $this->aggregate->parseString($string);
 
         $this->verificator->verify($rules);
+
         return $rules;
     }
 }

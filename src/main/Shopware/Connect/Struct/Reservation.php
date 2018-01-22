@@ -29,14 +29,14 @@ class Reservation extends Struct
      *
      * @var array
      */
-    public $messages = array();
+    public $messages = [];
 
     /**
      * Orders per shop
      *
      * @var Struct\Order[]
      */
-    public $orders = array();
+    public $orders = [];
 
     /**
      * Overall shipping costs for the reservation

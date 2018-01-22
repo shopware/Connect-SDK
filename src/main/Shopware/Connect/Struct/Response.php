@@ -34,7 +34,7 @@ class Response extends Struct
      *
      * @var array
      */
-    public $metrics = array();
+    public $metrics = [];
 
     /**
      * Version string of the answering component

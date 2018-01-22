@@ -14,19 +14,19 @@ class CheckResult extends Struct
     /**
      * @var Struct\Change[]
      */
-    public $changes = array();
+    public $changes = [];
 
     /**
      * Errors
      *
      * @var Message[]
      */
-    public $errors = array();
+    public $errors = [];
 
     /**
      * @var Shipping[]
      */
-    public $shippingCosts = array();
+    public $shippingCosts = [];
 
     /**
      * @var Shipping

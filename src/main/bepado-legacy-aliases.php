@@ -1,4 +1,5 @@
 <?php
+
 class_alias('Shopware\Connect\ShippingRuleParser', 'Bepado\SDK\ShippingRuleParser');
 class_alias('Shopware\Connect\ShippingRuleParser\Validator', 'Bepado\SDK\ShippingRuleParser\Validator');
 class_alias('Shopware\Connect\ShippingRuleParser\Google', 'Bepado\SDK\ShippingRuleParser\Google');

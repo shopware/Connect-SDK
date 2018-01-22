@@ -30,7 +30,7 @@ class MySQLi extends Gateway
      *
      * @var array
      */
-    protected $operationStruct = array(
+    protected $operationStruct = [
         self::PRODUCT_INSERT => '\\Shopware\\Connect\\Struct\\Change\\FromShop\\Insert',
         self::PRODUCT_UPDATE => '\\Shopware\\Connect\\Struct\\Change\\FromShop\\Update',
         self::PRODUCT_DELETE => '\\Shopware\\Connect\\Struct\\Change\\FromShop\\Delete',
@@ -39,13 +39,13 @@ class MySQLi extends Gateway
         self::STREAM_DELETE => '\\Shopware\\Connect\\Struct\\Change\\FromShop\\StreamDelete',
         self::MAIN_VARIANT => '\\Shopware\\Connect\\Struct\\Change\\FromShop\\MakeMainVariant',
         self::PAYMENT_UPDATE => '\\Shopware\\Connect\\Struct\\Change\\FromShop\\UpdatePaymentStatus',
-    );
+    ];
 
     /**
      * @var array
      */
-    protected $types = array(
-        self::TYPE_PRODUCT => array(
+    protected $types = [
+        self::TYPE_PRODUCT => [
             self::PRODUCT_INSERT,
             self::PRODUCT_UPDATE,
             self::PRODUCT_DELETE,
@@ -53,11 +53,11 @@ class MySQLi extends Gateway
             self::STREAM_ASSIGNMENT,
             self::STREAM_DELETE,
             self::MAIN_VARIANT,
-        ),
-        self::TYPE_PAYMENT => array(
+        ],
+        self::TYPE_PAYMENT => [
             self::PAYMENT_UPDATE
-        ),
-    );
+        ],
+    ];
 
     /**
      * Construct from MySQL connection
@@ -76,7 +76,7 @@ class MySQLi extends Gateway
         // point representations otherwise omit changes. Yes, this actually
         // really happens.
         if (!preg_match('(^[\\d\\.]+$)', $offset)) {
-            throw new \InvalidArgumentException("Offset revision must be a numeric string.");
+            throw new \InvalidArgumentException('Offset revision must be a numeric string.');
         }
 
         $inStatement = implode("','", $types);
@@ -98,14 +98,14 @@ class MySQLi extends Gateway
                 " . ((int) $limit)
         );
 
-        $changes = array();
+        $changes = [];
         while ($row = $result->fetch_assoc()) {
             $class = $this->operationStruct[$row['c_operation']];
             $changes[] = $change = new $class(
-                array(
+                [
                     'sourceId' => $row['c_entity_id'],
                     'revision' => $row['c_revision'],
-                )
+                ]
             );
 
             if ($row['c_payload'] !== null) {
@@ -167,7 +167,7 @@ class MySQLi extends Gateway
         // point representations otherwise omit changes. Yes, this actually
         // really happens.
         if (!preg_match('(^[\\d\\.]+$)', $offset)) {
-            throw new \InvalidArgumentException("Offset revision must be a numeric string.");
+            throw new \InvalidArgumentException('Offset revision must be a numeric string.');
         }
 
         // Disable cleanup for the first betas for debuggability and easier re-runs.
@@ -188,8 +188,9 @@ class MySQLi extends Gateway
             if (@iconv('UTF-8', 'UTF-8', $value)) {
                 continue;
             }
-            $product->$name = @iconv("UTF-8", "UTF-8//TRANSLIT", $value);
+            $product->$name = @iconv('UTF-8', 'UTF-8//TRANSLIT', $value);
         }
+
         return $product;
     }
 
@@ -208,17 +209,18 @@ class MySQLi extends Gateway
         $inStatement = implode("','", $this->types['product']);
 
         $result = $this->connection->query(
-            "EXPLAIN SELECT
+            'EXPLAIN SELECT
                 *
             FROM
                 `sw_connect_change`
             WHERE
-                `c_revision` > " . $this->connection->real_escape_string($offset) . "
+                `c_revision` > ' . $this->connection->real_escape_string($offset) . "
             AND
                   `c_operation` IN('$inStatement')"
         );
 
         $row = $result->fetch_assoc();
+
         return max(0, $row['rows'] - $limit);
     }
 
@@ -358,7 +360,7 @@ class MySQLi extends Gateway
                 "' . $this->connection->real_escape_string($productId) . '",
                 "' . self::STREAM_ASSIGNMENT . '",
                 "' . $this->connection->real_escape_string($revision) . '",
-                "' . $this->connection->real_escape_string(serialize(array('groupId' => $groupId, 'supplierStreams' => $supplierStreams))) . '"
+                "' . $this->connection->real_escape_string(serialize(['groupId' => $groupId, 'supplierStreams' => $supplierStreams])) . '"
             );'
         );
     }
@@ -403,7 +405,7 @@ class MySQLi extends Gateway
                  "' . $this->connection->real_escape_string($productId) . '",
                  "' . self::MAIN_VARIANT . '",
                  "' . $this->connection->real_escape_string($revision) . '",
-                 "' . $this->connection->real_escape_string(serialize(array('groupId' => $groupId))) . '"
+                 "' . $this->connection->real_escape_string(serialize(['groupId' => $groupId])) . '"
              );'
         );
     }
@@ -500,7 +502,7 @@ class MySQLi extends Gateway
      *
      * @param string $id
      * @param string $hash
-     * @return boolean
+     * @return bool
      */
     public function hasChanged($id, $hash)
     {
@@ -514,6 +516,7 @@ class MySQLi extends Gateway
         );
 
         $row = $result->fetch_assoc();
+
         return $row['p_hash'] !== $hash;
     }
 

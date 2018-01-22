@@ -15,7 +15,7 @@ use Shopware\Connect\Struct;
 class ProductId extends Struct
 {
     /**
-     * @var integer
+     * @var int
      */
     public $shopId;
 

@@ -44,11 +44,11 @@ class MySQLi extends \MySQLi
         @parent::__construct($host, $username, $passwd, $dbname, $port, $socket);
 
         if ($this->connect_errno) {
-            throw new \RuntimeException("Could not connect to database: " . $this->connect_error);
+            throw new \RuntimeException('Could not connect to database: ' . $this->connect_error);
         }
 
         \mysqli_report(\MYSQLI_REPORT_STRICT /* | \MYSQLI_REPORT_INDEX */);
-        $this->set_charset("utf8");
+        $this->set_charset('utf8');
     }
 
     /**

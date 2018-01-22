@@ -19,7 +19,7 @@ class XmlValueMarshaller implements ValueMarshaller
      *
      * @var array
      */
-    private $objectUrns = array();
+    private $objectUrns = [];
 
     /**
      * @var \DOMDocument
@@ -50,12 +50,12 @@ class XmlValueMarshaller implements ValueMarshaller
 
     /**
      * @param mixed $value
-     * @return \DOMDocumentFragment
      * @throws \OutOfRangeException
+     * @return \DOMDocumentFragment
      */
     public function marshal($value)
     {
-        $this->objectUrns = array();
+        $this->objectUrns = [];
         $root = $this->marshalValue($value);
 
         // Add a schemaLocation entry for each used schema. This eases validation.
@@ -68,6 +68,7 @@ class XmlValueMarshaller implements ValueMarshaller
 
         $fragment = $this->document->createDocumentFragment();
         $fragment->appendChild($root);
+
         return $fragment;
     }
 
@@ -80,6 +81,7 @@ class XmlValueMarshaller implements ValueMarshaller
     {
         $element = $this->document->createElement($name);
         $element->appendChild($this->marshalValue($value));
+
         return $element;
     }
 
@@ -94,13 +96,14 @@ class XmlValueMarshaller implements ValueMarshaller
         } elseif (is_array($value)) {
             return $this->marshalArray($value);
         }
+
         return $this->marshalScalar($value);
     }
 
     /**
      * @param \Shopware\Connect\Struct|\Shopware\Connect\Struct $object
-     * @return \DOMElement
      * @throws \OutOfRangeException if no translation for the given object exists
+     * @return \DOMElement
      */
     private function marshalObject($object)
     {
@@ -113,7 +116,7 @@ class XmlValueMarshaller implements ValueMarshaller
         $elementNamespace = "urn:bepado:api:{$targetName}";
 
         $element = $this->document->createElement($targetName);
-        $element->setAttribute("struct", $targetClass);
+        $element->setAttribute('struct', $targetClass);
         $this->helper->updateDefaultNamespace($element, $elementNamespace);
         $this->objectUrns[$elementNamespace] = "http://api.bepado.com/schemas/{$targetName}.xsd";
 
@@ -133,7 +136,7 @@ class XmlValueMarshaller implements ValueMarshaller
      */
     private function marshalArray(array $data)
     {
-        $node = $this->document->createElement("array:array");
+        $node = $this->document->createElement('array:array');
 
         foreach ($data as $key => $value) {
             $item = $this->marshalValue($value);
@@ -147,35 +150,35 @@ class XmlValueMarshaller implements ValueMarshaller
 
     /**
      * @param int|bool|float|string|null $value
-     * @return \DOMElement
      * @throws \ErrorException
+     * @return \DOMElement
      */
     private function marshalScalar($value)
     {
         switch (true) {
             case is_integer($value):
-                $name = "integer";
+                $name = 'integer';
                 break;
             case is_float($value):
-                $name = "float";
+                $name = 'float';
                 break;
             case is_bool($value):
-                $name = "boolean";
-                $value = ($value === true) ? "true" : "false";
+                $name = 'boolean';
+                $value = ($value === true) ? 'true' : 'false';
                 break;
             case is_string($value):
-                $name = "string";
+                $name = 'string';
                 break;
             case is_null($value):
-                $name = "null";
+                $name = 'null';
                 break;
             default:
-                throw new \ErrorException("Unsupported scalar type" . gettype($value) . ".");
+                throw new \ErrorException('Unsupported scalar type' . gettype($value) . '.');
         }
         $node = $this->document->createElement("{$name}:{$name}");
 
         // NULL is a special case, it does not have any value
-        if ($name === "null") {
+        if ($name === 'null') {
             return $node;
         }
 

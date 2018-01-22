@@ -50,11 +50,11 @@ class DownstreamCharges extends Rule
     public function getShippingCosts(Order $order, VatConfig $vatConfig)
     {
         return new Shipping(
-            array(
+            [
                 'rule' => $this,
                 'service' => $this->label,
                 'deliveryWorkDays' => 10,
-            )
+            ]
         );
     }
 }

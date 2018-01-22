@@ -1,10 +1,11 @@
 <?php
+
 return new \Shopware\Connect\Struct\RpcCall(
-    array(
-        "service" => "BooleanService",
-        "command" => "testBoolean",
-        "arguments" => array(
+    [
+        'service' => 'BooleanService',
+        'command' => 'testBoolean',
+        'arguments' => [
             true
-        )
-    )
+        ]
+    ]
 );

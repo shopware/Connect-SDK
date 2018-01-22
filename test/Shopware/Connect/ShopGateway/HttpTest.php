@@ -17,16 +17,16 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function getInvalidResponse()
     {
-        return array(
-            array(404, '<html><body><h1>Not Found</h1></body></html>'),
-            array(500, '<html><body><h1>Internal Server Error</h1></body></html>'),
-            array(200, 'Foo'),
-            array(200, '<?xml ?><foo></bar>'),
+        return [
+            [404, '<html><body><h1>Not Found</h1></body></html>'],
+            [500, '<html><body><h1>Internal Server Error</h1></body></html>'],
+            [200, 'Foo'],
+            [200, '<?xml ?><foo></bar>'],
             // Oxid endpoints like to answer with an empty reponse
-            array(200, ''),
+            [200, ''],
             // Oxid endpoints mike redirect to the frontpage including HTML on exception
-            array(200, '<html></html>'),
-        );
+            [200, '<html></html>'],
+        ];
     }
 
     /**
@@ -39,11 +39,11 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $httpClient
             ->expects($this->once())
             ->method('request')
-            ->will($this->returnValue(new Response(array(
+            ->will($this->returnValue(new Response([
                 'status' => $code,
-                'headers' => array(),
+                'headers' => [],
                 'body' => $body,
-            ))));
+            ])));
 
         $requestSigner = $this->getMockBuilder(ShopRequestSigner::class)
                               ->setMethods(['signRequest'])
@@ -53,7 +53,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $requestSigner
             ->expects($this->any())
             ->method('signRequest')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
         $xmlHelper = new XmlHelper();
         $shopGateway = new Http(

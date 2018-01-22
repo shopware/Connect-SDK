@@ -14,12 +14,12 @@ class Configuration extends Struct
     /**
      * @var array<\Shopware\Connect\Struct\ShopConfiguration>
      */
-    public $shops = array();
+    public $shops = [];
 
     /**
      * @var array
      */
-    public $features = array();
+    public $features = [];
 
     /**
      * @var int

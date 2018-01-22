@@ -34,4 +34,4 @@ class Availability extends Change
             throw new \RuntimeException('Property $sourceId must be set.');
         }
     }
-} 
+}

@@ -7,17 +7,15 @@
 
 namespace Shopware\Connect\Struct;
 
-use Bepado\Common;
-
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
     public function getValidNames()
     {
-        return array(
-            array('Kore Nordmann', 'Kore', '', 'Nordmann'),
-            array('Kore D. Nordmann', 'Kore', 'D.', 'Nordmann'),
-            array('Kore D. E. F. Nordmann', 'Kore', 'D. E. F.', 'Nordmann'),
-        );
+        return [
+            ['Kore Nordmann', 'Kore', '', 'Nordmann'],
+            ['Kore D. Nordmann', 'Kore', 'D.', 'Nordmann'],
+            ['Kore D. E. F. Nordmann', 'Kore', 'D. E. F.', 'Nordmann'],
+        ];
     }
 
     /**
@@ -26,9 +24,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     public function testSetName($name, $firstName, $middleName, $surName)
     {
         $address = new Address(
-            array(
+            [
                 'name' => $name,
-            )
+            ]
         );
 
         $this->assertSame($firstName, $address->firstName);
@@ -42,9 +40,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetName($name)
     {
         $address = new Address(
-            array(
+            [
                 'name' => $name,
-            )
+            ]
         );
 
         $this->assertSame($name, $address->name);
@@ -56,19 +54,19 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     public function testSetInvalidName()
     {
         $address = new Address(
-            array(
+            [
                 'name' => 'Invalid',
-            )
+            ]
         );
     }
 
     public function getValidStreets()
     {
-        return array(
-            array('Musterweg 1', 'Musterweg', '1'),
-            array('Muster Weg 1', 'Muster Weg', '1'),
-            array('Musterweg 23a', 'Musterweg', '23a'),
-        );
+        return [
+            ['Musterweg 1', 'Musterweg', '1'],
+            ['Muster Weg 1', 'Muster Weg', '1'],
+            ['Musterweg 23a', 'Musterweg', '23a'],
+        ];
     }
 
     /**
@@ -77,9 +75,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     public function testSetStreet($line1, $street, $streetNumber)
     {
         $address = new Address(
-            array(
+            [
                 'line1' => $line1,
-            )
+            ]
         );
 
         $this->assertSame($street, $address->street);
@@ -92,9 +90,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGetStreet($line1)
     {
         $address = new Address(
-            array(
+            [
                 'line1' => $line1,
-            )
+            ]
         );
 
         $this->assertSame($line1, $address->line1);
@@ -106,18 +104,18 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     public function testSetInvalidStreet()
     {
         $address = new Address(
-            array(
+            [
                 'line1' => 'Invalid',
-            )
+            ]
         );
     }
 
     public function testSetAndGetAdditionalAddressLine()
     {
         $address = new Address(
-            array(
+            [
                 'line2' => 'Some random data',
-            )
+            ]
         );
 
         $this->assertSame('Some random data', $address->line2);

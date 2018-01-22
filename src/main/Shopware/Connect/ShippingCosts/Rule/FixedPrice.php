@@ -59,13 +59,13 @@ class FixedPrice extends Rule
     public function getShippingCosts(Order $order, VatConfig $vatConfig)
     {
         return new Shipping(
-            array(
+            [
                 'rule' => $this,
                 'service' => $this->label,
                 'deliveryWorkDays' => $this->deliveryWorkDays,
                 'shippingCosts' => $this->price / ($vatConfig->isNet ? 1 : 1 + $vatConfig->vat),
                 'grossShippingCosts' => $this->price * (!$vatConfig->isNet ? 1 : 1 + $vatConfig->vat),
-            )
+            ]
         );
     }
 }

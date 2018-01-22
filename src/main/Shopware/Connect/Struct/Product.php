@@ -109,7 +109,7 @@ class Product extends ShopItem
     /**
      * Shows if the product is EOL
      *
-     * @var boolean
+     * @var bool
      */
     public $lastStock;
 
@@ -291,14 +291,14 @@ class Product extends ShopItem
      * partners to change the price. Using this flag for preventing partners
      * to change the price is not allowed.
      *
-     * @var boolean
+     * @var bool
      */
     public $fixedPrice = false;
 
     /**
      * @var \Shopware\Connect\Struct\PriceRange[]
      */
-    public $priceRanges = array();
+    public $priceRanges = [];
 
     /**
      * Currency of the price
@@ -307,7 +307,7 @@ class Product extends ShopItem
      *
      * @var string
      */
-    public $currency = "EUR";
+    public $currency = 'EUR';
 
     /**
      * Override for shipping costs based on article.
@@ -319,7 +319,7 @@ class Product extends ShopItem
     /**
      * Optional delivery date for this product as a unix timestamp.
      *
-     * @var integer
+     * @var int
      */
     public $deliveryDate;
 
@@ -332,7 +332,7 @@ class Product extends ShopItem
      * groups based on the interval 0 < 1-10 (low) < 11-100 (medium) < 101 to
      * infinity (high).
      *
-     * @var integer
+     * @var int
      */
     public $availability;
 
@@ -345,7 +345,7 @@ class Product extends ShopItem
      *
      * @var string[]
      */
-    public $images = array();
+    public $images = [];
 
     /**
      * List of specific variant image URLs
@@ -355,7 +355,7 @@ class Product extends ShopItem
      *
      * @var string[]
      */
-    public $variantImages = array();
+    public $variantImages = [];
 
     /**
      * Product categories.
@@ -382,14 +382,14 @@ class Product extends ShopItem
      *
      * @var string[]
      */
-    public $categories = array();
+    public $categories = [];
 
     /**
      * List of properties that helps other shops to filter a product
      *
      * @var \Shopware\Connect\Struct\Property[]
      */
-    public $properties = array();
+    public $properties = [];
 
     /**
      * Product Tags
@@ -399,7 +399,7 @@ class Product extends ShopItem
      *
      * @var array
      */
-    public $tags = array();
+    public $tags = [];
 
     /**
      * Factor that affects the boost of products in search results.
@@ -421,7 +421,7 @@ class Product extends ShopItem
      *
      * @var string[]
      */
-    public $attributes = array();
+    public $attributes = [];
 
     /**
      * Variant attributes, represented as key value pairs with data.
@@ -435,7 +435,7 @@ class Product extends ShopItem
      *
      * @var array
      */
-    public $variant = array();
+    public $variant = [];
 
     /**
      * Workdays until this product can be delivered.
@@ -451,7 +451,7 @@ class Product extends ShopItem
      *
      * @var \Shopware\Connect\Struct\Translation[string]
      */
-    public $translations = array();
+    public $translations = [];
 
     /**
      * Minimum quantity to purchase this product
@@ -517,7 +517,6 @@ class Product extends ShopItem
      */
     public $similar = [];
 
-
     /**
      * Restores a product from a previously stored state array.
      *
@@ -526,7 +525,7 @@ class Product extends ShopItem
      */
     public static function __set_state(array $state)
     {
-        return new Product($state);
+        return new self($state);
     }
 
     public function &__get($property)
@@ -537,6 +536,7 @@ class Product extends ShopItem
                 return $val;
             case 'hasVariants':
                 $val = $this->groupId !== null;
+
                 return $val;
             default:
                 return parent::__get($property);
@@ -564,7 +564,7 @@ class Product extends ShopItem
      */
     public function getVariantString()
     {
-        $data = array();
+        $data = [];
 
         foreach ($this->variant as $key => $value) {
             $data[] = $key . '=' . $value;

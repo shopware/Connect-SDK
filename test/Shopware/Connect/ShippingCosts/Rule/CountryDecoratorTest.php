@@ -4,7 +4,6 @@ namespace Shopware\Connect\ShippingCosts\Rule;
 
 use Shopware\Connect\ShippingCosts\Rule;
 use Shopware\Connect\Struct;
-use Phake;
 
 class CountryDecoratorTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,19 +15,19 @@ class CountryDecoratorTest extends \PHPUnit_Framework_TestCase
         $delegatee = $this->createMock(Rule::class);
         $delegatee->method('isApplicable')->with($this->anything())->willReturn(true);
 
-        $country = new CountryDecorator(array(
-            'countries' => array('DEU'),
+        $country = new CountryDecorator([
+            'countries' => ['DEU'],
             'delegatee' => $delegatee
-        ));
+        ]);
 
         $this->assertTrue(
             $country->isApplicable(
                 new Struct\Order(
-                    array(
-                        'deliveryAddress' => new Struct\Address(array(
+                    [
+                        'deliveryAddress' => new Struct\Address([
                             'country' => 'DEU',
-                        ))
-                    )
+                        ])
+                    ]
                 )
             )
         );
@@ -41,21 +40,21 @@ class CountryDecoratorTest extends \PHPUnit_Framework_TestCase
     {
         $delegatee = $this->createMock(Rule::class);
 
-        $country = new CountryDecorator(array(
-            'countries' => array('DEU'),
-            'excludeZipCodes' => array('53'),
+        $country = new CountryDecorator([
+            'countries' => ['DEU'],
+            'excludeZipCodes' => ['53'],
             'delegatee' => $delegatee
-        ));
+        ]);
 
         $this->assertFalse(
             $country->isApplicable(
                 new Struct\Order(
-                    array(
-                        'deliveryAddress' => new Struct\Address(array(
+                    [
+                        'deliveryAddress' => new Struct\Address([
                             'country' => 'DEU',
                             'zip' => '53225',
-                        ))
-                    )
+                        ])
+                    ]
                 )
             )
         );

@@ -7,8 +7,6 @@
 
 namespace Shopware\Connect;
 
-use Shopware\Connect\ShippingCosts\Rule;
-use Shopware\Connect\Gateway\ShippingCosts;
 use Shopware\Connect\ShippingCosts\Rules;
 
 /**

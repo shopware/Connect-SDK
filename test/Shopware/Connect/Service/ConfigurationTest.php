@@ -13,14 +13,14 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $gateway = new Gateway\InMemory();
         $service = new Configuration($gateway);
 
-        $service->replicate(array(
-            array(
-                'configuration' => new Struct\Configuration(array(
+        $service->replicate([
+            [
+                'configuration' => new Struct\Configuration([
                     'priceType' => SDK::PRICE_TYPE_PURCHASE,
                     'billingAddress' => new Struct\Address()
-                ))
-            )
-        ));
+                ])
+            ]
+        ]);
 
         $this->assertEquals(SDK::PRICE_TYPE_PURCHASE, $gateway->getConfig(SDK::CONFIG_PRICE_TYPE));
     }
@@ -31,14 +31,14 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $service = new Configuration($gateway);
         $gateway->setConfig(SDK::CONFIG_PRICE_TYPE, SDK::PRICE_TYPE_RETAIL);
 
-        $service->replicate(array(
-            array(
-                'configuration' => new Struct\Configuration(array(
+        $service->replicate([
+            [
+                'configuration' => new Struct\Configuration([
                     'priceType' => SDK::PRICE_TYPE_PURCHASE,
                     'billingAddress' => new Struct\Address()
-                ))
-            )
-        ));
+                ])
+            ]
+        ]);
 
         $this->assertEquals(SDK::PRICE_TYPE_PURCHASE, $gateway->getConfig(SDK::CONFIG_PRICE_TYPE));
     }
@@ -50,14 +50,14 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 
         $gateway->setConfig(SDK::CONFIG_PRICE_TYPE, SDK::PRICE_TYPE_NONE);
 
-        $service->replicate(array(
-            array(
-                'configuration' => new Struct\Configuration(array(
+        $service->replicate([
+            [
+                'configuration' => new Struct\Configuration([
                     'priceType' => SDK::PRICE_TYPE_PURCHASE,
                     'billingAddress' => new Struct\Address()
-                ))
-            )
-        ));
+                ])
+            ]
+        ]);
 
         $this->assertEquals(SDK::PRICE_TYPE_PURCHASE, $gateway->getConfig(SDK::CONFIG_PRICE_TYPE));
     }

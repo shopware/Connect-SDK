@@ -4,7 +4,6 @@ namespace Shopware\Connect\Struct\Verificator;
 
 use Shopware\Connect\Exception\VerificationFailedException;
 use Shopware\Connect\Struct;
-use Shopware\Connect\ShippingRuleParser;
 
 class TranslationTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,17 +11,17 @@ class TranslationTest extends \PHPUnit_Framework_TestCase
 
     private function createValidTranslation()
     {
-        return new Struct\Translation(array(
+        return new Struct\Translation([
             'title' => 'Rote Strickmütze',
             'shortDescription' => 'Eine rote Strickmütze',
             'longDescription' => 'Eine sehr schöne röte Strickmütze',
-            'variantLabels' => array(
+            'variantLabels' => [
                 'color' => 'Farbe',
-            ),
-            'variantValues' => array(
+            ],
+            'variantValues' => [
                 'red' => 'rot',
-            ),
-        ));
+            ],
+        ]);
     }
 
     public function setUp()

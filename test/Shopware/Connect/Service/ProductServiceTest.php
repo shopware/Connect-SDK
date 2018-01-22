@@ -13,7 +13,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $gateway = $this->createMock(Gateway::class);
         $service = new ProductService(
-            $gateway, $gateway, $gateway,
+            $gateway,
+            $gateway,
+            $gateway,
             $toShop = $this->createMock(ProductToShop::class),
             $fromShop = $this->createMock(ProductFromShop::class),
             $export = $this->createMock(Export::class)
@@ -21,20 +23,22 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $toShop->expects($this->atLeastOnce())->method('changeAvailability')->with(10, 'foo123', 100);
 
-        $service->replicate(array(
-            new Struct\Change\ToShop\Availability(array(
+        $service->replicate([
+            new Struct\Change\ToShop\Availability([
                 'shopId' => 10,
                 'sourceId' => 'foo123',
                 'availability' => 100,
-            ))
-        ));
+            ])
+        ]);
     }
 
     public function testRepliacteUpdateToShopChange()
     {
         $gateway = $this->createMock(Gateway::class);
         $service = new ProductService(
-            $gateway, $gateway, $gateway,
+            $gateway,
+            $gateway,
+            $gateway,
             $toShop = $this->createMock(ProductToShop::class),
             $fromShop = $this->createMock(ProductFromShop::class),
             $export = $this->createMock(Export::class)
@@ -43,32 +47,34 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $toShop->expects($this->atLeastOnce())->method('update')->with(10, 'foo123', $product);
 
-        $service->replicate(array(
-            new Struct\Change\ToShop\Update(array(
+        $service->replicate([
+            new Struct\Change\ToShop\Update([
                 'shopId' => 10,
                 'sourceId' => 'foo123',
                 'product' => $product,
-            ))
-        ));
+            ])
+        ]);
     }
 
     public function testRepliacteUpdateOrderStatusToShopChange()
     {
         $gateway = $this->createMock(Gateway::class);
         $service = new ProductService(
-            $gateway, $gateway, $gateway,
+            $gateway,
+            $gateway,
+            $gateway,
             $toShop = $this->createMock(ProductToShop::class),
             $fromShop = $this->createMock(ProductFromShop::class),
             $export = $this->createMock(Export::class)
         );
         $toShop->expects($this->atLeastOnce())->method('updateOrderStatus')->with(10, 'completed', 'foo123');
 
-        $service->replicate(array(
-            new Struct\Change\ToShop\UpdateOrderStatus(array(
+        $service->replicate([
+            new Struct\Change\ToShop\UpdateOrderStatus([
                 'localOrderId' => 10,
                 'trackingNumber' => 'foo123',
                 'orderStatus' => 'completed',
-            ))
-        ));
+            ])
+        ]);
     }
 }

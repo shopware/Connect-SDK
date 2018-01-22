@@ -1,7 +1,8 @@
 <?php
+
 namespace Shopware\Connect\Struct;
 
-use \Shopware\Connect\Struct;
+use Shopware\Connect\Struct;
 
 class RpcCall extends Struct
 {
@@ -18,5 +19,5 @@ class RpcCall extends Struct
     /**
      * @var string[]
      */
-    public $arguments = array();
+    public $arguments = [];
 }

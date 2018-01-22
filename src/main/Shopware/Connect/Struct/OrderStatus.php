@@ -42,9 +42,9 @@ class OrderStatus extends Struct
     public $status;
 
     /**
-     * @var \Shopware\Connect\Struct\Message[] $messages
+     * @var \Shopware\Connect\Struct\Message[]
      */
-    public $messages = array();
+    public $messages = [];
 
     /**
      * Optional tracking data

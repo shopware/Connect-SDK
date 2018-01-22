@@ -17,7 +17,7 @@ foreach ($classes as $class) {
     if (strpos($class, 'Bepado\SDK') === 0) {
         $newClass = str_replace('Bepado\SDK', 'Shopware\Connect', $class);
         $oldClass = $class;
-    } else if (strpos($class, 'Shopware\Connect') === 0) {
+    } elseif (strpos($class, 'Shopware\Connect') === 0) {
         $oldClass = str_replace('Shopware\Connect', 'Bepado\SDK', $class);
         $newClass = $class;
     } else {

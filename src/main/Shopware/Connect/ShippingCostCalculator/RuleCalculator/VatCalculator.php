@@ -42,14 +42,14 @@ class VatCalculator
                 );
 
             case Rules::VAT_DOMINATING:
-                $prices = array();
+                $prices = [];
 
                 foreach ($order->orderItems as $orderItem) {
-                    if (!isset($prices[(string)$orderItem->product->vat])) {
-                        $prices[(string)$orderItem->product->vat] = 0;
+                    if (!isset($prices[(string) $orderItem->product->vat])) {
+                        $prices[(string) $orderItem->product->vat] = 0;
                     }
 
-                    $prices[(string)$orderItem->product->vat] += $orderItem->product->price * $orderItem->count;
+                    $prices[(string) $orderItem->product->vat] += $orderItem->product->price * $orderItem->count;
                 }
 
                 arsort($prices);
@@ -80,7 +80,7 @@ class VatCalculator
                 return $vatConfig->vat;
 
             default:
-                throw new \RuntimeException("Unknown VAT mode specified: " . $vatConfig->mode);
+                throw new \RuntimeException('Unknown VAT mode specified: ' . $vatConfig->mode);
         }
     }
 }

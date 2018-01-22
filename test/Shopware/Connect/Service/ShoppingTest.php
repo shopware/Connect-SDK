@@ -25,18 +25,17 @@ class ShoppingTest extends \PHPUnit_Framework_TestCase
 
         $gateway = $this->createMock(ShopGateway::class);
         $factory->method('getShopGateway')
-            ->withConsecutive([1],[2])
+            ->withConsecutive([1], [2])
             ->willReturn($gateway);
         $gateway->method('reserveProducts')->with($this->anything())->willReturn(
             new \Shopware\Connect\Struct\CheckResult()
         );
 
-        $shippingCosts = new \Shopware\Connect\Struct\Shipping(array('shippingCosts' => 1, 'grossShippingCosts' => 2));
+        $shippingCosts = new \Shopware\Connect\Struct\Shipping(['shippingCosts' => 1, 'grossShippingCosts' => 2]);
         $gateway->method('checkProducts')->with($this->anything())
             ->willReturn(new \Shopware\Connect\Struct\CheckResult(
-                array('shippingCosts' => array($shippingCosts), 'aggregatedShippingCosts' => $shippingCosts)
-            ))
-        ;
+                ['shippingCosts' => [$shippingCosts], 'aggregatedShippingCosts' => $shippingCosts]
+            ));
 
         $return = $shopping->reserveProducts($this->createOrder());
 
@@ -59,18 +58,19 @@ class ShoppingTest extends \PHPUnit_Framework_TestCase
 
         $reservationId = uniqid();
         $gateway = $this->createMock(ShopGateway::class);
-        $factory->method('getShopGateway')->withConsecutive([1],[2])->willReturn($gateway);
+        $factory->method('getShopGateway')->withConsecutive([1], [2])->willReturn($gateway);
         $gateway->method('reserveProducts')->with($this->anything())->willReturn($reservationId);
 
 
         $gateway->method('checkProducts')->with($this->anything())
-            ->willReturn(new \Shopware\Connect\Struct\CheckResult(array(
-                    'shippingCosts' => array(
-                        new \Shopware\Connect\Struct\Shipping(array('shopId' => 1, 'shippingCosts' => 3, 'grossShippingCosts' => 5)),
-                        new \Shopware\Connect\Struct\Shipping(array('shopId' => 2, 'shippingCosts' => 4, 'grossShippingCosts' => 8))
-                    ),
-                    'aggregatedShippingCosts' => new \Shopware\Connect\Struct\Shipping(array('shippingCosts' => 7, 'grossShippingCosts' => 13)),
-                )
+            ->willReturn(new \Shopware\Connect\Struct\CheckResult(
+                [
+                    'shippingCosts' => [
+                        new \Shopware\Connect\Struct\Shipping(['shopId' => 1, 'shippingCosts' => 3, 'grossShippingCosts' => 5]),
+                        new \Shopware\Connect\Struct\Shipping(['shopId' => 2, 'shippingCosts' => 4, 'grossShippingCosts' => 8])
+                    ],
+                    'aggregatedShippingCosts' => new \Shopware\Connect\Struct\Shipping(['shippingCosts' => 7, 'grossShippingCosts' => 13]),
+                ]
             ));
 
         $return = $shopping->reserveProducts($this->createOrder());
@@ -90,7 +90,8 @@ class ShoppingTest extends \PHPUnit_Framework_TestCase
         self::assertEquals(8, $return->orders[2]->shipping->grossShippingCosts);
     }
 
-    public function testCheckProducts() {
+    public function testCheckProducts()
+    {
         $shopping = new Shopping(
             $factory = $this->createMock(ShopFactory::class),
             $this->createMock(ChangeVisitor::class),
@@ -104,25 +105,27 @@ class ShoppingTest extends \PHPUnit_Framework_TestCase
         $gateway2 = $this->createMock(ShopGateway::class);
         $factory->expects($this->exactly(2))
             ->method('getShopGateway')
-            ->withConsecutive([1],[2])
+            ->withConsecutive([1], [2])
             ->willReturnOnConsecutiveCalls($gateway1, $gateway2);
 
         $gateway1->method('checkProducts')->with($this->anything())
-            ->willReturn(new \Shopware\Connect\Struct\CheckResult(array(
-                    'shippingCosts' => array(
-                        new \Shopware\Connect\Struct\Shipping(array('shopId' => 1, 'shippingCosts' => 3, 'grossShippingCosts' => 5)),
-                    ),
+            ->willReturn(new \Shopware\Connect\Struct\CheckResult(
+                [
+                    'shippingCosts' => [
+                        new \Shopware\Connect\Struct\Shipping(['shopId' => 1, 'shippingCosts' => 3, 'grossShippingCosts' => 5]),
+                    ],
                     'changes' => [],
-                )
+                ]
             ));
 
         $gateway2->method('checkProducts')->with($this->anything())
-            ->willReturn(new \Shopware\Connect\Struct\CheckResult(array(
-                    'shippingCosts' => array(
-                        new \Shopware\Connect\Struct\Shipping(array('shopId' => 2, 'shippingCosts' => 4, 'grossShippingCosts' => 8))
-                    ),
+            ->willReturn(new \Shopware\Connect\Struct\CheckResult(
+                [
+                    'shippingCosts' => [
+                        new \Shopware\Connect\Struct\Shipping(['shopId' => 2, 'shippingCosts' => 4, 'grossShippingCosts' => 8])
+                    ],
                     'changes' => [],
-                )
+                ]
             ));
 
         $return = $shopping->checkProducts($this->createOrder());
@@ -142,35 +145,35 @@ class ShoppingTest extends \PHPUnit_Framework_TestCase
     private function createOrder()
     {
         return new \Shopware\Connect\Struct\Order(
-            array(
+            [
                 'deliveryAddress' => new \Shopware\Connect\Struct\Address(),
-                'products' => array(
+                'products' => [
                     new \Shopware\Connect\Struct\OrderItem(
-                        array(
+                        [
                             'count' => 1,
                             'product' => new \Shopware\Connect\Struct\Product(
-                                array(
+                                [
                                     'shopId' => 1,
                                     'freeDelivery' => false,
                                     'vat' => 0.07,
-                                )
+                                ]
                             ),
-                        )
+                        ]
                     ),
                     new \Shopware\Connect\Struct\OrderItem(
-                        array(
+                        [
                             'count' => 1,
                             'product' => new \Shopware\Connect\Struct\Product(
-                                array(
+                                [
                                     'shopId' => 2,
                                     'freeDelivery' => false,
                                     'vat' => 0.19,
-                                )
+                                ]
                             ),
-                        )
+                        ]
                     ),
-                ),
-            )
+                ],
+            ]
         );
     }
 

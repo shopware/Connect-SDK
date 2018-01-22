@@ -20,7 +20,7 @@ class OrderStatus extends Verificator
 {
     protected function verifyDefault(VerificatorDispatcher $dispatcher, Struct $struct)
     {
-        $requiredStrings = array('id', 'status');
+        $requiredStrings = ['id', 'status'];
 
         foreach ($requiredStrings as $requiredString) {
             if (!is_string($struct->$requiredString)) {
@@ -32,7 +32,7 @@ class OrderStatus extends Verificator
             }
         }
 
-        $allowedStates = array('open', 'in_process', 'delivered', 'canceled', 'error');
+        $allowedStates = ['open', 'in_process', 'delivered', 'canceled', 'error'];
 
         if (!in_array($struct->status, $allowedStates)) {
             throw new \Shopware\Connect\Exception\VerificationFailedException(
@@ -47,7 +47,7 @@ class OrderStatus extends Verificator
         if ($struct->tracking !== null) {
             if (!($struct->tracking instanceof \Shopware\Connect\Struct\Tracking)) {
                 throw new \Shopware\Connect\Exception\VerificationFailedException(
-                    "OrderStatus#tracking must be an instance of \\Shopware\\Connect\\Struct\\Tracking"
+                    'OrderStatus#tracking must be an instance of \\Shopware\\Connect\\Struct\\Tracking'
                 );
             }
 

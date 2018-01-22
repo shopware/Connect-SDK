@@ -1,4 +1,5 @@
 <?php
+
 namespace Shopware\Connect\Rpc;
 
 use Shopware\Connect\Struct;
@@ -24,18 +25,18 @@ class MarshallerTest extends \PHPUnit_Framework_TestCase
      */
     public function provideMarshalData()
     {
-        return array(
-            array("RpcCalls/Empty", "MarshalledXml/Empty"),
-            array("RpcCalls/Integer", "MarshalledXml/Integer"),
-            array("RpcCalls/Boolean", "MarshalledXml/Boolean"),
-            array("RpcCalls/Null", "MarshalledXml/Null"),
-            array("RpcCalls/Float", "MarshalledXml/Float"),
-            array("RpcCalls/String", "MarshalledXml/String"),
-            array("RpcCalls/EmptyArray", "MarshalledXml/EmptyArray"),
-            array("RpcCalls/Array", "MarshalledXml/Array"),
-            array("RpcCalls/Product", "MarshalledXml/Product"),
-            array("RpcCalls/Mixed", "MarshalledXml/Mixed"),
-        );
+        return [
+            ['RpcCalls/Empty', 'MarshalledXml/Empty'],
+            ['RpcCalls/Integer', 'MarshalledXml/Integer'],
+            ['RpcCalls/Boolean', 'MarshalledXml/Boolean'],
+            ['RpcCalls/Null', 'MarshalledXml/Null'],
+            ['RpcCalls/Float', 'MarshalledXml/Float'],
+            ['RpcCalls/String', 'MarshalledXml/String'],
+            ['RpcCalls/EmptyArray', 'MarshalledXml/EmptyArray'],
+            ['RpcCalls/Array', 'MarshalledXml/Array'],
+            ['RpcCalls/Product', 'MarshalledXml/Product'],
+            ['RpcCalls/Mixed', 'MarshalledXml/Mixed'],
+        ];
     }
 
     /**
@@ -54,10 +55,10 @@ class MarshallerTest extends \PHPUnit_Framework_TestCase
 
     public function provideSimpleClassMapMarshalData()
     {
-        return array(
-            array("RpcCalls/Product", "MarshalledXml/SimpleClassMapProduct"),
-            array("RpcCalls/Mixed", "MarshalledXml/SimpleClassMapMixed"),
-        );
+        return [
+            ['RpcCalls/Product', 'MarshalledXml/SimpleClassMapProduct'],
+            ['RpcCalls/Mixed', 'MarshalledXml/SimpleClassMapMixed'],
+        ];
     }
 
     /**
@@ -65,14 +66,14 @@ class MarshallerTest extends \PHPUnit_Framework_TestCase
      * @param $xml
      * @dataProvider provideSimpleClassMapMarshalData
      */
-    public function testMarshalObjectWithSimpleClassMapConversion($rpcCall, $xml) {
+    public function testMarshalObjectWithSimpleClassMapConversion($rpcCall, $xml)
+    {
         $marshaller = new \Shopware\Connect\Rpc\Marshaller\CallMarshaller\XmlCallMarshaller(
             new \Shopware\Connect\XmlHelper(),
             new \Shopware\Connect\Rpc\Marshaller\Converter\SimpleClassMapConverter(
-                array(
-                    'Shopware\\Connect\\Rpc\\ShopProduct' =>
-                        'Shopware\\Connect\\Struct\\Product'
-                )
+                [
+                    'Shopware\\Connect\\Rpc\\ShopProduct' => 'Shopware\\Connect\\Struct\\Product'
+                ]
             )
         );
 
@@ -81,14 +82,14 @@ class MarshallerTest extends \PHPUnit_Framework_TestCase
 
     public function provideChainingConverterMarshalData()
     {
-        return array(
+        return [
             // Intentionally simple results, since these should not change!
-            array("RpcCalls/Product", "MarshalledXml/SimpleClassMapProduct"),
-            array("RpcCalls/Mixed", "MarshalledXml/SimpleClassMapMixed"),
+            ['RpcCalls/Product', 'MarshalledXml/SimpleClassMapProduct'],
+            ['RpcCalls/Mixed', 'MarshalledXml/SimpleClassMapMixed'],
             // Specialized
-            array("RpcCalls/Exception", "MarshalledXml/ChainedMapException"),
-            array("RpcCalls/InvalidArgumentException", "MarshalledXml/ChainedMapInvalidArgumentException"),
-        );
+            ['RpcCalls/Exception', 'MarshalledXml/ChainedMapException'],
+            ['RpcCalls/InvalidArgumentException', 'MarshalledXml/ChainedMapInvalidArgumentException'],
+        ];
     }
 
     /**
@@ -101,15 +102,14 @@ class MarshallerTest extends \PHPUnit_Framework_TestCase
         $marshaller = new \Shopware\Connect\Rpc\Marshaller\CallMarshaller\XmlCallMarshaller(
             new \Shopware\Connect\XmlHelper(),
             new \Shopware\Connect\Rpc\Marshaller\Converter\ChainingConverter(
-                array(
+                [
                     new \Shopware\Connect\Rpc\Marshaller\Converter\ExceptionToErrorConverter(),
                     new \Shopware\Connect\Rpc\Marshaller\Converter\SimpleClassMapConverter(
-                        array(
-                            'Shopware\\Connect\\Rpc\\ShopProduct' =>
-                                'Shopware\\Connect\\Struct\\Product'
-                        )
+                        [
+                            'Shopware\\Connect\\Rpc\\ShopProduct' => 'Shopware\\Connect\\Struct\\Product'
+                        ]
                     )
-                )
+                ]
             )
         );
 
@@ -123,19 +123,19 @@ class MarshallerTest extends \PHPUnit_Framework_TestCase
      */
     public function provideUnmarshalData()
     {
-        return array(
-            array("MarshalledXml/Empty", "RpcCalls/Empty"),
-            array("MarshalledXml/Integer", "RpcCalls/Integer"),
-            array("MarshalledXml/Boolean", "RpcCalls/Boolean"),
-            array("MarshalledXml/Null", "RpcCalls/Null"),
-            array("MarshalledXml/Float", "RpcCalls/Float"),
-            array("MarshalledXml/String", "RpcCalls/String"),
-            array("MarshalledXml/EmptyArray", "RpcCalls/EmptyArray"),
-            array("MarshalledXml/Array", "RpcCalls/Array"),
-            array("MarshalledXml/ArrayWithoutKey", "RpcCalls/Array"),
-            array("MarshalledXml/Product", "RpcCalls/Product"),
-            array("MarshalledXml/Mixed", "RpcCalls/Mixed"),
-        );
+        return [
+            ['MarshalledXml/Empty', 'RpcCalls/Empty'],
+            ['MarshalledXml/Integer', 'RpcCalls/Integer'],
+            ['MarshalledXml/Boolean', 'RpcCalls/Boolean'],
+            ['MarshalledXml/Null', 'RpcCalls/Null'],
+            ['MarshalledXml/Float', 'RpcCalls/Float'],
+            ['MarshalledXml/String', 'RpcCalls/String'],
+            ['MarshalledXml/EmptyArray', 'RpcCalls/EmptyArray'],
+            ['MarshalledXml/Array', 'RpcCalls/Array'],
+            ['MarshalledXml/ArrayWithoutKey', 'RpcCalls/Array'],
+            ['MarshalledXml/Product', 'RpcCalls/Product'],
+            ['MarshalledXml/Mixed', 'RpcCalls/Mixed'],
+        ];
     }
 
     /**
@@ -152,10 +152,10 @@ class MarshallerTest extends \PHPUnit_Framework_TestCase
 
     public function provideSimpleClassMapUnmarshalData()
     {
-        return array(
-            array("MarshalledXml/Product", "RpcCalls/SimpleClassMapProduct"),
-            array("MarshalledXml/Mixed", "RpcCalls/SimpleClassMapMixed"),
-        );
+        return [
+            ['MarshalledXml/Product', 'RpcCalls/SimpleClassMapProduct'],
+            ['MarshalledXml/Mixed', 'RpcCalls/SimpleClassMapMixed'],
+        ];
     }
 
     /**
@@ -163,14 +163,13 @@ class MarshallerTest extends \PHPUnit_Framework_TestCase
      * @param string $rpcCall
      * @dataProvider provideSimpleClassMapUnmarshalData
      */
-    public function testUnmarshalObjectWithSimpleClassMapConversion ($xml, $rpcCall)
+    public function testUnmarshalObjectWithSimpleClassMapConversion($xml, $rpcCall)
     {
         $unmarshaller = new \Shopware\Connect\Rpc\Marshaller\CallUnmarshaller\XmlCallUnmarshaller(
             new \Shopware\Connect\Rpc\Marshaller\Converter\SimpleClassMapConverter(
-                array(
-                    'Shopware\\Connect\\Struct\\Product' =>
-                    'Shopware\\Connect\\Rpc\\ShopProduct'
-                )
+                [
+                    'Shopware\\Connect\\Struct\\Product' => 'Shopware\\Connect\\Rpc\\ShopProduct'
+                ]
             )
         );
 
@@ -179,10 +178,10 @@ class MarshallerTest extends \PHPUnit_Framework_TestCase
 
     public function provideErrorUnmarshalData()
     {
-        return array(
-            array("MarshalledXml/Exception"),
-            array("MarshalledXml/InvalidArgumentException"),
-        );
+        return [
+            ['MarshalledXml/Exception'],
+            ['MarshalledXml/InvalidArgumentException'],
+        ];
     }
 
     /**
@@ -195,15 +194,14 @@ class MarshallerTest extends \PHPUnit_Framework_TestCase
     {
         $unmarshaller = new \Shopware\Connect\Rpc\Marshaller\CallUnmarshaller\XmlCallUnmarshaller(
             new \Shopware\Connect\Rpc\Marshaller\Converter\ChainingConverter(
-                array(
+                [
                     new \Shopware\Connect\Rpc\Marshaller\Converter\ErrorToExceptionConverter(),
                     new \Shopware\Connect\Rpc\Marshaller\Converter\SimpleClassMapConverter(
-                        array(
-                            'Shopware\\Connect\\Struct\\Product' =>
-                            'Shopware\\Connect\\Rpc\\Product\\ShopProduct'
-                        )
+                        [
+                            'Shopware\\Connect\\Struct\\Product' => 'Shopware\\Connect\\Rpc\\Product\\ShopProduct'
+                        ]
                     )
-                )
+                ]
             )
         );
 
@@ -218,10 +216,9 @@ class MarshallerTest extends \PHPUnit_Framework_TestCase
     {
         $unmarshaller = new \Shopware\Connect\Rpc\Marshaller\CallUnmarshaller\XmlCallUnmarshaller(
             new \Shopware\Connect\Rpc\Marshaller\Converter\SimpleClassMapConverter(
-                array(
-                    'Shopware\\Connect\\Struct\\Product' =>
-                    'Shopware\\Connect\\Rpc\\TestSmallProduct'
-                )
+                [
+                    'Shopware\\Connect\\Struct\\Product' => 'Shopware\\Connect\\Rpc\\TestSmallProduct'
+                ]
             )
         );
 
@@ -240,10 +237,9 @@ class MarshallerTest extends \PHPUnit_Framework_TestCase
     {
         $unmarshaller = new \Shopware\Connect\Rpc\Marshaller\CallUnmarshaller\XmlCallUnmarshaller(
             new \Shopware\Connect\Rpc\Marshaller\Converter\SimpleClassMapConverter(
-                array(
-                    'Shopware\\Connect\\Struct\\Product' =>
-                    'Shopware\\Connect\\Rpc\\TestSmallProduct'
-                )
+                [
+                    'Shopware\\Connect\\Struct\\Product' => 'Shopware\\Connect\\Rpc\\TestSmallProduct'
+                ]
             )
         );
 
@@ -263,7 +259,7 @@ class MarshallerTest extends \PHPUnit_Framework_TestCase
     public function testInvalidBomsAreStripped()
     {
         $unmarshaller = new \Shopware\Connect\Rpc\Marshaller\CallUnmarshaller\XmlCallUnmarshaller(
-            new \Shopware\Connect\Rpc\Marshaller\Converter\SimpleClassMapConverter(array())
+            new \Shopware\Connect\Rpc\Marshaller\Converter\SimpleClassMapConverter([])
         );
 
         $data = $unmarshaller->unmarshal(
@@ -343,12 +339,12 @@ class ShopProduct extends Struct
     public $price;
     public $currency;
     public $availability;
-    public $images = array();
-    public $categories = array();
-    public $properties = array();
-    public $attributes = array();
-    public $variant = array();
-    public $translations = array();
+    public $images = [];
+    public $categories = [];
+    public $properties = [];
+    public $attributes = [];
+    public $variant = [];
+    public $translations = [];
     public $minPurchaseQuantity = 1;
     public $configuratorSetType;
 }

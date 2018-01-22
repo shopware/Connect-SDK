@@ -2,19 +2,10 @@
 
 namespace Shopware\Connect;
 
-use Behat\Behat\Context\ClosuredContextInterface;
-use Behat\Behat\Context\TranslatedContextInterface;
-use Behat\Behat\Context\BehatContext;
-use Behat\Behat\Exception\PendingException;
-use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
-
 use Shopware\Connect\Struct\Product;
 use Shopware\Connect\Struct\Change;
-use Shopware\Connect\Rpc;
-use Shopware\Connect\Struct;
 
-use \PHPUnit_Framework_Assert as Assertion;
+use PHPUnit_Framework_Assert as Assertion;
 
 require_once __DIR__ . '/SDKContext.php';
 
@@ -23,7 +14,7 @@ require_once __DIR__ . '/SDKContext.php';
  */
 class ToShopContext extends SDKContext
 {
-    protected $changes = array();
+    protected $changes = [];
 
     protected $productId = 1;
 
@@ -45,11 +36,11 @@ class ToShopContext extends SDKContext
         $end = $this->productId + $productCount;
         for (; $this->productId < $end; ++$this->productId) {
             $this->changes[] = new Change\ToShop\InsertOrUpdate(
-                array(
+                [
                     'sourceId' => $this->productId,
                     'revision' => $this->productId,
                     'product' => $this->getProduct($this->productId),
-                )
+                ]
             );
         }
     }
@@ -69,11 +60,11 @@ class ToShopContext extends SDKContext
     {
         for ($i = 0; $i < $productCount; ++$i) {
             $this->changes[] = new Change\ToShop\InsertOrUpdate(
-                array(
+                [
                     'sourceId' => $i,
                     'revision' => $i,
                     'product' => $this->getProduct($i),
-                )
+                ]
             );
         }
     }
@@ -85,11 +76,11 @@ class ToShopContext extends SDKContext
     {
         for ($i = 0; $i < $productCount; ++$i) {
             $this->changes[] = new Change\ToShop\Delete(
-                array(
+                [
                     'sourceId' => $i,
                     'shopId' => 'shop-1',
                     'revision' => $i,
-                )
+                ]
             );
         }
     }
@@ -100,13 +91,13 @@ class ToShopContext extends SDKContext
         $this->changes = array_slice($this->changes, $count);
         $this->shopRevision = $this->makeRpcCall(
             new Struct\RpcCall(
-                array(
+                [
                     'service' => 'products',
                     'command' => 'replicate',
-                    'arguments' => array(
+                    'arguments' => [
                         $process
-                    )
-                )
+                    ]
+                ]
             )
         );
     }
@@ -128,11 +119,11 @@ class ToShopContext extends SDKContext
             $this->shopRevision,
             $this->makeRpcCall(
                 new Struct\RpcCall(
-                    array(
+                    [
                         'service' => 'products',
                         'command' => 'lastRevision',
-                        'arguments' => array(),
-                    )
+                        'arguments' => [],
+                    ]
                 )
             )
         );

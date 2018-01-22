@@ -34,7 +34,7 @@ final class SDK
     const PRICE_TYPE_BOTH = 3;
     const PRICE_TYPE_NONE = 4;
 
-    const WRONG_CREDENTIALS_MESSAGE = "Wrong username or password";
+    const WRONG_CREDENTIALS_MESSAGE = 'Wrong username or password';
 
     /**
      * API key for this SDK
@@ -108,9 +108,9 @@ final class SDK
     public static function isPriceTypeValid($priceType)
     {
         $validPriceTypes = [
-            SDK::PRICE_TYPE_PURCHASE,
-            SDK::PRICE_TYPE_RETAIL,
-            SDK::PRICE_TYPE_BOTH,
+            self::PRICE_TYPE_PURCHASE,
+            self::PRICE_TYPE_RETAIL,
+            self::PRICE_TYPE_BOTH,
         ];
 
         return in_array($priceType, $validPriceTypes);
@@ -178,15 +178,15 @@ final class SDK
 
         return $this->dependencies->getMarshaller()->marshal(
             new RpcCall(
-                array(
+                [
                     'service' => 'null',
                     'command' => 'return',
-                    'arguments' => array(
+                    'arguments' => [
                         $serviceRegistry->dispatch(
                             $this->dependencies->getUnmarshaller()->unmarshal($xml)
                         ),
-                    )
-                )
+                    ]
+                ]
             )
         );
     }
@@ -206,7 +206,7 @@ final class SDK
      */
     private function generatePongResponse()
     {
-        return '<?xml version="1.0" encoding="utf-8"?>'. "\n"
+        return '<?xml version="1.0" encoding="utf-8"?>' . "\n"
             . '<pong/>';
     }
 
@@ -218,10 +218,10 @@ final class SDK
     private function verifyRequest($body, array $headers = null)
     {
         if ($headers === null) {
-            $headers = array();
+            $headers = [];
 
             foreach ($_SERVER as $name => $value) {
-                if (strpos($name, "HTTP_") === 0) {
+                if (strpos($name, 'HTTP_') === 0) {
                     $headers[$name] = $value;
                 }
             }
@@ -462,7 +462,7 @@ final class SDK
                 },
                 true
             )) {
-            throw new \RuntimeException("Invalid reservation provided.");
+            throw new \RuntimeException('Invalid reservation provided.');
         }
 
         return $this->dependencies->getShoppingService()->checkout($reservation, $orderId);
@@ -495,11 +495,11 @@ final class SDK
         $shopConfiguration = $this->dependencies->getGateway()->getShopConfiguration($shopId);
 
         return new Shop(
-            array(
+            [
                 'id' => $shopId,
                 'name' => $shopConfiguration->displayName,
                 'url' => $shopConfiguration->url,
-            )
+            ]
         );
     }
 
@@ -562,7 +562,6 @@ final class SDK
         return $this->dependencies->getSocialNetworkService()->calculateFinishTime($changesCount);
     }
 
-
     /**
      * Returns array with available marketplace product attributes
      * as attribute => label pairs
@@ -602,12 +601,12 @@ final class SDK
      */
     public function getPriceType()
     {
-        $priceType = $this->dependencies->getGateway()->getConfig(SDK::CONFIG_PRICE_TYPE);
+        $priceType = $this->dependencies->getGateway()->getConfig(self::CONFIG_PRICE_TYPE);
 
         if (!$priceType) {
             return self::PRICE_TYPE_NONE;
         }
 
-        return (int)$priceType;
+        return (int) $priceType;
     }
 }

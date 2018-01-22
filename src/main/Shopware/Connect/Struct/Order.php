@@ -106,7 +106,7 @@ class Order extends Struct
      *
      * @param array $values
      */
-    public function __construct(array $values = array())
+    public function __construct(array $values = [])
     {
         $this->shipping = new Shipping();
 
@@ -121,7 +121,7 @@ class Order extends Struct
      */
     public static function __set_state(array $state)
     {
-        return new Order($state);
+        return new self($state);
     }
 
     /**

@@ -23,5 +23,5 @@ abstract class HttpClient
      * @param array $headers
      * @return HttpClient\Reponse
      */
-    abstract public function request($method, $path, $body = null, array $headers = array());
+    abstract public function request($method, $path, $body = null, array $headers = []);
 }

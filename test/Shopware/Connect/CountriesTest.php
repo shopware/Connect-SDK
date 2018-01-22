@@ -2,7 +2,6 @@
 
 namespace Shopware\Connect;
 
-
 class CountriesTest extends \PHPUnit_Framework_TestCase
 {
     public function testAvailableUnits()
@@ -43,4 +42,3 @@ class CountriesTest extends \PHPUnit_Framework_TestCase
         Countries::getISO2('GL');
     }
 }
- 

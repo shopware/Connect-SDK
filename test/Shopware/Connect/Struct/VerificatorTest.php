@@ -16,7 +16,7 @@ class VerificatorTest extends \PHPUnit_Framework_TestCase
         $verificator->verify(
             $this->createMock(VerificatorDispatcher::class),
             new Dummy(),
-            array('unknown')
+            ['unknown']
         );
     }
 
@@ -29,7 +29,7 @@ class VerificatorTest extends \PHPUnit_Framework_TestCase
         $verificator->verify(
             $this->createMock(VerificatorDispatcher::class),
             new Dummy(),
-            array('fail')
+            ['fail']
         );
     }
 }
@@ -46,6 +46,6 @@ class DummyVerificator extends Verificator
 
     protected function verifyFail(VerificatorDispatcher $dispatcher, Struct $struct)
     {
-        $this->fail("this is fail '%s'.", "foo");
+        $this->fail("this is fail '%s'.", 'foo');
     }
 }

@@ -55,7 +55,7 @@ class StaggerPrice extends Rule
      *
      * @var array
      */
-    public $staggerPrices = array();
+    public $staggerPrices = [];
 
     /**
      * Check if shipping cost is applicable to given order
@@ -79,7 +79,7 @@ class StaggerPrice extends Rule
      */
     public function getShippingCosts(Order $order, VatConfig $vatConfig)
     {
-        $prices = $this->staggerPrices + array(0 => $this->default);
+        $prices = $this->staggerPrices + [0 => $this->default];
         krsort($prices, SORT_NUMERIC);
 
         $total = 0;
@@ -94,13 +94,13 @@ class StaggerPrice extends Rule
         }
 
         return new Shipping(
-            array(
+            [
                 'rule' => $this,
                 'service' => $this->label,
                 'deliveryWorkDays' => $this->deliveryWorkDays,
                 'shippingCosts' => $costs / ($vatConfig->isNet ? 1 : 1 + $vatConfig->vat),
                 'grossShippingCosts' => $costs * (!$vatConfig->isNet ? 1 : 1 + $vatConfig->vat),
-            )
+            ]
         );
     }
 }

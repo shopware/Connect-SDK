@@ -39,6 +39,7 @@ abstract class Gateway implements
         }
 
         $features = unserialize($features);
+
         return array_key_exists($feature, $features) && $features[$feature] === true;
     }
 
@@ -63,6 +64,6 @@ abstract class Gateway implements
             return unserialize($features);
         }
 
-        return array();
+        return [];
     }
 }

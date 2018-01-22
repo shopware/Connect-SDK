@@ -20,5 +20,5 @@ class ShippingRules extends Struct
      *
      * @var Rule\Product[]
      */
-    public $rules = array();
+    public $rules = [];
 }

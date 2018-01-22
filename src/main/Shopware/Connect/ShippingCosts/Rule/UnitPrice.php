@@ -65,13 +65,13 @@ class UnitPrice extends Rule
         );
 
         return new Shipping(
-            array(
+            [
                 'rule' => $this,
                 'service' => $this->label,
                 'deliveryWorkDays' => $this->deliveryWorkDays,
                 'shippingCosts' => $this->price * $units / ($vatConfig->isNet ? 1 : 1 + $vatConfig->vat),
                 'grossShippingCosts' => $this->price * $units * (!$vatConfig->isNet ? 1 : 1 + $vatConfig->vat),
-            )
+            ]
         );
     }
 }

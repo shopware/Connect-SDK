@@ -58,7 +58,7 @@ class Order extends Verificator
         }
         $dispatcher->verify($struct->billingAddress);
 
-        $paymentTypes = array(
+        $paymentTypes = [
             Struct\Order::PAYMENT_ADVANCE,
             Struct\Order::PAYMENT_INVOICE,
             Struct\Order::PAYMENT_DEBIT,
@@ -66,13 +66,13 @@ class Order extends Verificator
             Struct\Order::PAYMENT_PROVIDER,
             Struct\Order::PAYMENT_UNKNOWN,
             Struct\Order::PAYMENT_OTHER,
-        );
+        ];
 
         if (!in_array($struct->paymentType, $paymentTypes)) {
             throw new VerificationFailedException(
                 sprintf(
                     'Invalid paymentType specified in order, must be one of: %s',
-                    implode(", ", $paymentTypes)
+                    implode(', ', $paymentTypes)
                 )
             );
         }
