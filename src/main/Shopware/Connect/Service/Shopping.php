@@ -7,7 +7,6 @@
 
 namespace Shopware\Connect\Service;
 
-use Shopware\Connect\Gateway;
 use Shopware\Connect\Struct;
 use Shopware\Connect\ShopFactory;
 use Shopware\Connect\ShopGateway;
@@ -144,12 +143,11 @@ class Shopping
         foreach ($orders as $shopId => $order) {
             $shopGateway = $this->shopFactory->getShopGateway($shopId);
             $shopCheckResult = $shopGateway->checkProducts($order, $myShopId);
-
             if (count($shopCheckResult->changes)) {
                 $this->applyRemoteShopChanges($shopCheckResult->changes);
             }
 
-            $checkResults[] = $shopCheckResult;
+            $checkResults[$shopId] = $shopCheckResult;
         }
 
         return $this->aggregateCheckResults($checkResults);
@@ -163,13 +161,14 @@ class Shopping
     {
         $checkResult = new CheckResult();
 
-        foreach ($shopCheckResults as $shopCheckResult) {
+        /** @var CheckResult $shopCheckResult */
+        foreach ($shopCheckResults as $shopId => $shopCheckResult) {
             $checkResult->changes = array_merge($checkResult->changes, $shopCheckResult->changes);
             if ($shopCheckResult->shippingCosts !== null) {
-                $checkResult->shippingCosts = array_merge(
-                    $checkResult->shippingCosts,
-                    $shopCheckResult->shippingCosts
-                );
+                array_walk($shopCheckResult->shippingCosts, function(Struct\Shipping $shipping) use ($shopId, $checkResult) {
+                    $shipping->shopId = $shopId;
+                    $checkResult->shippingCosts[] = $shipping;
+                });
             }
         }
 
@@ -217,10 +216,9 @@ class Shopping
 
         $checkResult = $this->checkSplitOrders($orders);
         $aggregatedShippingCosts = $checkResult->aggregatedShippingCosts;
-        $splitShippingCost = $checkResult->shippingCosts;
 
         if (!$aggregatedShippingCosts->isShippable) {
-            return $this->failedReservationNotShippable($orders, $aggregatedShippingCosts->shippingCosts);
+            return $this->failedReservationNotShippable($orders, $checkResult->shippingCosts);
         }
 
         /** @var \Shopware\Connect\Struct\Shipping $shipping */
@@ -300,17 +298,34 @@ class Shopping
     /**
      * Create failed reservation with order not shippable error messages.
      *
+     * @param Struct\Order[] $orders
+     * @param Struct\Shipping[] $shippingCosts
+     *
      * @return Struct\Reservation
      */
-    private function failedReservationNotShippable(array $orders, Struct\TotalShippingCosts $shippingCosts)
+    private function failedReservationNotShippable(array $orders, array $shippingCosts)
     {
         $reservation = new Struct\Reservation();
         $reservation->orders = $orders;
         $reservation->success = false;
         $reservation->messages = [];
 
-        foreach ($shippingCosts->shops as $shopId => $shopShippingCosts) {
+        /** @var Struct\Shipping $shopShippingCosts */
+        foreach ($shippingCosts as $shopShippingCosts) {
+            if (!$shippingCosts instanceof Struct\Shipping) {
+                throw new \InvalidArgumentException(
+                    'Second argument $shippingCosts should be array of Shopware\Connect\Struct\Shipping objects.'
+                );
+            }
+
             if (!$shopShippingCosts->isShippable) {
+                $shopId = $shopShippingCosts->shopId;
+                if (!isset($orders[$shopId]) || !$orders[$shopId] instanceof Struct\Order) {
+                    throw new \InvalidArgumentException(
+                        'First argument $orders should be array of Shopware\Connect\Struct\Order objects.'
+                    );
+                }
+
                 $reservation->messages[$shopId] = [
                     new Struct\Message([
                         'message' => 'Products cannot be shipped to %country.',

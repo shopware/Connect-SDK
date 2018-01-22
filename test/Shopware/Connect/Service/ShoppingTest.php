@@ -57,21 +57,35 @@ class ShoppingTest extends \PHPUnit_Framework_TestCase
         );
 
         $reservationId = uniqid();
-        $gateway = $this->createMock(ShopGateway::class);
-        $factory->method('getShopGateway')->withConsecutive([1], [2])->willReturn($gateway);
-        $gateway->method('reserveProducts')->with($this->anything())->willReturn($reservationId);
 
+        $gateway1 = $this->createMock(ShopGateway::class);
+        $gateway2 = $this->createMock(ShopGateway::class);
 
-        $gateway->method('checkProducts')->with($this->anything())
-            ->willReturn(new \Shopware\Connect\Struct\CheckResult(
-                [
+        $factory->method('getShopGateway')->will($this->returnValueMap([
+            [1, $gateway1],
+            [2, $gateway2]
+        ]));
+
+        $gateway1->method('checkProducts')->with($this->anything())
+            ->willReturn(new \Shopware\Connect\Struct\CheckResult([
                     'shippingCosts' => [
                         new \Shopware\Connect\Struct\Shipping(['shopId' => 1, 'shippingCosts' => 3, 'grossShippingCosts' => 5]),
-                        new \Shopware\Connect\Struct\Shipping(['shopId' => 2, 'shippingCosts' => 4, 'grossShippingCosts' => 8])
                     ],
-                    'aggregatedShippingCosts' => new \Shopware\Connect\Struct\Shipping(['shippingCosts' => 7, 'grossShippingCosts' => 13]),
+                    'changes' => [],
                 ]
             ));
+
+        $gateway2->method('checkProducts')->with($this->anything())
+            ->willReturn(new \Shopware\Connect\Struct\CheckResult([
+                    'shippingCosts' => [
+                        new \Shopware\Connect\Struct\Shipping(['shopId' => 2, 'shippingCosts' => 4, 'grossShippingCosts' => 8])
+                    ],
+                    'changes' => [],
+                ]
+            ));
+
+        $gateway1->method('reserveProducts')->with($this->anything())->willReturn($reservationId);
+        $gateway2->method('reserveProducts')->with($this->anything())->willReturn($reservationId);
 
         $return = $shopping->reserveProducts($this->createOrder());
 
