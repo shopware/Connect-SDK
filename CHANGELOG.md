@@ -1,3 +1,6 @@
+# v2.0.12
+Added new ISO-369-1 languages in Shopware\Connect\Translations
+
 # v2.0.11
 Added new property ```importedProductsShippingCostType``` in Shopware\Connect\Struct\ShopConfiguration.
 It contains string value which will show to merchant which type of shipping cost is selected for this contact. ```shippingCostType``` contains string value with selected shipping costs in case when shop where ShopConfiguration is replicated to is supplier.
