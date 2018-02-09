@@ -30,22 +30,24 @@ abstract class Verificator
      * @param VerificatorDispatcher $dispatcher
      * @param Struct $struct
      * @param array $groups
-     * @return void
      * @throws RuntimeException if the struct is not valid
+     * @return void
      */
     final public function verify(VerificatorDispatcher $dispatcher, Struct $struct, array $groups = null)
     {
         if ($groups === null) {
-            $groups = array('default');
+            $groups = ['default'];
         }
 
-        $verifyMethods = array();
+        $verifyMethods = [];
 
         foreach ($groups as $group) {
             if ($group === 'all') {
                 $verifyMethods = array_filter(
                     get_class_methods($this),
-                    function ($method) { return strpos($method, 'verify') === 0; }
+                    function ($method) {
+                        return strpos($method, 'verify') === 0;
+                    }
                 );
             } else {
                 $method = sprintf('verify%s', ucfirst($group));

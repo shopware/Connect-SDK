@@ -9,7 +9,6 @@ namespace Shopware\Connect\ShippingCosts;
 
 use Shopware\Connect\Struct\Order;
 use Shopware\Connect\Struct;
-use Shopware\Connect\ShippingCosts\VatConfig;
 
 /**
  * Class: Rule

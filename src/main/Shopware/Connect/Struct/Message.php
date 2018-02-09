@@ -32,5 +32,5 @@ class Message extends Struct
      *
      * @var array
      */
-    public $values = array();
+    public $values = [];
 }

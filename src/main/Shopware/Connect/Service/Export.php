@@ -34,8 +34,7 @@ class Export
         Gateway $gateway,
         ProductHasher $productHasher,
         RevisionProvider $revisionProvider
-    )
-    {
+    ) {
         $this->fromShop = $fromShop;
         $this->verificator = $verificator;
         $this->gateway = $gateway;
@@ -177,7 +176,7 @@ class Export
      */
     protected function verificationGroups()
     {
-        return array('default', 'priceExport');
+        return ['default', 'priceExport'];
     }
 
     /**
@@ -188,7 +187,8 @@ class Export
      */
     protected function getProduct($productId)
     {
-        $products = $this->fromShop->getProducts(array($productId));
+        $products = $this->fromShop->getProducts([$productId]);
+
         return reset($products);
     }
 }

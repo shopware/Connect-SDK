@@ -7,7 +7,6 @@
 
 namespace Shopware\Connect\Logger;
 
-use Bepado\Common;
 use Shopware\Connect\Struct;
 use Shopware\Connect\HttpClient;
 
@@ -22,36 +21,36 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     protected function getValidOrder()
     {
-        return new Struct\Order(array(
+        return new Struct\Order([
             'orderShop' => 'shop1',
             'providerShop' => 'shop2',
             'reservationId' => md5(microtime()),
             'localOrderId' => md5(microtime()),
             'providerOrderId' => md5(microtime()),
             'shippingCosts' => 34.43,
-            'products' => array(
-                new Struct\OrderItem(array(
+            'products' => [
+                new Struct\OrderItem([
                     'count' => 2,
-                    'product' => array(
-                        new Struct\Product(array(
+                    'product' => [
+                        new Struct\Product([
                             'shopId' => 'shop1',
                             'sourceId' => '1-23',
                             'title' => 'Sindelfingen',
                             'price' => 42.23,
                             'currency' => 'EUR',
                             'availability' => 5,
-                        ))
-                    ),
-                ))
-            ),
-            'deliveryAddress' => new Struct\Address(array(
+                        ])
+                    ],
+                ])
+            ],
+            'deliveryAddress' => new Struct\Address([
                 'name' => 'Hans Mustermann',
                 'line1' => 'Musterstrasse 23',
                 'zip' => '12345',
                 'city' => 'Musterstadt',
                 'country' => 'Germany',
-            )),
-        ));
+            ]),
+        ]);
     }
 
     public function testLog()
@@ -73,10 +72,10 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             ->will(
                 $this->returnValue(
                     new HttpClient\Response(
-                        array(
+                        [
                             'status' => 200,
                             'body' => '{"shopId":"shop1"}',
-                        )
+                        ]
                     )
                 )
             );
@@ -115,9 +114,9 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             ->will(
                 $this->returnValue(
                     new HttpClient\Response(
-                        array(
+                        [
                             'status' => 500,
-                        )
+                        ]
                     )
                 )
             );
@@ -135,9 +134,10 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
         try {
             ini_set('default_socket_timeout', 1);
+
             return $logger->log($order);
         } catch (\RuntimeException $e) {
-            $this->markTestSkipped("Cannot reach real service.");
+            $this->markTestSkipped('Cannot reach real service.');
         }
     }
 

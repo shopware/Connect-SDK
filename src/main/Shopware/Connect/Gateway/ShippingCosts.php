@@ -7,7 +7,6 @@
 
 namespace Shopware\Connect\Gateway;
 
-use Shopware\Connect\Struct;
 use Shopware\Connect\ShippingCosts\Rules;
 
 /**

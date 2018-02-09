@@ -102,7 +102,7 @@ class Shopping
      * return a Struct\Message, which should be ACK'ed by the user. Otherwise
      * this method will just return true.
      *
-     * If data updated are detected, the local product database will be updated 
+     * If data updated are detected, the local product database will be updated
      * accordingly.
      *
      * This method is a convenience method to check the state of a set of
@@ -115,6 +115,7 @@ class Shopping
     public function checkProducts(Struct\Order $order)
     {
         $orders = $this->splitShopOrders($order);
+
         return $this->checkSplitOrders($orders);
     }
 
@@ -137,7 +138,7 @@ class Shopping
     {
         $myShopId = $this->config->getShopId();
 
-        $checkResults = array();
+        $checkResults = [];
 
         foreach ($orders as $shopId => $order) {
             $shopGateway = $this->shopFactory->getShopGateway($shopId);
@@ -210,7 +211,7 @@ class Shopping
      */
     public function reserveProducts(Struct\Order $order)
     {
-        $responses = array();
+        $responses = [];
         $orders = $this->splitShopOrders($order);
 
         $checkResult = $this->checkSplitOrders($orders);
@@ -221,7 +222,7 @@ class Shopping
         }
 
         /** @var \Shopware\Connect\Struct\Shipping $shipping */
-        foreach($checkResult->shippingCosts as $shipping) {
+        foreach ($checkResult->shippingCosts as $shipping) {
             if (isset($orders[$shipping->shopId])) {
                 $orders[$shipping->shopId]->shipping = $shipping;
             }
@@ -244,20 +245,20 @@ class Shopping
                 $reservation->messages[$shopId] = $this->changeVisitor->visit($response->changes);
 
                 if (count($reservation->messages[$shopId]) === 0) {
-                    $reservation->messages[$shopId] = array(
-                        new Struct\Message(array(
+                    $reservation->messages[$shopId] = [
+                        new Struct\Message([
                             'message' => 'An error occured on the remote shop during reservation, order is cancelled.'
-                        ))
-                    );
+                        ])
+                    ];
                 }
             } elseif ($response instanceof Struct\Message) {
-                $reservation->messages[$shopId] = array($response);
+                $reservation->messages[$shopId] = [$response];
             } elseif ($response instanceof Struct\Error) {
-                $reservation->messages[$shopId] = array(
-                    new Struct\Message(array(
+                $reservation->messages[$shopId] = [
+                    new Struct\Message([
                         'message' => $response->message
-                    ))
-                );
+                    ])
+                ];
             } else {
                 // TODO: How to react on false value returned?
                 // This might occur if a reservation is canceled by the provider shop
@@ -268,6 +269,7 @@ class Shopping
         }
 
         $reservation->success = !count($reservation->messages);
+
         return $reservation;
     }
 
@@ -279,8 +281,7 @@ class Shopping
     private function anonymizeCustomerEmail(Struct\Order $order)
     {
         if ($order->deliveryAddress->email
-            && strpos($order->deliveryAddress->email, "@mail.bepado.com") === false) {
-
+            && strpos($order->deliveryAddress->email, '@mail.bepado.com') === false) {
             $remoteOrder = clone $order;
             $remoteOrder->deliveryAddress->email = sprintf(
                 'marketplace-%s-%s@mail.bepado.com',
@@ -307,7 +308,7 @@ class Shopping
         $reservation = new Struct\Reservation();
         $reservation->orders = $orders;
         $reservation->success = false;
-        $reservation->messages = array();
+        $reservation->messages = [];
 
         /** @var Struct\Shipping $shopShippingCosts */
         foreach ($shippingCosts as $shopShippingCosts) {
@@ -325,14 +326,14 @@ class Shopping
                     );
                 }
 
-                $reservation->messages[$shopId] = array(
-                    new Struct\Message(array(
+                $reservation->messages[$shopId] = [
+                    new Struct\Message([
                         'message' => 'Products cannot be shipped to %country.',
-                        'values' => array(
+                        'values' => [
                             'country' => $orders[$shopId]->deliveryAddress->country
-                        )
-                    ))
-                );
+                        ]
+                    ])
+                ];
             }
         }
 
@@ -390,7 +391,7 @@ class Shopping
      */
     public function checkout(Struct\Reservation $reservation, $orderId)
     {
-        $results = array();
+        $results = [];
         foreach ($reservation->orders as $shopId => $order) {
             $order->localOrderId = $orderId;
             $shopGateway = $this->shopFactory->getShopGateway($shopId);
@@ -427,24 +428,26 @@ class Shopping
         $response = $shopGateway->buy($order->reservationId, $orderId);
         if ($response instanceof Struct\Error) {
             $this->errorHandler->handleError($response);
+
             return false;
         }
 
         if (!$response) {
-            throw new \RuntimeException("Unexpected response: " . var_export($response, true));
+            throw new \RuntimeException('Unexpected response: ' . var_export($response, true));
         }
 
         try {
             $transactionId = $this->logger->log($order);
         } catch (\Exception $e) {
             $this->errorHandler->handleException($e);
+
             return false;
         }
 
-        return array(
+        return [
             'local' => $transactionId,
             'remote' => $response,
-        );
+        ];
     }
 
     /**
@@ -463,17 +466,19 @@ class Shopping
         $response = $shopGateway->confirm($order->reservationId, $transactionIds['remote']);
         if ($response instanceof Struct\Error) {
             $this->errorHandler->handleError($response);
+
             return false;
         }
 
         if (!$response) {
-            throw new \RuntimeException("Unexpected response: " . var_export($response, true));
+            throw new \RuntimeException('Unexpected response: ' . var_export($response, true));
         }
 
         try {
             $this->logger->confirm($transactionIds['local']);
         } catch (\Exception $e) {
             $this->errorHandler->handleException($e);
+
             return false;
         }
 
@@ -490,7 +495,7 @@ class Shopping
      */
     protected function splitShopOrders(Struct\Order $order)
     {
-        $orders = array();
+        $orders = [];
         foreach ($this->getShopIds($order) as $shopId) {
             $shopOrder = clone $order;
             $shopOrder->providerShop = $shopId;

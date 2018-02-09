@@ -1,9 +1,10 @@
 <?php
+
 namespace Shopware\Connect;
 
 abstract class Struct
 {
-    public function __construct(array $values = array())
+    public function __construct(array $values = [])
     {
         foreach ($values as $name => $value) {
             $this->$name = $value;
@@ -12,17 +13,17 @@ abstract class Struct
 
     public function __get($name)
     {
-        throw new \OutOfRangeException("Unknown property \${$name} in " . get_class($this) . ".");
+        throw new \OutOfRangeException("Unknown property \${$name} in " . get_class($this) . '.');
     }
 
     public function __set($name, $value)
     {
-        throw new \OutOfRangeException("Unknown property \${$name} in " . get_class($this) . ".");
+        throw new \OutOfRangeException("Unknown property \${$name} in " . get_class($this) . '.');
     }
 
     public function __unset($name)
     {
-        throw new \OutOfRangeException("Unknown property \${$name} in " . get_class($this) . ".");
+        throw new \OutOfRangeException("Unknown property \${$name} in " . get_class($this) . '.');
     }
 
     public function __clone()

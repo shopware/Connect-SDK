@@ -10,7 +10,7 @@ namespace Shopware\Connect\RevisionProvider;
 use Shopware\Connect\RevisionProvider;
 
 /**
- * Time and iteration based revision provider, which provides ordered revisions 
+ * Time and iteration based revision provider, which provides ordered revisions
  * for non-clustered systems.
  *
  * The SDK is licensed under MIT license. (c) Shopware AG and Qafoo GmbH

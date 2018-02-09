@@ -1,7 +1,6 @@
 <?php
-namespace Shopware\Connect\Rpc;
 
-use Shopware\Connect\Struct;
+namespace Shopware\Connect\Rpc;
 
 class LegacyOrderMarshallingTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,9 +23,9 @@ class LegacyOrderMarshallingTest extends \PHPUnit_Framework_TestCase
      */
     public function provideMarshalData()
     {
-        return array(
-            array("RpcCalls/Order", "MarshalledXml/Order"),
-        );
+        return [
+            ['RpcCalls/Order', 'MarshalledXml/Order'],
+        ];
     }
 
     /**
@@ -59,9 +58,9 @@ class LegacyOrderMarshallingTest extends \PHPUnit_Framework_TestCase
      */
     public function provideUnmarshalData()
     {
-        return array(
-            array("MarshalledXml/Order", "RpcCalls/Order"),
-        );
+        return [
+            ['MarshalledXml/Order', 'RpcCalls/Order'],
+        ];
     }
 
     /**

@@ -15,7 +15,7 @@ class Countries
     /**
      * @var array
      */
-    private static $countries = array(
+    private static $countries = [
         'DE' => 'DEU',
         'FR' => 'FRA',
         'CH' => 'CHE',
@@ -46,7 +46,7 @@ class Countries
         'GB' => 'GBR',
         'CY' => 'CYP',
         'EU' => 'EUR',
-    );
+    ];
 
     /**
      * List of all available countries.
@@ -56,13 +56,12 @@ class Countries
         return self::$countries;
     }
 
-
     /**
      * Returns ISO2 code by given ISO3
      *
      * @param string $iso3
-     * @return string
      * @throws \Exception
+     * @return string
      */
     public static function getISO2($iso3)
     {
@@ -77,8 +76,8 @@ class Countries
     /**
      * Returns ISO3 code by given ISO2
      * @param $iso2
-     * @return mixed
      * @throws \Exception
+     * @return mixed
      */
     public static function getISO3($iso2)
     {

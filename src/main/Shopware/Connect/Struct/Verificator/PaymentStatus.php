@@ -10,7 +10,7 @@ class PaymentStatus extends Verificator
 {
     protected function verifyDefault(VerificatorDispatcher $dispatcher, Struct $struct)
     {
-        $requiredStrings = array('localOrderId', 'paymentStatus');
+        $requiredStrings = ['localOrderId', 'paymentStatus'];
 
         foreach ($requiredStrings as $requiredString) {
             if (!is_string($struct->$requiredString)) {
@@ -22,10 +22,10 @@ class PaymentStatus extends Verificator
             }
         }
 
-        $allowedStates = array(
+        $allowedStates = [
             'open', 'requested', 'initiated', 'instructed', 'verify', 'aborted',
             'timeout', 'pending', 'received', 'refunded', 'loss', 'error'
-        );
+        ];
 
         if (!in_array($struct->paymentStatus, $allowedStates)) {
             throw new \Shopware\Connect\Exception\VerificationFailedException(
@@ -37,5 +37,4 @@ class PaymentStatus extends Verificator
             );
         }
     }
-
 }

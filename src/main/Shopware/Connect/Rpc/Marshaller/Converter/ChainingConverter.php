@@ -14,7 +14,7 @@ class ChainingConverter extends Converter
     /**
      * @param \Shopware\Connect\Rpc\Marshaller\Converter[] $innerConverters
      */
-    public function __construct(array $innerConverters = array())
+    public function __construct(array $innerConverters = [])
     {
         foreach ($innerConverters as $innerConverter) {
             $this->addConverter($innerConverter);
@@ -38,6 +38,7 @@ class ChainingConverter extends Converter
         foreach ($this->innerConverters as $innerConverter) {
             $object = $innerConverter->convertObject($object);
         }
+
         return $object;
     }
 }

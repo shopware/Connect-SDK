@@ -1,9 +1,9 @@
 <?php
-return new \Shopware\Connect\Struct\RpcCall(
-    array(
-        "service" => "ArrayService",
-        "command" => "testArray",
-        "arguments" => array()
-    )
-);
 
+return new \Shopware\Connect\Struct\RpcCall(
+    [
+        'service' => 'ArrayService',
+        'command' => 'testArray',
+        'arguments' => []
+    ]
+);

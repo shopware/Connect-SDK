@@ -44,13 +44,13 @@ class Metric
      */
     public function fromShop($revision, $productCount)
     {
-        return array(
+        return [
             new Struct\Metric\Count(
-                array(
+                [
                     'name' => 'sdk.changes_backlog',
                     'count' => $this->changes->getUnprocessedChangesCount($revision, $productCount),
-                )
+                ]
             ),
-        );
+        ];
     }
 }

@@ -20,7 +20,7 @@ class Google extends ShippingRuleParser
      *
      * @var array
      */
-    private $tokens = array(
+    private $tokens = [
         'T_WHITESPACE' => '(\\A\\s+)S',
         // ISO 4217 (23.06.2014)
         'T_CURRENCY' => '(\\A(?P<value>AED|AFN|ALL|AMD|ANG|AOA|ARS|AUD|AWG|AZN|BAM|BBD|BDT|BGN|BHD|BIF|BMD|BND|BOB|BOV|BRL|BSD|BTN|BWP|BYR|BZD|CAD|CDF|CHE|CHF|CHW|CLF|CLP|CNY|COP|COU|CRC|CUC|CUP|CVE|CZK|DJF|DKK|DOP|DZD|EGP|ERN|ETB|EUR|FJD|FKP|GBP|GEL|GHS|GIP|GMD|GNF|GTQ|GYD|HKD|HNL|HRK|HTG|HUF|IDR|ILS|INR|IQD|IRR|ISK|JMD|JOD|JPY|KES|KGS|KHR|KMF|KPW|KRW|KWD|KYD|KZT|LAK|LBP|LKR|LRD|LSL|LTL|LYD|MAD|MDL|MGA|MKD|MMK|MNT|MOP|MRO|MUR|MVR|MWK|MXN|MXV|MYR|MZN|NAD|NGN|NIO|NOK|NPR|NZD|OMR|PAB|PEN|PGK|PHP|PKR|PLN|PYG|QAR|RON|RSD|RUB|RWF|SAR|SBD|SCR|SDG|SSP|SEK|SGD|SHP|SLL|SOS|SRD|STD|SVC|SYP|SZL|THB|TJS|TMT|TND|TOP|TRY|TTD|TWD|TZS|UAH|UGX|USD|UYI|UYU|UZS|VEF|VND|VUV|WST|XAF|XCD|XOF|XPF|YER|ZAR|ZMW|ZWL)(?![A-Z]))S',
@@ -35,14 +35,14 @@ class Google extends ShippingRuleParser
         'T_DELIVERY_NAME' => '(\\A(?P<value>[^,:[]+))S',
         'T_DELIVERY_TIME' => '(\\A\\[(?P<value>\\d+[DH])\\])S',
         'T_STRING' => '(\\A(?P<value>[^,:]+))S',
-    );
+    ];
 
     /**
      * Token names
      *
      * @var array
      */
-    private $tokenNames = array(
+    private $tokenNames = [
         'T_WHITESPACE' => 'Whitespace',
         'T_CURRENCY' => 'Currency code (ISO 4217) (eg. EUR)',
         'T_COUNTRY' => 'Country Code (ISO 3166-1) (eg. DE)',
@@ -56,7 +56,7 @@ class Google extends ShippingRuleParser
         'T_STRING' => 'random text',
         'T_EOF' => 'end of input',
         'T_NUMBER' => 'number (eg. 1-9)',
-    );
+    ];
 
     /**
      * Delivery times
@@ -65,10 +65,10 @@ class Google extends ShippingRuleParser
      *
      * @var array
      */
-    private $deliveryTimes = array(
+    private $deliveryTimes = [
         'D' => 1,
         'H' => 24,
-    );
+    ];
 
     /**
      * Countries mapping
@@ -99,6 +99,7 @@ class Google extends ShippingRuleParser
         }
 
         $tokens = $this->tokenize($string);
+
         return $this->reduceRules($tokens);
     }
 
@@ -110,16 +111,16 @@ class Google extends ShippingRuleParser
      */
     protected function tokenize($string)
     {
-        $tokens = array();
+        $tokens = [];
         $offset = 0;
         while (strlen($string)) {
             foreach ($this->tokens as $name => $regularExpression) {
                 if (preg_match($regularExpression, $string, $match)) {
-                    $tokens[] = (object) array(
+                    $tokens[] = (object) [
                         'type' => $name,
                         'value' => isset($match['value']) ? $match['value'] : null,
                         'position' => $offset,
-                    );
+                    ];
 
                     $string = substr($string, strlen($match[0]));
                     $offset += strlen($match[0]);
@@ -130,17 +131,17 @@ class Google extends ShippingRuleParser
             throw new ParserException("Cannot parse string at position $offset: $string.");
         }
 
-        $tokens[] = (object) array(
+        $tokens[] = (object) [
             'type' => 'T_EOF',
             'value' => null,
             'position' => $offset,
-        );
+        ];
 
         return array_values(
             array_filter(
                 $tokens,
                 function ($token) {
-                    return !in_array($token->type, array('T_WHITESPACE'));
+                    return !in_array($token->type, ['T_WHITESPACE']);
                 }
             )
         );
@@ -154,12 +155,12 @@ class Google extends ShippingRuleParser
      */
     protected function reduceRules(array &$tokens)
     {
-        $rules = array();
+        $rules = [];
         while (count($tokens)) {
             $rules[] = $this->reduceRule($tokens);
         }
 
-        return new ShippingRules(array('rules' => $rules));
+        return new ShippingRules(['rules' => $rules]);
     }
 
     /**
@@ -172,21 +173,21 @@ class Google extends ShippingRuleParser
     {
         $rule = new Rule\Product();
 
-        $country = $this->read($tokens, array('T_COUNTRY'), true);
+        $country = $this->read($tokens, ['T_COUNTRY'], true);
         $rule->country = $country ? $this->countries->getISO3($country) : null;
-        $this->read($tokens, array('T_ELEMENT_SEPARATOR', 'T_COUNTRY'));
+        $this->read($tokens, ['T_ELEMENT_SEPARATOR', 'T_COUNTRY']);
 
-        $rule->zipRange = $this->read($tokens, array('T_NUMBER', 'T_ZIP_WILDCARD'), true);
-        $rule->region = $this->read($tokens, array('T_REGION', 'T_COUNTRY'), true);
-        $this->read($tokens, array('T_ELEMENT_SEPARATOR', 'T_ZIP_WILDCARD', 'T_REGION', 'T_COUNTRY'));
+        $rule->zipRange = $this->read($tokens, ['T_NUMBER', 'T_ZIP_WILDCARD'], true);
+        $rule->region = $this->read($tokens, ['T_REGION', 'T_COUNTRY'], true);
+        $this->read($tokens, ['T_ELEMENT_SEPARATOR', 'T_ZIP_WILDCARD', 'T_REGION', 'T_COUNTRY']);
 
-        $rule->service = trim($this->read($tokens, array('T_DELIVERY_NAME', 'T_COUNTRY', 'T_REGION'), true));
-        $rule->deliveryWorkDays = $this->convertDeliveryTime($this->read($tokens, array('T_DELIVERY_TIME'), true));
-        $this->read($tokens, array('T_ELEMENT_SEPARATOR', 'T_DELIVERY_NAME'));
+        $rule->service = trim($this->read($tokens, ['T_DELIVERY_NAME', 'T_COUNTRY', 'T_REGION'], true));
+        $rule->deliveryWorkDays = $this->convertDeliveryTime($this->read($tokens, ['T_DELIVERY_TIME'], true));
+        $this->read($tokens, ['T_ELEMENT_SEPARATOR', 'T_DELIVERY_NAME']);
 
-        $rule->price = (float) $this->read($tokens, array('T_PRICE', 'T_NUMBER'));
-        $rule->currency = $this->read($tokens, array('T_CURRENCY'));
-        $this->read($tokens, array('T_RULE_SEPARATOR', 'T_EOF'));
+        $rule->price = (float) $this->read($tokens, ['T_PRICE', 'T_NUMBER']);
+        $rule->currency = $this->read($tokens, ['T_CURRENCY']);
+        $this->read($tokens, ['T_RULE_SEPARATOR', 'T_EOF']);
 
         return $rule;
     }
@@ -202,7 +203,7 @@ class Google extends ShippingRuleParser
     protected function read(array &$tokens, array $types, $optional = false)
     {
         if (!isset($tokens[0])) {
-            throw new ParserException("Empty token stack – expected one of: " . $this->getTokenNames($types));
+            throw new ParserException('Empty token stack – expected one of: ' . $this->getTokenNames($types));
         }
 
         if ($optional &&
@@ -214,7 +215,7 @@ class Google extends ShippingRuleParser
         if (!in_array($token->type, $types)) {
             throw new ParserException(
                 sprintf(
-                    "Unexpected %s at position %d – expected one of: %s",
+                    'Unexpected %s at position %d – expected one of: %s',
                     $this->getTokenNames($token->type),
                     $token->position,
                     $this->getTokenNames($types)
@@ -234,10 +235,10 @@ class Google extends ShippingRuleParser
     protected function getTokenNames($tokens)
     {
         if (!is_array($tokens)) {
-            $tokens = array($tokens);
+            $tokens = [$tokens];
         }
 
-        $names = array();
+        $names = [];
         foreach ($tokens as $token) {
             $names[] = $this->tokenNames[$token];
         }

@@ -15,237 +15,237 @@ class Units
     /**
      * @var array
      */
-    private static $units = array(
-        'b' => array(
+    private static $units = [
+        'b' => [
             'en' => 'Byte(s)',
             'de' => 'Byte',
-        ),
-        'kb' => array(
+        ],
+        'kb' => [
             'en' => 'Kilobyte(s)',
             'de' => 'Kilobyte',
-        ),
-        'mb' => array(
+        ],
+        'mb' => [
             'en' => 'Megabyte(s)',
             'de' => 'Megabyte',
-        ),
-        'gb' => array(
+        ],
+        'gb' => [
             'en' => 'Gigabyte(s)',
             'de' => 'Gigabyte',
-        ),
-        'tb' => array(
+        ],
+        'tb' => [
             'en' => 'Terabyte(s)',
             'de' => 'Terabyte',
-        ),
-        'g' => array(
+        ],
+        'g' => [
             'en' => 'Gram(s)',
             'de' => 'Gramm',
-        ),
-        'kg' => array(
+        ],
+        'kg' => [
             'en' => 'Kilogram(s)',
             'de' => 'Kilogramm',
-        ),
-        'mg' => array(
+        ],
+        'mg' => [
             'en' => 'Milligram(s)',
             'de' => 'Milligramm',
-        ),
-        'oz' => array(
+        ],
+        'oz' => [
             'en' => 'Ounce(s)',
             'de' => 'Unze',
-        ),
-        'lb' => array(
+        ],
+        'lb' => [
             'en' => 'Pound(s)',
             'de' => 'Pfund',
-        ),
-        't' => array(
+        ],
+        't' => [
             'en' => 'Ton(s)',
             'de' => 'Tonne',
-        ),
-        'l' => array(
+        ],
+        'l' => [
             'en' => 'Litre(s)',
             'de' => 'Liter',
-        ),
-        'ft^3' => array(
+        ],
+        'ft^3' => [
             'en' => 'Cubic foot/feet',
             'de' => 'Kubikfuß',
-        ),
-        'in^3' => array(
+        ],
+        'in^3' => [
             'en' => 'Cubic inch(es)',
             'de' => 'Kubikzoll',
-        ),
-        'm^3' => array(
+        ],
+        'm^3' => [
             'en' => 'cubic meter',
             'de' => 'Kubikmeter',
-        ),
-        'yd^3' => array(
+        ],
+        'yd^3' => [
             'en' => 'cubic yard(s)',
             'de' => 'Kubikyard',
-        ),
-        'fl oz' => array(
+        ],
+        'fl oz' => [
             'en' => 'fluid ounce(s)',
             'de' => 'Flüssigunze',
-        ),
-        'gal' => array(
+        ],
+        'gal' => [
             'en' => 'Gallon(s)',
             'de' => 'Gallonen',
-        ),
-        'ml' => array(
+        ],
+        'ml' => [
             'en' => 'Millilitre(s)',
             'de' => 'Milliliter',
-        ),
-        'qt' => array(
+        ],
+        'qt' => [
             'en' => 'Quart(s)',
             'de' => 'Quart',
-        ),
-        'm' => array(
+        ],
+        'm' => [
             'en' => 'Metre(s)',
             'de' => 'Meter',
-        ),
-        'cm' => array(
+        ],
+        'cm' => [
             'en' => 'Centimetre(s)',
             'de' => 'Zentimeter',
-        ),
-        'ft' => array(
+        ],
+        'ft' => [
             'en' => 'Foot/feet',
             'de' => 'Fuß',
-        ),
-        'in' => array(
+        ],
+        'in' => [
             'en' => 'Inch(es)',
             'de' => 'Zoll',
-        ),
-        'km' => array(
+        ],
+        'km' => [
             'en' => 'Kilometre(s)',
             'de' => 'Kilometer',
-        ),
-        'mm' => array(
+        ],
+        'mm' => [
             'en' => 'Millimetre(s)',
             'de' => 'Millimeter',
-        ),
-        'yd' => array(
+        ],
+        'yd' => [
             'en' => 'yard(s)',
             'de' => 'Yard',
-        ),
-        'piece' => array(
+        ],
+        'piece' => [
             'en' => 'Piece(s)',
             'de' => 'Stück',
-        ),
-        'bottle' => array(
+        ],
+        'bottle' => [
             'en' => 'Bottle(s)',
             'de' => 'Flasche',
-        ),
-        'crate' => array(
+        ],
+        'crate' => [
             'en' => 'Crate(s)',
             'de' => 'Kiste',
-        ),
-        'can' => array(
+        ],
+        'can' => [
             'en' => 'Can(s)',
             'de' => 'Dose',
-        ),
-        'capsule' => array(
+        ],
+        'capsule' => [
             'en' => 'Capsule(s)',
             'de' => 'Kapsel',
-        ),
-        'box' => array(
+        ],
+        'box' => [
             'en' => 'Box(es)',
             'de' => 'Karton(s)',
-        ),
-        'glass' => array(
+        ],
+        'glass' => [
             'en' => 'Glass(es)',
             'de' => 'Glas',
-        ),
-        'kit' => array(
+        ],
+        'kit' => [
             'en' => 'Kit(s)',
-        ),
-        'pack' => array(
+        ],
+        'pack' => [
             'en' => 'Pack(s)',
             'de' => 'Packung(en)',
-        ),
-        'package' => array(
+        ],
+        'package' => [
             'en' => 'Package(s)',
             'de' => 'Paket(e)',
-        ),
-        'pair' => array(
+        ],
+        'pair' => [
             'en' => 'Pair(s)',
             'de' => 'Paar',
-        ),
-        'roll' => array(
+        ],
+        'roll' => [
             'en' => 'Roll(s)',
             'de' => 'Rolle',
-        ),
-        'set' => array(
+        ],
+        'set' => [
             'en' => 'Set(s)',
-        ),
-        'sheet' => array(
+        ],
+        'sheet' => [
             'en' => 'Sheet(s)',
             'de' => 'Blatt',
-        ),
-        'ticket' => array(
+        ],
+        'ticket' => [
             'en' => 'Ticket(s)',
-        ),
-        'unit' => array(
+        ],
+        'unit' => [
             'en' => 'Unit(s)',
             'de' => 'VKE',
-        ),
-        'second' => array(
+        ],
+        'second' => [
             'en' => 'Second(s)',
             'de' => 'Sekunde',
-        ),
-        'day' => array(
+        ],
+        'day' => [
             'en' => 'Day(s)',
             'de' => 'Tag',
-        ),
-        'hour' => array(
+        ],
+        'hour' => [
             'en' => 'Hour(s)',
             'de' => 'Stunde',
-        ),
-        'minute' => array(
+        ],
+        'minute' => [
             'en' => 'Minute(s)',
             'de' => 'Minute',
-        ),
-        'month' => array(
+        ],
+        'month' => [
             'en' => 'Month(s)',
             'de' => 'Monat(e)',
-        ),
-        'night' => array(
+        ],
+        'night' => [
             'en' => 'Night(s)',
             'de' => 'Nacht',
-        ),
-        'week' => array(
+        ],
+        'week' => [
             'en' => 'Week(s)',
             'de' => 'Woche',
-        ),
-        'year' => array(
+        ],
+        'year' => [
             'en' => 'Year(s)',
             'de' => 'Jahr(e)',
-        ),
-        'm^2' => array(
+        ],
+        'm^2' => [
             'en' => 'Square metre(s)',
             'de' => 'Quadratmeter',
-        ),
-        'cm^2' => array(
+        ],
+        'cm^2' => [
             'en' => 'Square centimetre(s)',
             'de' => 'Quadratzentimeter',
-        ),
-        'ft^2' => array(
+        ],
+        'ft^2' => [
             'en' => 'Square foot/feet',
             'de' => 'Quadratfuß',
-        ),
-        'in^2' => array(
+        ],
+        'in^2' => [
             'en' => 'Square inch(es)',
             'de' => 'Quadratzoll',
-        ),
-        'mm^2' => array(
+        ],
+        'mm^2' => [
             'en' => 'Square milimetre(s)',
             'de' => 'Quadratmillimeter',
-        ),
-        'yd^2' => array(
+        ],
+        'yd^2' => [
             'en' => 'Square yard(s)',
             'de' => 'Quadratyard',
-        ),
-        'lfm' => array(
+        ],
+        'lfm' => [
             'en' => 'Running metre',
             'de' => 'Laufender Meter'
-        )
-    );
+        ]
+    ];
 
     /**
      * List of all available unit symbols.
@@ -262,7 +262,8 @@ class Units
      */
     public static function getLocalizedUnits($locale = 'en')
     {
-        return array_map(function ($labels) use ($locale) {
+        return array_map(
+            function ($labels) use ($locale) {
                 return isset($labels[$locale]) ? $labels[$locale] : $labels['en'];
             },
             self::$units

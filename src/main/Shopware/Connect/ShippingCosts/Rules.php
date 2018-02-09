@@ -39,7 +39,7 @@ class Rules extends Struct implements IteratorAggregate
     /**
      * @var \Shopware\Connect\Struct\ShippingCost\Rule[]
      */
-    public $rules = array();
+    public $rules = [];
 
     /**
      * Default delivery work days
@@ -55,7 +55,7 @@ class Rules extends Struct implements IteratorAggregate
      */
     public $vatConfig;
 
-    public function __construct(array $values = array())
+    public function __construct(array $values = [])
     {
         $this->vatConfig = new VatConfig();
         parent::__construct($values);

@@ -2,8 +2,6 @@
 
 namespace Shopware\Connect\ShippingCosts;
 
-use Phake;
-
 class RulesVisitorTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -27,15 +25,15 @@ class RulesVisitorTest extends \PHPUnit_Framework_TestCase
         $visitor->expects($this->at(9))->method('stopVisitRule')->with($p);
         $visitor->expects($this->at(10))->method('stopVisitRules')->with($p);
 
-        $visitor->visit(new Rules(array('rules' => array(
-            new Rule\CountryDecorator(array(
-                'delegatee' => new Rule\MinimumBasketValue(array(
-                    'delegatee' => new Rule\WeightDecorator(array(
+        $visitor->visit(new Rules(['rules' => [
+            new Rule\CountryDecorator([
+                'delegatee' => new Rule\MinimumBasketValue([
+                    'delegatee' => new Rule\WeightDecorator([
                         'delegatee' => new Rule\FixedPrice()
-                    ))
-                ))
-            )),
+                    ])
+                ])
+            ]),
             new Rule\UnitPrice(),
-        ))));
+        ]]));
     }
 }

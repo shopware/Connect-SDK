@@ -76,23 +76,23 @@ class Verification
             'POST',
             '/sdk/verify',
             json_encode(
-                array(
+                [
                     'apiKey' => $apiKey,
                     'apiEndpointUrl' => $apiEndpointUrl,
                     'version' => SDK::VERSION,
-                )
+                ]
             ),
-            array(
+            [
                 'Content-Type: application/json',
-            )
+            ]
         );
 
         if ($response->status >= 400) {
             if (($error = json_decode($response->body)) && isset($error->message)) {
-                throw new \RuntimeException("Verification failed: " . $error->message);
+                throw new \RuntimeException('Verification failed: ' . $error->message);
             }
 
-            throw new \RuntimeException("Verification failed with HTTP status " . $response->status);
+            throw new \RuntimeException('Verification failed with HTTP status ' . $response->status);
         }
 
         if ($response->body &&
@@ -100,8 +100,7 @@ class Verification
             $this->config->setShopId($return->shopId);
             $this->config->setConfig(SDK::CONFIG_PRICE_TYPE, $return->priceType);
         } else {
-            throw new \RuntimeException("Response could not be processed: " . $response->body);
+            throw new \RuntimeException('Response could not be processed: ' . $response->body);
         }
-        return;
     }
 }

@@ -8,7 +8,6 @@
 namespace Shopware\Connect\Service;
 
 use Shopware\Connect\Struct\VerificatorDispatcher;
-use Shopware\Connect\Gateway;
 use Shopware\Connect\HttpClient;
 use Shopware\Connect\Struct;
 
@@ -26,7 +25,7 @@ class SocialNetwork
     protected $httpClient;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $shopId;
 
@@ -65,7 +64,7 @@ class SocialNetwork
         $this->verificator->verify($orderStatus);
 
         $response = $this->request('/sdk/update-order-status', $orderStatus);
-        $this->handleResponse($response, "Order status update");
+        $this->handleResponse($response, 'Order status update');
     }
 
     /**
@@ -83,7 +82,7 @@ class SocialNetwork
         $this->verifyProductIds($productIds);
 
         $response = $this->request('/sdk/unsubscribe-products', $productIds);
-        $this->handleResponse($response, "Unsubscribe products");
+        $this->handleResponse($response, 'Unsubscribe products');
     }
 
     /**
@@ -93,10 +92,11 @@ class SocialNetwork
      */
     public function calculateFinishTime($changesCount)
     {
-        $response = $this->request('/sdk/calculate-finish-time', array('count' => $changesCount));
-        $this->handleResponse($response, "Calculate finish time");
+        $response = $this->request('/sdk/calculate-finish-time', ['count' => $changesCount]);
+        $this->handleResponse($response, 'Calculate finish time');
 
         $responseBody = json_decode($response->body);
+
         return $responseBody->time;
     }
 
@@ -108,10 +108,11 @@ class SocialNetwork
      */
     public function getMarketplaceProductAttributes()
     {
-        $response = $this->request('/sdk/marketplace/attributes', array());
-        $this->handleResponse($response, "Marketplace product attributes");
+        $response = $this->request('/sdk/marketplace/attributes', []);
+        $this->handleResponse($response, 'Marketplace product attributes');
 
         $responseBody = json_decode($response->body, true);
+
         return $responseBody['attributes'];
     }
 
@@ -123,10 +124,11 @@ class SocialNetwork
      */
     public function getMarketplaceSettings()
     {
-        $response = $this->request('/sdk/marketplace/settings', array());
-        $this->handleResponse($response, "Marketplace settings");
+        $response = $this->request('/sdk/marketplace/settings', []);
+        $this->handleResponse($response, 'Marketplace settings');
 
         $responseBody = json_decode($response->body, true);
+
         return $responseBody['settings'];
     }
 
@@ -135,11 +137,11 @@ class SocialNetwork
      */
     public function calculateShippingCosts(Struct\Order $order)
     {
-        $response = $this->request('/sdk/shipping-costs', array("order" => $order));
+        $response = $this->request('/sdk/shipping-costs', ['order' => $order]);
 
-        $this->handleResponse($response, "Shipping Costs");
+        $this->handleResponse($response, 'Shipping Costs');
 
-        $body = json_decode($response->body,true);
+        $body = json_decode($response->body, true);
         $shipping = $body['shipping'];
 
         return new Struct\Shipping($shipping);
@@ -163,11 +165,11 @@ class SocialNetwork
             'POST',
             $url,
             $payload,
-            array(
+            [
                 'Content-Type: application/json',
                 'X-Shopware-Connect-Shop: ' . $this->shopId,
                 'X-Shopware-Connect-Key: ' . $key,
-            )
+            ]
         );
     }
 
@@ -179,7 +181,7 @@ class SocialNetwork
                 isset($error->message)) {
                 $message = $error->message;
             }
-            throw new \RuntimeException($op . " failed: " . $message);
+            throw new \RuntimeException($op . ' failed: ' . $message);
         }
     }
 }

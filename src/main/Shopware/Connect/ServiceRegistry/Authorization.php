@@ -5,7 +5,6 @@ namespace Shopware\Connect\ServiceRegistry;
 use Shopware\Connect\Rpc;
 use Shopware\Connect\Struct;
 
-use Shopware\Connect\SDK;
 use Shopware\Connect\Struct\AuthenticationToken;
 use Shopware\Connect\SecurityException;
 
@@ -53,8 +52,8 @@ class Authorization extends Rpc\ServiceRegistry
     /**
      * @param string $name
      * @param string $command
-     * @return array
      * @throws \UnexpectedValueException
+     * @return array
      */
     public function getService($name, $command)
     {
@@ -68,8 +67,8 @@ class Authorization extends Rpc\ServiceRegistry
      * the given service.
      *
      * @param Struct\RpcCall $rpcCall
-     * @return mixed
      * @throws \Exception
+     * @return mixed
      */
     public function dispatch(Struct\RpcCall $rpcCall)
     {
@@ -80,7 +79,7 @@ class Authorization extends Rpc\ServiceRegistry
             case 'productPayments':
             case 'product_payments_from_shop':
             case 'shippingCosts':
-                if ($this->token->userIdentifier !== "connect") {
+                if ($this->token->userIdentifier !== 'connect') {
                     throw new SecurityException("No authorization to call 'products' or 'configuration' service.");
                 }
                 break;

@@ -23,7 +23,7 @@ class SimpleClassMapConverter extends Converter
     /**
      * @var string[]
      */
-    private $translationTable = array();
+    private $translationTable = [];
 
     /**
      * Construct a SimpleClassMapConverter using a defined TranslationTable

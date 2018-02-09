@@ -24,7 +24,7 @@ interface ProductGateway
      *
      * @param string $id
      * @param string $hash
-     * @return boolean
+     * @return bool
      */
     public function hasChanged($id, $hash);
 

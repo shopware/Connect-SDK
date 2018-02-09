@@ -2,19 +2,10 @@
 
 namespace Shopware\Connect;
 
-use Behat\Behat\Context\ClosuredContextInterface;
-use Behat\Behat\Context\TranslatedContextInterface;
-use Behat\Behat\Context\BehatContext;
-use Behat\Behat\Exception\PendingException;
-use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
-
 use Shopware\Connect\Struct\Product;
 use Shopware\Connect\Struct\Change;
-use Shopware\Connect\Rpc;
-use Shopware\Connect\Struct;
 
-use \PHPUnit_Framework_Assert as Assertion;
+use PHPUnit_Framework_Assert as Assertion;
 
 require_once __DIR__ . '/SDKContext.php';
 
@@ -139,14 +130,14 @@ class FromShopContext extends SDKContext
         for ($i = 0; $i < $this->offset; ++$i) {
             $changes = $this->makeRpcCall(
                 new Struct\RpcCall(
-                    array(
+                    [
                         'service' => 'products',
                         'command' => 'getChanges',
-                        'arguments' => array(
+                        'arguments' => [
                             $this->lastRevision,
                             $this->productsPerInterval
-                        )
-                    )
+                        ]
+                    ]
                 )
             );
 

@@ -12,8 +12,8 @@ class ExceptionTest extends \PHPUnit_Framework_TestCase
         $this->expectException(RemoteException::class);
         $this->expectExceptionMessage('Error');
         $exception = new Exception();
-        $exception->handleError(new Struct\Error(array(
+        $exception->handleError(new Struct\Error([
             'message' => 'Error',
-        )));
+        ]));
     }
 }

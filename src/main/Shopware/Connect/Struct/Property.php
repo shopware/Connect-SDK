@@ -28,7 +28,7 @@ class Property extends Struct
     public $groupPosition = 0;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $comparable;
 
@@ -48,7 +48,7 @@ class Property extends Struct
     public $option;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $filterable;
 
@@ -61,5 +61,4 @@ class Property extends Struct
      * @var int
      */
     public $valuePosition = 0;
-
 }

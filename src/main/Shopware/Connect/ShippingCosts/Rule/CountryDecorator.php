@@ -24,7 +24,7 @@ class CountryDecorator extends Rule
      *
      * @var array<string>
      */
-    public $countries = array();
+    public $countries = [];
 
     /**
      * Exclude addresses with given zip codes.
@@ -33,7 +33,7 @@ class CountryDecorator extends Rule
      *
      * @var array<string>
      */
-    public $excludeZipCodes = array();
+    public $excludeZipCodes = [];
 
     /**
      * @var \Shopware\Connect\ShippingCosts\Rule
@@ -51,8 +51,7 @@ class CountryDecorator extends Rule
         return
             $this->matchesCountry($order->deliveryAddress->country) &&
             !$this->matchesExcludedZipCode($order->deliveryAddress->zip) &&
-            $this->delegatee->isApplicable($order)
-        ;
+            $this->delegatee->isApplicable($order);
     }
 
     private function matchesCountry($country)

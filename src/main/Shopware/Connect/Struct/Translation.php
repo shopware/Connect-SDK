@@ -58,7 +58,7 @@ class Translation extends Struct
      *
      * @var string[string]
      */
-    public $variantLabels = array();
+    public $variantLabels = [];
 
     /**
      * Translations for the values used in Product::$variant.
@@ -67,7 +67,7 @@ class Translation extends Struct
      *
      * @var string[string]
      */
-    public $variantValues = array();
+    public $variantValues = [];
 
     /**
      * Link to the detail page of the product in this language.

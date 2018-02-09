@@ -14,10 +14,10 @@ class SocialNetworkTest extends \PHPUnit_Framework_TestCase
 
     public function testUpdateOrderStatus()
     {
-        $status = new \Shopware\Connect\Struct\OrderStatus(array(
+        $status = new \Shopware\Connect\Struct\OrderStatus([
             'id' => 'abcdefg',
             'status' => \Shopware\Connect\Struct\OrderStatus::STATE_OPEN,
-        ));
+        ]);
         $client = $this->createMock(HttpClient::class);
 
         $client->method('request')
@@ -25,12 +25,12 @@ class SocialNetworkTest extends \PHPUnit_Framework_TestCase
                 'POST',
                 '/sdk/update-order-status',
                 json_encode($status),
-                array(
+                [
                     'Content-Type: application/json',
                     'X-Shopware-Connect-Shop: 1',
                     'X-Shopware-Connect-Key: ' . hash_hmac('sha512', json_encode($status), self::APIKEY)
-                )
-            )->willReturn(new Response(array('status' => 200)));
+                ]
+            )->willReturn(new Response(['status' => 200]));
 
         $dispatcher = $this->createMock(VerificatorDispatcher::class);
 
@@ -40,16 +40,16 @@ class SocialNetworkTest extends \PHPUnit_Framework_TestCase
 
     public function testUnsubscribeProducts()
     {
-        $productIds = array(
-            new \Shopware\Connect\Struct\ProductId(array(
+        $productIds = [
+            new \Shopware\Connect\Struct\ProductId([
                 'shopId' => 10,
                 'sourceId' => 'foo',
-            )),
-            new \Shopware\Connect\Struct\ProductId(array(
+            ]),
+            new \Shopware\Connect\Struct\ProductId([
                 'shopId' => 20,
                 'sourceId' => 'bar',
-            )),
-        );
+            ]),
+        ];
 
         $client = $this->createMock(HttpClient::class);
 
@@ -58,12 +58,12 @@ class SocialNetworkTest extends \PHPUnit_Framework_TestCase
                 'POST',
                 '/sdk/unsubscribe-products',
                 json_encode($productIds),
-                array(
+                [
                     'Content-Type: application/json',
                     'X-Shopware-Connect-Shop: 1',
                     'X-Shopware-Connect-Key: ' . hash_hmac('sha512', json_encode($productIds), self::APIKEY)
-                )
-            )->willReturn(new Response(array('status' => 200)));
+                ]
+            )->willReturn(new Response(['status' => 200]));
 
         $dispatcher = $this->createMock(VerificatorDispatcher::class);
 
@@ -74,7 +74,7 @@ class SocialNetworkTest extends \PHPUnit_Framework_TestCase
     public function testCalculateFinishTime()
     {
         $changes = 300;
-        $json = json_encode(array('count' => $changes));
+        $json = json_encode(['count' => $changes]);
         $client = $this->createMock(HttpClient::class);
 
         $client->method('request')
@@ -82,12 +82,12 @@ class SocialNetworkTest extends \PHPUnit_Framework_TestCase
                 'POST',
                 '/sdk/calculate-finish-time',
                 $json,
-                array(
+                [
                     'Content-Type: application/json',
                     'X-Shopware-Connect-Shop: 1',
                     'X-Shopware-Connect-Key: ' . hash_hmac('sha512', $json, self::APIKEY)
-                )
-            )->willReturn(new Response(array('status' => 200, 'body' => '{"ok": true, "time": 900}')));
+                ]
+            )->willReturn(new Response(['status' => 200, 'body' => '{"ok": true, "time": 900}']));
 
         $dispatcher = $this->createMock(VerificatorDispatcher::class);
 
@@ -95,10 +95,9 @@ class SocialNetworkTest extends \PHPUnit_Framework_TestCase
         $socialNetwork->calculateFinishTime($changes);
     }
 
-
     public function testGetMarketplaceProductAttributes()
     {
-        $content = json_encode(array());
+        $content = json_encode([]);
         $client = $this->createMock(HttpClient::class);
 
         $client->method('request')
@@ -106,12 +105,12 @@ class SocialNetworkTest extends \PHPUnit_Framework_TestCase
                 'POST',
                 '/sdk/marketplace/attributes',
                 $content,
-                array(
+                [
                     'Content-Type: application/json',
                     'X-Shopware-Connect-Shop: 1',
                     'X-Shopware-Connect-Key: ' . hash_hmac('sha512', $content, self::APIKEY)
-                )
-            )->willReturn(new Response(array('status' => 200, 'body' => '{"ok": true, "attributes": [{"energy_saving_information": "Energiesparinformationen"}]}')));
+                ]
+            )->willReturn(new Response(['status' => 200, 'body' => '{"ok": true, "attributes": [{"energy_saving_information": "Energiesparinformationen"}]}']));
 
         $dispatcher = $this->createMock(VerificatorDispatcher::class);
 
@@ -121,7 +120,7 @@ class SocialNetworkTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMarketplaceSettings()
     {
-        $content = json_encode(array());
+        $content = json_encode([]);
         $client = $this->createMock(HttpClient::class);
 
         $client->method('request')
@@ -129,12 +128,12 @@ class SocialNetworkTest extends \PHPUnit_Framework_TestCase
                 'POST',
                 '/sdk/marketplace/settings',
                 $content,
-                array(
+                [
                     'Content-Type: application/json',
                     'X-Shopware-Connect-Shop: 1',
                     'X-Shopware-Connect-Key: ' . hash_hmac('sha512', $content, self::APIKEY)
-                )
-            )->willReturn(new Response(array('status' => 200, 'body' => '{"ok": true, "settings": [{"marketplaceName": "Shopware Enterprise Marketplace"}]}')));
+                ]
+            )->willReturn(new Response(['status' => 200, 'body' => '{"ok": true, "settings": [{"marketplaceName": "Shopware Enterprise Marketplace"}]}']));
 
         $dispatcher = $this->createMock(VerificatorDispatcher::class);
 
@@ -145,7 +144,7 @@ class SocialNetworkTest extends \PHPUnit_Framework_TestCase
     public function testCalculateShippingCosts()
     {
         $order = new Order();
-        $payload = json_encode(array('order' => $order));
+        $payload = json_encode(['order' => $order]);
 
         $client = $this->createMock(HttpClient::class);
 
@@ -154,12 +153,12 @@ class SocialNetworkTest extends \PHPUnit_Framework_TestCase
                 'POST',
                 '/sdk/shipping-costs',
                 $payload,
-                array(
+                [
                     'Content-Type: application/json',
                     'X-Shopware-Connect-Shop: 1',
                     'X-Shopware-Connect-Key: ' . hash_hmac('sha512', $payload, self::APIKEY)
-                )
-            )->willReturn(new Response(array('status' => 200, 'body' => $this->getShippingResponse())));
+                ]
+            )->willReturn(new Response(['status' => 200, 'body' => $this->getShippingResponse()]));
 
         $dispatcher = $this->createMock(VerificatorDispatcher::class);
 
@@ -177,9 +176,9 @@ class SocialNetworkTest extends \PHPUnit_Framework_TestCase
         $shipping->grossShippingCosts = 10 * (1 + 0.19);
         $shipping->isShippable = true;
 
-        return json_encode(array(
+        return json_encode([
             'ok' => true,
             'shipping' => $shipping
-        ));
+        ]);
     }
 }

@@ -24,21 +24,21 @@ abstract class RulesVisitor
             }
 
             $this->stopVisitRules($struct);
-        } else if ($struct instanceof Rule\FixedPrice) {
+        } elseif ($struct instanceof Rule\FixedPrice) {
             $this->visitFixedPrice($struct);
-        } else if ($struct instanceof Rule\UnitPrice) {
+        } elseif ($struct instanceof Rule\UnitPrice) {
             $this->visitUnitPrice($struct);
-        } else if ($struct instanceof Rule\DownstreamCharges) {
+        } elseif ($struct instanceof Rule\DownstreamCharges) {
             $this->visitDownstreamCharges($struct);
-        } else if ($struct instanceof Rule\CountryDecorator) {
+        } elseif ($struct instanceof Rule\CountryDecorator) {
             $this->visitCountryDecorator($struct);
 
             $this->visit($struct->delegatee);
-        } else if ($struct instanceof Rule\MinimumBasketValue) {
+        } elseif ($struct instanceof Rule\MinimumBasketValue) {
             $this->visitMinimumBasketValue($struct);
 
             $this->visit($struct->delegatee);
-        } else if ($struct instanceof Rule\WeightDecorator) {
+        } elseif ($struct instanceof Rule\WeightDecorator) {
             $this->visitWeightDecorator($struct);
 
             $this->visit($struct->delegatee);

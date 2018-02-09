@@ -24,15 +24,15 @@ class XmlCallMarshaller extends CallMarshaller
      *
      * @var array
      */
-    private $namespaces = array(
-        "rpc" => "http://api.bepado.com/schema/rpc.xsd",
-        "array" => "http://api.bepado.com/schema/array.xsd",
-        "float" => "http://api.bepado.com/schema/float.xsd",
-        "integer" => "http://api.bepado.com/schema/integer.xsd",
-        "boolean" => "http://api.bepado.com/schema/boolean.xsd",
-        "string" => "http://api.bepado.com/schema/string.xsd",
-        "null" => "http://api.bepado.com/schema/null.xsd",
-    );
+    private $namespaces = [
+        'rpc' => 'http://api.bepado.com/schema/rpc.xsd',
+        'array' => 'http://api.bepado.com/schema/array.xsd',
+        'float' => 'http://api.bepado.com/schema/float.xsd',
+        'integer' => 'http://api.bepado.com/schema/integer.xsd',
+        'boolean' => 'http://api.bepado.com/schema/boolean.xsd',
+        'string' => 'http://api.bepado.com/schema/string.xsd',
+        'null' => 'http://api.bepado.com/schema/null.xsd',
+    ];
 
     /**
      * @var \Shopware\Connect\XmlHelper
@@ -65,7 +65,7 @@ class XmlCallMarshaller extends CallMarshaller
      */
     public function marshal(Struct\RpcCall $rpcCall)
     {
-        $this->document = new \DOMDocument("1.0", "utf-8");
+        $this->document = new \DOMDocument('1.0', 'utf-8');
         $this->document->formatOutput = true;
         $this->valueMarshaller = new ValueMarshaller\XmlValueMarshaller(
             $this->helper,
@@ -90,11 +90,11 @@ class XmlCallMarshaller extends CallMarshaller
      */
     private function marshalRpcCall(Struct\RpcCall $rpcCall)
     {
-        $rpc = $this->document->createElement("rpc");
-        $this->helper->updateDefaultNamespace($rpc, "urn:bepado:api:rpc");
+        $rpc = $this->document->createElement('rpc');
+        $this->helper->updateDefaultNamespace($rpc, 'urn:bepado:api:rpc');
         $this->document->appendChild($rpc);
 
-        $service = $this->document->createElement("service");
+        $service = $this->document->createElement('service');
         $service->appendChild(
             $this->document->createTextNode(
                 $rpcCall->service
@@ -102,7 +102,7 @@ class XmlCallMarshaller extends CallMarshaller
         );
         $rpc->appendChild($service);
 
-        $command = $this->document->createElement("command");
+        $command = $this->document->createElement('command');
         $command->appendChild(
             $this->document->createTextNode(
                 $rpcCall->command
@@ -110,7 +110,7 @@ class XmlCallMarshaller extends CallMarshaller
         );
         $rpc->appendChild($command);
 
-        $arguments = $this->document->createElement("arguments");
+        $arguments = $this->document->createElement('arguments');
         foreach ($rpcCall->arguments as $argument) {
             $arguments->appendChild(
                 $this->valueMarshaller->marshal($argument)
@@ -126,7 +126,7 @@ class XmlCallMarshaller extends CallMarshaller
      */
     private function updateNamespaceInformation(\DOMElement $element)
     {
-        $schemaLocations = array();
+        $schemaLocations = [];
         foreach ($this->namespaces as $prefix => $schema) {
             $urn = "urn:bepado:api:{$prefix}";
             $this->helper->updateRelativeNamespacePrefix(

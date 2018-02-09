@@ -19,50 +19,50 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
     {
         $result = $this->calculator->calculateShippingCosts(
             new Rules(
-                array(
+                [
                     'vatMode' => Rules::VAT_DOMINATING,
-                    'rules' => array(
+                    'rules' => [
                         new Rule\FixedPrice(
-                            array(
+                            [
                                 'price' => 10,
-                            )
+                            ]
                         )
-                    )
-                )
+                    ]
+                ]
             ),
             new \Shopware\Connect\Struct\Order(
-                array(
+                [
                     'orderShop' => 2,
                     'providerShop' => 1,
-                    'products' => array(
+                    'products' => [
                         new \Shopware\Connect\Struct\OrderItem(
-                            array(
+                            [
                                 'count' => 20,
                                 'product' => new \Shopware\Connect\Struct\Product(
-                                    array(
+                                    [
                                         'shopId' => 1,
                                         'freeDelivery' => false,
                                         'vat' => 0.07,
                                         'price' => 5,
-                                    )
+                                    ]
                                 ),
-                            )
+                            ]
                         ),
                         new \Shopware\Connect\Struct\OrderItem(
-                            array(
+                            [
                                 'count' => 1,
                                 'product' => new \Shopware\Connect\Struct\Product(
-                                    array(
+                                    [
                                         'shopId' => 1,
                                         'freeDelivery' => false,
                                         'vat' => 0.19,
                                         'price' => 10,
-                                    )
+                                    ]
                                 ),
-                            )
+                            ]
                         ),
-                    ),
-                )
+                    ],
+                ]
             ),
             'test'
         );
@@ -76,48 +76,48 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
     {
         $result = $this->calculator->calculateShippingCosts(
             new Rules(
-                array(
+                [
                     'vatMode' => Rules::VAT_MAX,
-                    'rules' => array(
+                    'rules' => [
                         new Rule\FixedPrice(
-                            array(
+                            [
                                 'price' => 10,
-                            )
+                            ]
                         )
-                    )
-                )
+                    ]
+                ]
             ),
             new \Shopware\Connect\Struct\Order(
-                array(
+                [
                     'orderShop' => 2,
                     'providerShop' => 1,
-                    'products' => array(
+                    'products' => [
                         new \Shopware\Connect\Struct\OrderItem(
-                            array(
+                            [
                                 'count' => 1,
                                 'product' => new \Shopware\Connect\Struct\Product(
-                                    array(
+                                    [
                                         'shopId' => 1,
                                         'freeDelivery' => false,
                                         'vat' => 0.07,
-                                    )
+                                    ]
                                 ),
-                            )
+                            ]
                         ),
                         new \Shopware\Connect\Struct\OrderItem(
-                            array(
+                            [
                                 'count' => 1,
                                 'product' => new \Shopware\Connect\Struct\Product(
-                                    array(
+                                    [
                                         'shopId' => 1,
                                         'freeDelivery' => false,
                                         'vat' => 0.19,
-                                    )
+                                    ]
                                 ),
-                            )
+                            ]
                         ),
-                    ),
-                )
+                    ],
+                ]
             ),
             'test'
         );
@@ -131,37 +131,37 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
     {
         $result = $this->calculator->calculateShippingCosts(
             new Rules(
-                array(
+                [
                     'vatMode' => Rules::VAT_FIX,
                     'vat' => 0.07,
-                    'rules' => array(
+                    'rules' => [
                         new Rule\FixedPrice(
-                            array(
+                            [
                                 'price' => 10,
-                            )
+                            ]
                         )
-                    )
-                )
+                    ]
+                ]
             ),
             new \Shopware\Connect\Struct\Order(
-                array(
+                [
                     'orderShop' => 2,
                     'providerShop' => 1,
-                    'products' => array(
+                    'products' => [
                         new \Shopware\Connect\Struct\OrderItem(
-                            array(
+                            [
                                 'count' => 1,
                                 'product' => new \Shopware\Connect\Struct\Product(
-                                    array(
+                                    [
                                         'shopId' => 1,
                                         'freeDelivery' => false,
                                         'vat' => 0.19,
-                                    )
+                                    ]
                                 ),
-                            )
+                            ]
                         ),
-                    ),
-                )
+                    ],
+                ]
             ),
             'test'
         );
@@ -175,49 +175,49 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
     {
         $result = $this->calculator->calculateShippingCosts(
             new Rules(
-                array(
+                [
                     'vatMode' => Rules::VAT_PROPORTIONATELY,
-                    'rules' => array(
+                    'rules' => [
                         new Rule\FixedPrice(
-                            array(
+                            [
                                 'price' => 10,
-                            )
+                            ]
                         )
-                    )
-                )
+                    ]
+                ]
             ),
             new \Shopware\Connect\Struct\Order(
-                array(
+                [
                     'orderShop' => 2,
                     'providerShop' => 1,
-                    'products' => array(
+                    'products' => [
                         new \Shopware\Connect\Struct\OrderItem(
-                            array(
+                            [
                                 'count' => 1,
                                 'product' => new \Shopware\Connect\Struct\Product(
-                                    array(
+                                    [
                                         'shopId' => 1,
                                         'vat' => 0.19,
                                         'purchasePrice' => 100,
-                                    )
+                                    ]
                                 ),
-                            )
+                            ]
                         ),
                         new \Shopware\Connect\Struct\OrderItem(
-                            array(
+                            [
                                 'count' => 1,
                                 'product' => new \Shopware\Connect\Struct\Product(
-                                    array(
+                                    [
                                         'shopId' => 1,
                                         'freeDelivery' => false,
                                         'purchasePrice' => 10,
                                         'vat' => 0.07,
-                                    )
+                                    ]
                                 ),
-                            )
+                            ]
                         ),
-                    ),
-                )
+                    ],
+                ]
             ),
             'test'
         );
@@ -231,36 +231,36 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
     {
         $result = $this->calculator->calculateShippingCosts(
             new Rules(
-                array(
+                [
                     'vatMode' => Rules::VAT_PROPORTIONATELY,
-                    'rules' => array(
+                    'rules' => [
                         new Rule\FixedPrice(
-                            array(
+                            [
                                 'price' => 10,
-                            )
+                            ]
                         )
-                    )
-                )
+                    ]
+                ]
             ),
             new \Shopware\Connect\Struct\Order(
-                array(
+                [
                     'orderShop' => 2,
                     'providerShop' => 1,
-                    'products' => array(
+                    'products' => [
                         new \Shopware\Connect\Struct\OrderItem(
-                            array(
+                            [
                                 'count' => 1,
                                 'product' => new \Shopware\Connect\Struct\Product(
-                                    array(
+                                    [
                                         'shopId' => 1,
                                         'vat' => 0.19,
                                         'purchasePrice' => 100,
-                                    )
+                                    ]
                                 ),
-                            )
+                            ]
                         ),
-                    ),
-                )
+                    ],
+                ]
             ),
             'test'
         );
@@ -274,42 +274,42 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
     {
         $result = $this->calculator->calculateShippingCosts(
             new Rules(
-                array(
+                [
                     'vatMode' => Rules::VAT_FIX,
                     'vat' => 0.07,
-                    'rules' => array(
+                    'rules' => [
                         new Rule\FixedPrice(
-                            array(
+                            [
                                 'price' => 10,
-                            )
+                            ]
                         ),
                         new Rule\FixedPrice(
-                            array(
+                            [
                                 'price' => 5,
-                            )
+                            ]
                         )
-                    )
-                )
+                    ]
+                ]
             ),
             new \Shopware\Connect\Struct\Order(
-                array(
+                [
                     'orderShop' => 2,
                     'providerShop' => 1,
-                    'products' => array(
+                    'products' => [
                         new \Shopware\Connect\Struct\OrderItem(
-                            array(
+                            [
                                 'count' => 1,
                                 'product' => new \Shopware\Connect\Struct\Product(
-                                    array(
+                                    [
                                         'shopId' => 1,
                                         'freeDelivery' => false,
                                         'vat' => 0.19,
-                                    )
+                                    ]
                                 ),
-                            )
+                            ]
                         ),
-                    ),
-                )
+                    ],
+                ]
             ),
             'test'
         );
@@ -322,37 +322,37 @@ class RuleCalculatorTest extends \PHPUnit_Framework_TestCase
     public function testGrossShippingCosts()
     {
         $result = $this->calculator->calculateShippingCosts(
-            new Rules(array(
-                'vatConfig' => new VatConfig(array(
+            new Rules([
+                'vatConfig' => new VatConfig([
                     'mode' => Rules::VAT_FIX,
                     'vat' => 0.07,
                     'isNet' => false,
-                )),
-                'rules' => array(
-                    new Rule\FixedPrice(array(
+                ]),
+                'rules' => [
+                    new Rule\FixedPrice([
                         'price' => 10,
-                    )),
-                )
-            )),
-            new \Shopware\Connect\Struct\Order(array(
+                    ]),
+                ]
+            ]),
+            new \Shopware\Connect\Struct\Order([
                 'orderShop' => 2,
                 'providerShop' => 1,
-                'products' => array(
-                    new \Shopware\Connect\Struct\OrderItem(array(
+                'products' => [
+                    new \Shopware\Connect\Struct\OrderItem([
                         'count' => 1,
-                        'product' => new \Shopware\Connect\Struct\Product(array(
+                        'product' => new \Shopware\Connect\Struct\Product([
                             'shopId' => 1,
                             'freeDelivery' => false,
                             'vat' => 0.19,
-                        )),
-                    )),
-                ),
-            )),
+                        ]),
+                    ]),
+                ],
+            ]),
             'test'
         );
 
         $this->assertInstanceOf('Shopware\Connect\Struct\Shipping', $result);
-        $this->assertEquals(9.35, $result->shippingCosts, "Wrong net shipping costs", .01);
+        $this->assertEquals(9.35, $result->shippingCosts, 'Wrong net shipping costs', .01);
         $this->assertEquals(10, $result->grossShippingCosts);
     }
 }

@@ -37,7 +37,7 @@ class Message extends ChangeVisitor
      */
     public function visit(array $changes)
     {
-        $messages = array();
+        $messages = [];
         foreach ($changes as $shop => $change) {
             $this->verificator->verify($change);
 
@@ -47,39 +47,39 @@ class Message extends ChangeVisitor
                      * The else block can be removed when all shops use version greater than 2.0.3
                      */
                     if ($change->oldProduct !== null) {
-                        $messages[] = new Struct\Message(array(
+                        $messages[] = new Struct\Message([
                             'message' => 'The price of product %product has changed.',
-                            'values' => array(
+                            'values' => [
                                 'product' => $change->oldProduct->title
-                            )
-                        ));
+                            ]
+                        ]);
                     } else {
-                        $messages[] = new Struct\Message(array(
+                        $messages[] = new Struct\Message([
                             'message' => 'The price of product %product has changed.',
-                            'values' => array(
+                            'values' => [
                                 'product' => $change->sourceId
-                            )
-                        ));
+                            ]
+                        ]);
                     }
                     break;
 
                 case ($change instanceof Struct\Change\InterShop\Unavailable):
-                    $messages[] = new Struct\Message(array(
+                    $messages[] = new Struct\Message([
                         'message' => 'Availability of product %product changed to %availability.',
-                        'values' => array(
+                        'values' => [
                             'product' => $change->sourceId,
                             'availability' => $change->availability,
-                        )
-                    ));
+                        ]
+                    ]);
                     break;
 
                 case ($change instanceof Struct\Change\InterShop\Delete):
-                    $messages[] = new Struct\Message(array(
+                    $messages[] = new Struct\Message([
                         'message' => 'Product %product does not exist anymore.',
-                        'values' => array(
+                        'values' => [
                             'product' => $change->sourceId
-                        )
-                    ));
+                        ]
+                    ]);
                     break;
 
                 default:

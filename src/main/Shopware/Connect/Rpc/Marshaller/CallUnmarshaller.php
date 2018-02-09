@@ -7,7 +7,6 @@
 
 namespace Shopware\Connect\Rpc\Marshaller;
 
-use Shopware\Connect\Rpc\Marshaller\Converter;
 use Shopware\Connect\Rpc\Marshaller\Converter\NoopConverter;
 
 abstract class CallUnmarshaller

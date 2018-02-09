@@ -17,7 +17,7 @@ use Shopware\Connect\Struct;
  */
 class PriceRange extends Struct
 {
-    CONST ANY = 'any';
+    const ANY = 'any';
 
     /**
      * If it is string then the value must be 'any'

@@ -13,10 +13,10 @@ class DownstreamChargesTest extends \PHPUnit_Framework_TestCase
         $rule = new DownstreamCharges();
 
         $this->assertEquals(
-            new Shipping(array(
+            new Shipping([
                 'rule' => $rule,
                 'deliveryWorkDays' => 10,
-            )),
+            ]),
             $rule->getShippingCosts(new Order(), new VatConfig())
         );
     }

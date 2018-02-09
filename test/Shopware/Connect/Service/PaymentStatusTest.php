@@ -44,15 +44,15 @@ class PaymentStatusTest extends \PHPUnit_Framework_TestCase
 
     public function testUpdatePaymentStatus()
     {
-        $status = new Struct\PaymentStatus(array(
+        $status = new Struct\PaymentStatus([
             'revision' => '1234'
-        ));
+        ]);
         $this->fromShop->expects($this->atLeastOnce())->method('updatePaymentStatus')->with($status);
         $this->shopConfiguration->expects($this->atLeastOnce())->method('setConfig')->with(PaymentStatus::PAYMENT_REVISION, '1234');
 
-        $this->service->replicate(array(
+        $this->service->replicate([
             $status
-        ));
+        ]);
     }
 
     public function testGetChanges()
@@ -60,9 +60,9 @@ class PaymentStatusTest extends \PHPUnit_Framework_TestCase
         $since = 3;
         $limit = 5;
 
-        $this->gateway->method('getNextPaymentStatusChanges')->with($since, $limit)->willReturn(array(
-            new UpdatePaymentStatus(array('paymentStatus' => 'received'))
-        ));
+        $this->gateway->method('getNextPaymentStatusChanges')->with($since, $limit)->willReturn([
+            new UpdatePaymentStatus(['paymentStatus' => 'received'])
+        ]);
 
         $this->gateway->expects($this->atLeastOnce())->method('getNextPaymentStatusChanges')->with($since, $limit);
         $this->gateway->expects($this->atLeastOnce())->method('cleanChangesUntil')->with($since);

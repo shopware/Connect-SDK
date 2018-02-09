@@ -7,12 +7,9 @@
 
 namespace Shopware\Connect\ShippingCostCalculator;
 
-use Shopware\Connect\Gateway\ShippingCosts;
 use Shopware\Connect\ShippingCostCalculator;
 use Shopware\Connect\ShippingCosts\Rules;
-use Shopware\Connect\Struct;
 use Shopware\Connect\Struct\Order;
-use Shopware\Connect\Struct\OrderItem;
 use Shopware\Connect\Struct\Shipping;
 
 /**
@@ -57,9 +54,9 @@ class RuleCalculator implements ShippingCostCalculator
 
         if (!$minShippingCosts) {
             return new Shipping(
-                array(
+                [
                     'isShippable' => false,
-                )
+                ]
             );
         }
 

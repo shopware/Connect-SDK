@@ -11,7 +11,6 @@ use Shopware\Connect\Struct\Verificator\Change;
 use Shopware\Connect\Struct\VerificatorDispatcher;
 use Shopware\Connect\Struct;
 
-use Shopware\Connect\Struct\Product;
 
 /**
  * Visitor verifying integrity of struct classes

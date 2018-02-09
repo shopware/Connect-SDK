@@ -65,7 +65,7 @@ class ShopConfiguration extends Struct
     public $logoUrl;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $sellNotInStock;
 
@@ -80,6 +80,6 @@ class ShopConfiguration extends Struct
         unset($state['priceGroupMargin']);
         unset($state['shippingCost']);
 
-        return new ShopConfiguration($state);
+        return new self($state);
     }
 }

@@ -25,27 +25,27 @@ class Translation extends Verificator
      *
      * @param \Shopware\Connect\Struct\VerificatorDispatcher $dispatcher
      * @param \Shopware\Connect\Struct $struct
-     * @return void
      * @throws \RuntimeException
+     * @return void
      */
     protected function verifyDefault(VerificatorDispatcher $dispatcher, Struct $struct)
     {
         /* @var $struct \Shopware\Connect\Struct\Translation */
 
-        foreach (array(
+        foreach ([
             'title',
             'shortDescription',
             'longDescription',
-            ) as $property) {
+            ] as $property) {
             if (@iconv('UTF-8', 'UTF-8', $struct->$property) != $struct->$property) {
                 throw new \Shopware\Connect\Exception\VerificationFailedException("Property $property MUST be UTF-8 encoded.");
             }
         }
 
-        foreach (array(
+        foreach ([
             'variantLabels',
             'variantValues',
-            ) as $property) {
+            ] as $property) {
             if (!is_array($struct->$property)) {
                 throw new \Shopware\Connect\Exception\VerificationFailedException("Property $property MUST be an array or null.");
             }

@@ -6,29 +6,29 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 {
     public function testProductsOrderItemsBackwardsCompatbility1()
     {
-        $orderItems = array(new OrderItem());
+        $orderItems = [new OrderItem()];
 
-        $order = new Order(array(
+        $order = new Order([
             'products' => $orderItems,
-        ));
+        ]);
 
         $this->assertSame($orderItems, $order->orderItems);
     }
 
     public function testProductsOrderItemsBackwardsCompatbility2()
     {
-        $orderItems = array(new OrderItem());
+        $orderItems = [new OrderItem()];
 
-        $order = new Order(array(
+        $order = new Order([
             'orderItems' => $orderItems,
-        ));
+        ]);
 
         $this->assertSame($orderItems, $order->products);
     }
 
     public function testProductsGetSetMagic()
     {
-        $orderItems = array(new OrderItem());
+        $orderItems = [new OrderItem()];
 
         $order = new Order();
         $order->products = $orderItems;

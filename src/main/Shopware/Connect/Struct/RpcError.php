@@ -16,4 +16,3 @@ class RpcError extends Struct
      */
     public $code;
 }
-

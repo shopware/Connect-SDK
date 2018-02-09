@@ -23,7 +23,7 @@ class Address extends Verificator
      *
      * @var string[]
      */
-    private $validCountryCodes = array(
+    private $validCountryCodes = [
         'ABW', 'AFG', 'AGO', 'AIA', 'ALA', 'ALB', 'AND', 'ARE', 'ARG', 'ARM', 'ASM',
         'ATA', 'ATF', 'ATG', 'AUS', 'AUT', 'AZE', 'BDI', 'BEL', 'BEN', 'BES', 'BFA',
         'BGD', 'BGR', 'BHR', 'BHS', 'BIH', 'BLM', 'BLR', 'BLZ', 'BMU', 'BOL', 'BRA',
@@ -47,7 +47,7 @@ class Address extends Verificator
         'TKL', 'TKM', 'TLS', 'TON', 'TTO', 'TUN', 'TUR', 'TUV', 'TWN', 'TZA', 'UGA',
         'UKR', 'UMI', 'URY', 'USA', 'UZB', 'VAT', 'VCT', 'VEN', 'VGB', 'VIR', 'VNM',
         'VUT', 'WLF', 'WSM', 'YEM', 'ZAF', 'ZMB', 'ZWE',
-    );
+    ];
 
     /**
      * Method to verify a structs integrity
@@ -60,8 +60,8 @@ class Address extends Verificator
      */
     protected function verifyDefault(VerificatorDispatcher $dispatcher, Struct $struct)
     {
-        $requiredFields = array('firstName', 'surName', 'street', 'zip', 'city', 'country', 'email');
-        $optionalStringFields = array('company', 'state', 'streetNumber', 'middleName', 'phone');
+        $requiredFields = ['firstName', 'surName', 'street', 'zip', 'city', 'country', 'email'];
+        $optionalStringFields = ['company', 'state', 'streetNumber', 'middleName', 'phone'];
 
         foreach ($requiredFields as $required) {
             if (!is_string($struct->$required)) {

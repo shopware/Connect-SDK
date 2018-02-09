@@ -24,7 +24,7 @@ class Stream extends HttpClient
      *
      * @var array
      */
-    private $headers = array();
+    private $headers = [];
 
     /**
      * The remote REST server location.
@@ -66,15 +66,15 @@ class Stream extends HttpClient
      * @param array $headers
      * @return Reponse
      */
-    public function request($method, $path, $body = null, array $headers = array())
+    public function request($method, $path, $body = null, array $headers = [])
     {
         $httpFilePointer = @fopen(
             $this->server . $path,
             'r',
             false,
             stream_context_create(
-                array(
-                    'http' => array(
+                [
+                    'http' => [
                         'method'        => $method,
                         'content'       => $body,
                         'ignore_errors' => true,
@@ -85,8 +85,8 @@ class Stream extends HttpClient
                                 $headers
                             )
                         ),
-                    ),
-                )
+                    ],
+                ]
             )
         );
 

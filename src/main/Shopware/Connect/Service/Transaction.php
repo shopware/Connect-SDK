@@ -12,7 +12,6 @@ use Shopware\Connect\Gateway;
 use Shopware\Connect\Logger;
 use Shopware\Connect\Struct;
 use Shopware\Connect\Struct\VerificatorDispatcher;
-use Shopware\Connect\ShippingCostCalculator;
 use Shopware\Connect\Exception;
 
 /**
@@ -112,7 +111,7 @@ class Transaction
 
         if (count($order->products) === 0) {
             throw new \InvalidArgumentException(
-                "ProductList is not allowed to be empty in remote Transaction#checkProducts()"
+                'ProductList is not allowed to be empty in remote Transaction#checkProducts()'
             );
         }
 
@@ -129,9 +128,9 @@ class Transaction
             if (!isset($localProducts[$remoteProduct->sourceId])) {
                 // Product does not exist any more
                 $checkResult->changes[] = new Struct\Change\InterShop\Delete(
-                    array(
+                    [
                         'sourceId' => $remoteProduct->sourceId,
-                    )
+                    ]
                 );
 
                 continue;
@@ -141,37 +140,35 @@ class Transaction
             $localProduct->shopId = $myShopId;
 
             if ($this->purchasePriceHashInvalid($remoteProduct)) {
-
                 $currentNotAvailable = clone $localProduct;
                 $currentNotAvailable->availability = 0;
 
                 $checkResult->changes[] = new Struct\Change\InterShop\Update(
-                    array(
+                    [
                         'sourceId' => $remoteProduct->sourceId,
                         'shopId' => $myShopId,
                         'product' => $currentNotAvailable,
                         'oldProduct' => $remoteProduct,
-                    )
+                    ]
                 );
-
             } elseif ($this->fixedPriceChanged($localProduct, $remoteProduct)) {
                 // Price changed
                 $checkResult->changes[] = new Struct\Change\InterShop\Update(
-                    array(
+                    [
                         'sourceId' => $remoteProduct->sourceId,
                         'shopId' => $myShopId,
                         'product' => $localProduct,
                         'oldProduct' => $remoteProduct,
-                    )
+                    ]
                 );
             } elseif ($this->productUnavailable($localProduct, $orderItem->count)) {
                 // Availability changed
                 $checkResult->changes[] = new Struct\Change\InterShop\Unavailable(
-                    array(
+                    [
                         'sourceId' => $remoteProduct->sourceId,
                         'shopId' => $myShopId,
                         'availability' => $localProduct->availability,
-                    )
+                    ]
                 );
             }
         }
@@ -187,19 +184,19 @@ class Transaction
     private function calculateConsumerShippingCosts(Struct\ShopConfiguration $toShopConfiguration, Struct\Order $order)
     {
         switch ($toShopConfiguration->shippingCostType) {
-            case "remote":
+            case 'remote':
                 // From shop calculates shipping cost and both merchant and consumer have to pay that.
                 return $this->fromShop->calculateShippingCosts($order);
 
-            case "all":
-            case "filtered":
+            case 'all':
+            case 'filtered':
 
-                return new Struct\Shipping(array(
+                return new Struct\Shipping([
                     'isShippable' => $this->connectShippingDestinationAllowed($order->deliveryAddress),
                     'shippingCosts' => 0,
                     'grossShippingCosts' => 0,
                     'deliveryWorkDays' => $this->maxDeliveryWorkDays($order)
-                ));
+                ]);
 
             default:
                 throw new Exception\InvalidArgumentException(sprintf("Shipping Cost Type '%s' does not exist.", $toShopConfiguration->shippingCostType));
@@ -222,7 +219,7 @@ class Transaction
         // 25992, 25996, 25997, 25999 (Sylt) 26465 (Langeoog), 26474
         // (Spiekeroog), 26486 (Wangerooge), 26548 (Norderney), 26571 (Juist),
         // 26579 (Baltrum), 26757 (Borkum), 27498 (Helgoland)
-        $germanIslands = array(
+        $germanIslands = [
             18565,
             25849,
             25859,
@@ -243,7 +240,7 @@ class Transaction
             26579,
             26757,
             27498
-        );
+        ];
 
         if (in_array($address->zip, $germanIslands)) {
             return false;
@@ -255,12 +252,12 @@ class Transaction
     private function calculateMerchantShippingCosts(Struct\ShopConfiguration $toShopConfiguration, Struct\Order $order)
     {
         switch ($toShopConfiguration->shippingCostType) {
-            case "remote":
+            case 'remote':
                 // only the merchant pays the shops direct shipping costs
                 return $this->fromShop->calculateShippingCosts($order);
 
-            case "filtered":
-            case "all":
+            case 'filtered':
+            case 'all':
                 return $this->socialNetwork->calculateShippingCosts($order);
 
             default:
@@ -294,7 +291,7 @@ class Transaction
             )
         );
 
-        $indexedProducts = array();
+        $indexedProducts = [];
 
         foreach ($localProducts as $product) {
             $indexedProducts[$product->sourceId] = $product;
@@ -362,12 +359,12 @@ class Transaction
         $myShippingCosts = $productCheckResult->aggregatedShippingCosts;
 
         if (!$myShippingCosts->isShippable) {
-            return new Struct\Message(array(
+            return new Struct\Message([
                 'message' => 'Products cannot be shipped to %country.',
-                'values' => array(
+                'values' => [
                     'country' => $order->deliveryAddress->country
-                )
-            ));
+                ]
+            ]);
         }
 
         try {
@@ -375,12 +372,13 @@ class Transaction
             $this->fromShop->reserve($order);
         } catch (\Exception $e) {
             return new Struct\Error(
-                array(
+                [
                     'message' => $e->getMessage(),
                     'debugText' => (string) $e,
-                )
+                ]
             );
         }
+
         return $reservationId;
     }
 
@@ -412,13 +410,14 @@ class Transaction
             $order->providerShop = $providerShop;
 
             $this->reservations->setBought($reservationId, $order);
+
             return $this->logger->log($order);
         } catch (\Exception $e) {
             return new Struct\Error(
-                array(
+                [
                     'message' => $e->getMessage(),
                     'debugText' => (string) $e,
-                )
+                ]
             );
         }
     }
@@ -441,12 +440,13 @@ class Transaction
             $this->logger->confirm($remoteLogTransactionId);
         } catch (\Exception $e) {
             return new Struct\Error(
-                array(
+                [
                     'message' => $e->getMessage(),
                     'debugText' => (string) $e,
-                )
+                ]
             );
         }
+
         return true;
     }
 }

@@ -20,8 +20,7 @@ class SDKBuilderTest extends \PHPUnit_Framework_TestCase
             ->setProductToShop($this->createMock(ProductToShop::class))
             ->setProductFromShop($this->createMock(ProductFromShop::class))
             ->setErrorHandler($this->createMock(ErrorHandler::class))
-            ->setPluginSoftwareVersion('Foo')
-        ;
+            ->setPluginSoftwareVersion('Foo');
 
         $sdk = $builder->build();
 
@@ -40,8 +39,7 @@ class SDKBuilderTest extends \PHPUnit_Framework_TestCase
             ->setApiEndpointUrl('http://foo/bar')
             ->configurePDOGateway(new PDO('sqlite::memory:'))
             ->setProductToShop($this->createMock(ProductToShop::class))
-            ->setProductFromShop($this->createMock(ProductFromShop::class))
-        ;
+            ->setProductFromShop($this->createMock(ProductFromShop::class));
 
         $sdk = $builder->build();
 

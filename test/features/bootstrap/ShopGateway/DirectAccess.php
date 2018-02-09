@@ -60,11 +60,11 @@ class DirectAccess extends ShopGateway
     {
         return $this->makeRpcCall(
             new RpcCall(
-                array(
+                [
                     'service' => 'transaction',
                     'command' => 'checkProducts',
-                    'arguments' => array($order, $shopId),
-                )
+                    'arguments' => [$order, $shopId],
+                ]
             )
         );
     }
@@ -101,11 +101,11 @@ class DirectAccess extends ShopGateway
     {
         return $this->makeRpcCall(
             new RpcCall(
-                array(
+                [
                     'service' => 'transaction',
                     'command' => 'reserveProducts',
-                    'arguments' => array($order),
-                )
+                    'arguments' => [$order],
+                ]
             )
         );
     }
@@ -124,11 +124,11 @@ class DirectAccess extends ShopGateway
     {
         return $this->makeRpcCall(
             new RpcCall(
-                array(
+                [
                     'service' => 'transaction',
                     'command' => 'buy',
-                    'arguments' => array($reservationId, $orderId),
-                )
+                    'arguments' => [$reservationId, $orderId],
+                ]
             )
         );
     }
@@ -147,11 +147,11 @@ class DirectAccess extends ShopGateway
     {
         return $this->makeRpcCall(
             new RpcCall(
-                array(
+                [
                     'service' => 'transaction',
                     'command' => 'confirm',
-                    'arguments' => array($reservationId, $remoteLogTransactionId),
-                )
+                    'arguments' => [$reservationId, $remoteLogTransactionId],
+                ]
             )
         );
     }

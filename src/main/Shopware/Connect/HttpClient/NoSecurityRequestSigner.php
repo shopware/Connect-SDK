@@ -18,11 +18,11 @@ class NoSecurityRequestSigner implements RequestSigner
 {
     public function signRequest($shopId, $body)
     {
-        return array();
+        return [];
     }
 
     public function verifyRequest($body, array $headers)
     {
-        return new AuthenticationToken(array('authenticated' => true));
+        return new AuthenticationToken(['authenticated' => true]);
     }
 }

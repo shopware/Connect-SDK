@@ -7,7 +7,7 @@
 
 namespace Shopware\Connect\Struct\Metric;
 
-use \Shopware\Connect\Struct\Metric;
+use Shopware\Connect\Struct\Metric;
 
 /**
  * Time metric
@@ -26,7 +26,7 @@ class Time extends Metric
     public function __toString()
     {
         return sprintf(
-            " METRIC_TIME metric=%s value=%F ",
+            ' METRIC_TIME metric=%s value=%F ',
             $this->name,
             $this->time
         );

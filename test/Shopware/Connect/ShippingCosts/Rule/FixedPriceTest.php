@@ -12,9 +12,9 @@ class FixedPriceTest extends RuleTest
 {
     public function testGetAndSetState()
     {
-        $state = array(
+        $state = [
             'price' => 5.0,
-        );
+        ];
 
         $rule = FixedPrice::__set_state($state);
 
@@ -33,24 +33,24 @@ class FixedPriceTest extends RuleTest
     public function testCalculatePrice()
     {
         $rule = FixedPrice::__set_state(
-            array(
+            [
                 'price' => 5.0,
-            )
+            ]
         );
 
         $this->assertEquals(
-            new Shipping(array(
+            new Shipping([
                 'rule' => $rule,
                 'shippingCosts' => 5.,
                 'grossShippingCosts' => 5.5,
                 'deliveryWorkDays' => 10,
-            )),
+            ]),
             $rule->getShippingCosts(
                 $this->getValidOrder(),
-                new VatConfig(array(
+                new VatConfig([
                     'vat' => .1,
                     'isNet' => true,
-                ))
+                ])
             ),
             'Wrong shipping costs',
             .01
@@ -60,24 +60,24 @@ class FixedPriceTest extends RuleTest
     public function testCalculateGrossPrice()
     {
         $rule = FixedPrice::__set_state(
-            array(
+            [
                 'price' => 5.0,
-            )
+            ]
         );
 
         $this->assertEquals(
-            new Shipping(array(
+            new Shipping([
                 'rule' => $rule,
                 'shippingCosts' => 4.54,
                 'grossShippingCosts' => 5.,
                 'deliveryWorkDays' => 10,
-            )),
+            ]),
             $rule->getShippingCosts(
                 $this->getValidOrder(),
-                new VatConfig(array(
+                new VatConfig([
                     'vat' => .1,
                     'isNet' => false,
-                ))
+                ])
             ),
             'Wrong shipping costs',
             .01

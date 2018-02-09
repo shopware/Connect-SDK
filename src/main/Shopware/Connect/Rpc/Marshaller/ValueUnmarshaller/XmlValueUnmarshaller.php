@@ -53,7 +53,7 @@ class XmlValueUnmarshaller implements ValueUnmarshaller
             case 'null':
                 return null;
             case 'array':
-                $values = array();
+                $values = [];
                 foreach ($element->childNodes as $child) {
                     if ($child->hasAttribute('key')) {
                         $values[$child->getAttribute('key')] = $this->unmarshalValue($child);
@@ -61,6 +61,7 @@ class XmlValueUnmarshaller implements ValueUnmarshaller
                         $values[] = $this->unmarshalValue($child);
                     }
                 }
+
                 return $values;
             default:
                 return $this->unmarshalObject($element);
@@ -69,16 +70,16 @@ class XmlValueUnmarshaller implements ValueUnmarshaller
 
     /**
      * @param \DOMElement $element
-     * @return \Shopware\Connect\Struct|\Shopware\Connect\Struct
      * @throws \OutOfBoundsException if target class is not registered for unmarshaling
+     * @return \Shopware\Connect\Struct|\Shopware\Connect\Struct
      */
     private function unmarshalObject(\DOMElement $element)
     {
-        $marshalledClass = $element->getAttribute("struct");
+        $marshalledClass = $element->getAttribute('struct');
 
         if (!is_subclass_of($marshalledClass, 'Shopware\Connect\Struct') &&
             !is_subclass_of($marshalledClass, 'Bepado\Common\Struct')) {
-            throw new \RuntimeException(sprintf("Cannot unmarshall non-Struct classes such as %s", $marshalledClass));
+            throw new \RuntimeException(sprintf('Cannot unmarshall non-Struct classes such as %s', $marshalledClass));
         }
 
         $marshalledObject = new $marshalledClass();

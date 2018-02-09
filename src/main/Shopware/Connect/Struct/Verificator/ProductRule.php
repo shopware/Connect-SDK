@@ -25,7 +25,7 @@ class ProductRule extends Verificator
      *
      * @var string[]
      */
-    private $validCurrencies = array('EUR');
+    private $validCurrencies = ['EUR'];
 
     /**
      * Method to verify a structs integrity

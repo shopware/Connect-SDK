@@ -107,7 +107,7 @@ class Address extends Struct
      */
     public static function __set_state(array $state)
     {
-        return new Address($state);
+        return new self($state);
     }
 
     /**
@@ -119,11 +119,10 @@ class Address extends Struct
      */
     public function __get($property)
     {
-        switch ($property)
-        {
+        switch ($property) {
             case 'name':
                 return $this->firstName . ' ' .
-                    ($this->middleName ? $this->middleName . ' ' : '' ) .
+                    ($this->middleName ? $this->middleName . ' ' : '') .
                     $this->surName;
             case 'line1':
                 return $this->street . ' ' . $this->streetNumber;
@@ -145,15 +144,14 @@ class Address extends Struct
      */
     public function __set($property, $value)
     {
-        switch ($property)
-        {
+        switch ($property) {
             case 'name':
                 if (!preg_match(
                     '(^(?P<firstName>\\S+)\\s+(?:(?P<middleName>.*)\\s+)?(?P<surName>\\S+)$)',
                     $value,
                     $matches
                 )) {
-                    throw new \DomainException("Invalid name provided");
+                    throw new \DomainException('Invalid name provided');
                 }
 
                 $this->firstName = $matches['firstName'];
@@ -162,7 +160,7 @@ class Address extends Struct
                 break;
             case 'line1':
                 if (!preg_match('(^(?P<street>.+)\\s+(?P<number>\\d+\\S*)$)', $value, $matches)) {
-                    throw new \DomainException("Invalid street provided");
+                    throw new \DomainException('Invalid street provided');
                 }
 
                 $this->street = $matches['street'];

@@ -81,18 +81,18 @@ class Http extends ShopGateway
      *
      * @param Struct\Order $order
      * @param string $shopId
-     * @return mixed
      * @throws \RuntimeException
+     * @return mixed
      */
     public function checkProducts(Struct\Order $order, $shopId)
     {
         $result = $this->makeRpcCall(
             new RpcCall(
-                array(
+                [
                     'service' => 'transaction',
                     'command' => 'checkProducts',
-                    'arguments' => array($order, $shopId),
-                )
+                    'arguments' => [$order, $shopId],
+                ]
             )
         );
         if ($result instanceof Struct\Error) {
@@ -139,11 +139,11 @@ class Http extends ShopGateway
     {
         return $this->makeRpcCall(
             new RpcCall(
-                array(
+                [
                     'service' => 'transaction',
                     'command' => 'reserveProducts',
-                    'arguments' => array($order),
-                )
+                    'arguments' => [$order],
+                ]
             )
         );
     }
@@ -162,11 +162,11 @@ class Http extends ShopGateway
     {
         return $this->makeRpcCall(
             new RpcCall(
-                array(
+                [
                     'service' => 'transaction',
                     'command' => 'buy',
-                    'arguments' => array($reservationId, $orderId),
-                )
+                    'arguments' => [$reservationId, $orderId],
+                ]
             )
         );
     }
@@ -185,11 +185,11 @@ class Http extends ShopGateway
     {
         return $this->makeRpcCall(
             new RpcCall(
-                array(
+                [
                     'service' => 'transaction',
                     'command' => 'confirm',
-                    'arguments' => array($reservationId, $remoteLogTransactionId),
-                )
+                    'arguments' => [$reservationId, $remoteLogTransactionId],
+                ]
             )
         );
     }
@@ -215,14 +215,14 @@ class Http extends ShopGateway
 
             $result = $this->unmarshaller->unmarshal($httpResponse->body);
             if (!isset($result->arguments[0])) {
-                throw new \UnexpectedValueException("Could not parse response: " . $httpResponse->body);
+                throw new \UnexpectedValueException('Could not parse response: ' . $httpResponse->body);
             }
         } catch (\Exception $e) {
             return new Struct\Error(
-                array(
+                [
                     'message' => $e->getMessage(),
                     'debugText' => (string) $e,
-                )
+                ]
             );
         }
 

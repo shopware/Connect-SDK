@@ -30,7 +30,7 @@ class PDO extends Gateway
      *
      * @var array
      */
-    protected $operationStruct = array(
+    protected $operationStruct = [
         self::PRODUCT_INSERT => '\\Shopware\\Connect\\Struct\\Change\\FromShop\\Insert',
         self::PRODUCT_UPDATE => '\\Shopware\\Connect\\Struct\\Change\\FromShop\\Update',
         self::PRODUCT_DELETE => '\\Shopware\\Connect\\Struct\\Change\\FromShop\\Delete',
@@ -39,13 +39,13 @@ class PDO extends Gateway
         self::STREAM_DELETE => '\\Shopware\\Connect\\Struct\\Change\\FromShop\\StreamDelete',
         self::MAIN_VARIANT => '\\Shopware\\Connect\\Struct\\Change\\FromShop\\MakeMainVariant',
         self::PAYMENT_UPDATE => '\\Shopware\\Connect\\Struct\\Change\\FromShop\\UpdatePaymentStatus',
-    );
+    ];
 
     /**
      * @var array
      */
-    protected $types = array(
-        self::TYPE_PRODUCT => array(
+    protected $types = [
+        self::TYPE_PRODUCT => [
             self::PRODUCT_INSERT,
             self::PRODUCT_UPDATE,
             self::PRODUCT_DELETE,
@@ -53,11 +53,11 @@ class PDO extends Gateway
             self::STREAM_ASSIGNMENT,
             self::STREAM_DELETE,
             self::MAIN_VARIANT,
-        ),
-        self::TYPE_PAYMENT => array(
+        ],
+        self::TYPE_PAYMENT => [
             self::PAYMENT_UPDATE
-        ),
-    );
+        ],
+    ];
 
     /**
      * Construct from MySQL connection
@@ -93,19 +93,19 @@ class PDO extends Gateway
         // point representations otherwise omit changes. Yes, this actually
         // really happens.
         if (!preg_match('(^[\\d\\.]+$)', $offset)) {
-            throw new \InvalidArgumentException("Offset revision must be a numeric string.");
+            throw new \InvalidArgumentException('Offset revision must be a numeric string.');
         }
 
         $inStatement = implode("','", $types);
 
         $result = $this->connection->query(
-            "SELECT
+            'SELECT
                 `c_entity_id`,
                 `c_operation`,
                 `c_revision`,
                 `c_payload`
             FROM
-                `" . $this->tableName('change') . "`
+                `' . $this->tableName('change') . "`
             WHERE
                 `c_revision` > $offset
             AND
@@ -115,18 +115,18 @@ class PDO extends Gateway
                 " . ((int) $limit)
         );
 
-        $changes = array();
+        $changes = [];
         while ($row = $result->fetch(\PDO::FETCH_ASSOC)) {
             $class = $this->operationStruct[$row['c_operation']];
             $changes[] = $change = new $class(
-                array(
+                [
                     'sourceId' => $row['c_entity_id'],
                     'revision' => $row['c_revision'],
-                )
+                ]
             );
 
             if ($row['c_payload'] !== null) {
-                switch($row['c_operation']) {
+                switch ($row['c_operation']) {
                     case self::PRODUCT_STOCK:
                         $change->availability = intval($row['c_payload']);
                         break;
@@ -190,7 +190,7 @@ class PDO extends Gateway
         // point representations otherwise omit changes. Yes, this actually
         // really happens.
         if (!preg_match('(^[\\d\\.]+$)', $offset)) {
-            throw new \InvalidArgumentException("Offset revision must be a numeric string.");
+            throw new \InvalidArgumentException('Offset revision must be a numeric string.');
         }
 
         // Disable cleanup for the first betas for debuggability and easier re-runs.
@@ -218,16 +218,16 @@ class PDO extends Gateway
         $inStatement = implode("','", $this->types['product']);
 
         $result = $this->connection->prepare(
-            "EXPLAIN SELECT
+            'EXPLAIN SELECT
                 *
             FROM
-                `" . $this->tableName('change') . "`
+                `' . $this->tableName('change') . "`
             WHERE
                 `c_revision` > ?
             AND
                 `c_operation` IN('$inStatement')"
         );
-        $result->execute(array($offset));
+        $result->execute([$offset]);
         $changes = $result->fetch(\PDO::FETCH_ASSOC);
 
         return max(0, $changes['rows'] - $limit);
@@ -256,7 +256,7 @@ class PDO extends Gateway
                 ?, ?, ?, ?
             );'
         );
-        $query->execute(array($id, self::PRODUCT_INSERT, $revision, serialize($product)));
+        $query->execute([$id, self::PRODUCT_INSERT, $revision, serialize($product)]);
 
         $this->updateHash($id, $hash);
     }
@@ -274,7 +274,7 @@ class PDO extends Gateway
     {
         $stmt = $this->connection
             ->prepare('SELECT p_hash FROM sw_connect_product WHERE p_source_id = ?');
-        $stmt->execute(array($id));
+        $stmt->execute([$id]);
 
         $currentHash = $stmt->fetchColumn();
 
@@ -294,7 +294,7 @@ class PDO extends Gateway
                 ?, ?, ? ,?
             );'
         );
-        $query->execute(array($id, self::PRODUCT_UPDATE, $revision, serialize($product)));
+        $query->execute([$id, self::PRODUCT_UPDATE, $revision, serialize($product)]);
 
         $this->updateHash($id, $hash);
     }
@@ -312,7 +312,7 @@ class PDO extends Gateway
     {
         $stmt = $this->connection
             ->prepare('SELECT p_hash FROM sw_connect_product WHERE p_source_id = ?');
-        $stmt->execute(array($id));
+        $stmt->execute([$id]);
 
         $currentHash = $stmt->fetchColumn();
 
@@ -332,7 +332,7 @@ class PDO extends Gateway
                 ?, ?, ? ,?
             );'
         );
-        $query->execute(array($id, self::PRODUCT_STOCK, $revision, $product->availability));
+        $query->execute([$id, self::PRODUCT_STOCK, $revision, $product->availability]);
 
         $this->updateHash($id, $hash);
     }
@@ -360,12 +360,12 @@ class PDO extends Gateway
             );'
         );
         $query->execute(
-            array(
+            [
                 $productId,
                 self::STREAM_ASSIGNMENT,
                 $revision,
-                serialize(array('groupId' => $groupId, 'supplierStreams' => $supplierStreams))
-            )
+                serialize(['groupId' => $groupId, 'supplierStreams' => $supplierStreams])
+            ]
         );
     }
 
@@ -386,7 +386,7 @@ class PDO extends Gateway
                 ?, ?, ?
             );'
         );
-        $query->execute(array($streamId, self::STREAM_DELETE, $revision));
+        $query->execute([$streamId, self::STREAM_DELETE, $revision]);
     }
 
     /**
@@ -408,7 +408,7 @@ class PDO extends Gateway
                  ?, ?, ?, ?
              );'
         );
-        $query->execute(array($productId, self::MAIN_VARIANT, $revision, serialize(array('groupId' => $groupId))));
+        $query->execute([$productId, self::MAIN_VARIANT, $revision, serialize(['groupId' => $groupId])]);
     }
 
     /**
@@ -430,12 +430,12 @@ class PDO extends Gateway
             );'
         );
 
-        $query->execute(array(
+        $query->execute([
             $paymentStatus->localOrderId,
             self::PAYMENT_UPDATE,
             $revision,
             serialize($paymentStatus)
-        ));
+        ]);
     }
 
     /**
@@ -459,7 +459,7 @@ class PDO extends Gateway
             ON DUPLICATE KEY UPDATE
                 p_hash = ?;'
         );
-        $query->execute(array($productId, $hash, $hash));
+        $query->execute([$productId, $hash, $hash]);
     }
 
     /**
@@ -482,7 +482,7 @@ class PDO extends Gateway
                 ?, ?, ?
             );'
         );
-        $query->execute(array($id, self::PRODUCT_DELETE, $revision));
+        $query->execute([$id, self::PRODUCT_DELETE, $revision]);
 
         $query = $this->connection->prepare(
             'DELETE FROM
@@ -491,7 +491,7 @@ class PDO extends Gateway
                 p_source_id = ?
             ;'
         );
-        $query->execute(array($id));
+        $query->execute([$id]);
     }
 
     /**
@@ -501,7 +501,7 @@ class PDO extends Gateway
      *
      * @param string $id
      * @param string $hash
-     * @return boolean
+     * @return bool
      */
     public function hasChanged($id, $hash)
     {
@@ -513,9 +513,10 @@ class PDO extends Gateway
             WHERE
                 p_source_id = ?'
         );
-        $query->execute(array($id));
+        $query->execute([$id]);
 
         $result = $query->fetchColumn();
+
         return $result !== $hash;
     }
 
@@ -582,7 +583,7 @@ class PDO extends Gateway
                 `d_value` = VALUES(`d_value`)
             ;'
         );
-        $query->execute(array($revision));
+        $query->execute([$revision]);
     }
 
     /**
@@ -665,7 +666,7 @@ class PDO extends Gateway
                 `' . $this->tableName('shop_config') . '`'
         );
 
-        $shopIds = array();
+        $shopIds = [];
 
         while ($shopId = $stmt->fetchColumn()) {
             if (is_numeric($shopId)) {
@@ -722,7 +723,8 @@ class PDO extends Gateway
                 ?, ?, ?
             );'
         );
-        $query->execute(array($order->reservationId, 'new', serialize($order)));
+        $query->execute([$order->reservationId, 'new', serialize($order)]);
+
         return $order->reservationId;
     }
 
@@ -743,7 +745,7 @@ class PDO extends Gateway
             WHERE
                 `r_id` = ?;'
         );
-        $query->execute(array($reservationId));
+        $query->execute([$reservationId]);
 
         $result = $query->fetchColumn();
         if ($result === false) {
@@ -773,7 +775,7 @@ class PDO extends Gateway
                 `r_id` = ?
             ;'
         );
-        $query->execute(array(serialize($order), $reservationId));
+        $query->execute([serialize($order), $reservationId]);
 
         if ($query->rowCount() !== 1) {
             throw new \OutOfBoundsException("Reservation $reservationId not found.");
@@ -798,7 +800,7 @@ class PDO extends Gateway
                 `r_id` = ?
             ;'
         );
-        $query->execute(array($reservationId));
+        $query->execute([$reservationId]);
 
         if ($query->rowCount() !== 1) {
             throw new \OutOfBoundsException("Reservation $reservationId not found.");
@@ -826,7 +828,8 @@ class PDO extends Gateway
                 `s_config` = VALUES(`s_config`)
             ;'
         );
-        return $query->execute(array($shopId, $config));
+
+        return $query->execute([$shopId, $config]);
     }
 
     /**
@@ -843,7 +846,7 @@ class PDO extends Gateway
             WHERE
                 `s_shop` = ?'
         );
-        $query->execute(array($shopId));
+        $query->execute([$shopId]);
 
         $config = $query->fetchColumn();
         if ($config === false) {
@@ -904,13 +907,13 @@ class PDO extends Gateway
                 `sc_customer_costs` = VALUES(`sc_customer_costs`)
             ;'
         );
-        $query->execute(array(
+        $query->execute([
             $fromShop,
             $toShop,
             $revision,
             serialize($intershopCosts),
             serialize($customerCosts),
-        ));
+        ]);
     }
 
     /**
@@ -936,11 +939,11 @@ class PDO extends Gateway
             ORDER BY `sc_revision` DESC
             LIMIT 1'
         );
-        $query->execute(array($fromShop, $toShop));
+        $query->execute([$fromShop, $toShop]);
 
         $costs = $query->fetchColumn();
         if ($costs === false) {
-            return array();
+            return [];
         }
 
         return unserialize($costs);

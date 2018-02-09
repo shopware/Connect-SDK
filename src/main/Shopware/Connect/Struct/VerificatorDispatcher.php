@@ -21,9 +21,9 @@ class VerificatorDispatcher
      *
      * @var array
      */
-    protected $verificators = array();
+    protected $verificators = [];
 
-    public function __construct(array $verificators = array())
+    public function __construct(array $verificators = [])
     {
         foreach ($verificators as $class => $verificator) {
             $this->addVerificator($class, $verificator);
@@ -60,7 +60,7 @@ class VerificatorDispatcher
 
         if ($verificator === null) {
             throw new \OutOfBoundsException(
-                "No verificator available for class " . get_class($struct)
+                'No verificator available for class ' . get_class($struct)
             );
         }
 

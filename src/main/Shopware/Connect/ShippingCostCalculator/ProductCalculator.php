@@ -11,7 +11,6 @@ use Shopware\Connect\ShippingCostCalculator;
 use Shopware\Connect\ShippingRuleParser;
 use Shopware\Connect\Struct\Order;
 use Shopware\Connect\Struct\OrderItem;
-use Shopware\Connect\Struct\ShippingRule;
 use Shopware\Connect\Struct\Shipping;
 use Shopware\Connect\ShippingCosts\Rule;
 use Shopware\Connect\ShippingCosts\Rules;
@@ -82,7 +81,7 @@ class ProductCalculator implements ShippingCostCalculator
         foreach ($productOrder->orderItems as $orderItem) {
             $rules = $this->parser->parseString($orderItem->product->shipping);
 
-            $orderItem->shipping = new Shipping(array('isShippable' => false));
+            $orderItem->shipping = new Shipping(['isShippable' => false]);
             foreach ($rules->rules as $rule) {
                 $rule->deliveryWorkDays = $rule->deliveryWorkDays ?: $shippingCostRules->defaultDeliveryWorkDays;
                 $rule->orderItemCount = $orderItem->count;

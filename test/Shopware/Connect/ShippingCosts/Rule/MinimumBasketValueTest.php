@@ -5,7 +5,6 @@ namespace Shopware\Connect\ShippingCosts\Rule;
 use Shopware\Connect\ShippingCosts\Rule;
 use Shopware\Connect\Struct;
 use Shopware\Connect\ShippingCosts\VatConfig;
-use Phake;
 
 class MinimumBasketValueTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,10 +17,10 @@ class MinimumBasketValueTest extends \PHPUnit_Framework_TestCase
         $delegatee = $this->createMock(Rule::class);
         $delegatee->method('isApplicable')->with($order)->willReturn(true);
 
-        $rule = new MinimumBasketValue(array(
+        $rule = new MinimumBasketValue([
             'minimum' => 100,
             'delegatee' => $delegatee
-        ));
+        ]);
 
         $delegatee->expects($this->once())->method('isApplicable')->with($order);
         self::assertTrue($rule->isApplicable($order));
@@ -35,10 +34,10 @@ class MinimumBasketValueTest extends \PHPUnit_Framework_TestCase
         $order = $this->getOrder();
         $delegatee = $this->createMock(Rule::class);
 
-        $rule = new MinimumBasketValue(array(
+        $rule = new MinimumBasketValue([
             'minimum' => 200,
             'delegatee' => $delegatee
-        ));
+        ]);
 
         $delegatee->expects($this->never())->method('isApplicable');
         $delegatee->expects($this->never())->method('getShippingCosts');
@@ -55,10 +54,10 @@ class MinimumBasketValueTest extends \PHPUnit_Framework_TestCase
         $delegatee = $this->createMock(Rule::class);
         $delegatee->method('getShippingCosts')->with($order, $vatConfig)->willReturn(42);
 
-        $rule = new MinimumBasketValue(array(
+        $rule = new MinimumBasketValue([
             'minimum' => 200,
             'delegatee' => $delegatee
-        ));
+        ]);
         $delegatee->expects($this->once())->method('getShippingCosts')->with($order, $vatConfig);
 
         self::assertSame(
@@ -74,23 +73,23 @@ class MinimumBasketValueTest extends \PHPUnit_Framework_TestCase
      */
     private function getOrder()
     {
-        return new Struct\Order(array(
-            'orderItems' => array(
-                new Struct\OrderItem(array(
+        return new Struct\Order([
+            'orderItems' => [
+                new Struct\OrderItem([
                     'count' => 2,
-                    'product' => new Struct\Product(array(
+                    'product' => new Struct\Product([
                         'purchasePrice' => 20,
                         'vat' => 0.19
-                    ))
-                )),
-                new Struct\OrderItem(array(
+                    ])
+                ]),
+                new Struct\OrderItem([
                     'count' => 3,
-                    'product' => new Struct\Product(array(
+                    'product' => new Struct\Product([
                         'purchasePrice' => 20,
                         'vat' => 0.19
-                    ))
-                )),
-            )
-        ));
+                    ])
+                ]),
+            ]
+        ]);
     }
 }

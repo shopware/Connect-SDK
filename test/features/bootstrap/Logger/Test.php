@@ -22,11 +22,11 @@ class Test extends Logger
      *
      * @var array
      */
-    protected $logMessages = array();
+    protected $logMessages = [];
 
     protected $counter = 0;
 
-    protected $breaks = array();
+    protected $breaks = [];
 
     /**
      * Log order
@@ -38,12 +38,12 @@ class Test extends Logger
     {
         $this->counter += 1;
         if (isset($this->breaks[$this->counter])) {
-            throw new \RuntimeException("Break logging.");
+            throw new \RuntimeException('Break logging.');
         }
 
         $this->logMessages[$this->counter] = $order;
 
-        return "confirm-" . $this->counter;
+        return 'confirm-' . $this->counter;
     }
 
     /**
@@ -56,7 +56,7 @@ class Test extends Logger
     {
         $this->counter += 1;
         if (isset($this->breaks[$this->counter])) {
-            throw new \RuntimeException("Break logging.");
+            throw new \RuntimeException('Break logging.');
         }
 
         $this->logMessages[$this->counter] = $logTransactionId;

@@ -21,7 +21,7 @@ class XmlHelper
     public function updateDefaultNamespace(\DOMElement $element, $urn)
     {
         $element->setAttribute(
-            "xmlns",
+            'xmlns',
             $urn
         );
     }
@@ -36,7 +36,7 @@ class XmlHelper
     public function updateRelativeNamespacePrefix(\DOMElement $element, $urn, $prefix)
     {
         $element->setAttributeNS(
-            "http://www.w3.org/2000/xmlns/",
+            'http://www.w3.org/2000/xmlns/',
             "xmlns:{$prefix}",
             $urn
         );
@@ -50,16 +50,16 @@ class XmlHelper
      */
     public function updateSchemaLocation(\DOMElement $element, array $urnLocationMapping)
     {
-        $attributeValues = array();
+        $attributeValues = [];
         foreach ($urnLocationMapping as $urn => $location) {
             $attributeValues[] = $urn;
             $attributeValues[] = $location;
         }
 
         $element->setAttributeNS(
-            "http://www.w3.org/2001/XMLSchema-instance",
-            "xsi:schemaLocation",
-            implode(" ", $attributeValues)
+            'http://www.w3.org/2001/XMLSchema-instance',
+            'xsi:schemaLocation',
+            implode(' ', $attributeValues)
         );
     }
 }

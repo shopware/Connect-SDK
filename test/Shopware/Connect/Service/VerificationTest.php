@@ -7,7 +7,6 @@
 
 namespace Shopware\Connect\Service;
 
-use Bepado\Common;
 use Shopware\Connect\HttpClient;
 use Shopware\Connect\Gateway;
 use Shopware\Connect\SDK;
@@ -48,10 +47,10 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
             ->will(
                 $this->returnValue(
                     new HttpClient\Response(
-                        array(
+                        [
                             'status' => 200,
                             'body' => '{"shopId":"shop1","priceType":2}',
-                        )
+                        ]
                     )
                 )
             );
@@ -83,10 +82,10 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
             ->will(
                 $this->returnValue(
                     new HttpClient\Response(
-                        array(
+                        [
                             'status' => 500,
                             'body' => '{"error":"Test Error"}',
-                        )
+                        ]
                     )
                 )
             );
@@ -112,7 +111,7 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
                 'http://shop.bepado.local/kore/rpc.php?' . time()
             );
         } catch (\RuntimeException $e) {
-            $this->markTestSkipped("Cannot reach real service.");
+            $this->markTestSkipped('Cannot reach real service.');
         }
 
         $this->assertTrue(is_numeric($this->getGateway()->getShopId()), 'Verification Service should return integer shop id.');

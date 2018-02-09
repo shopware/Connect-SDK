@@ -7,7 +7,7 @@
 
 namespace Shopware\Connect\Struct\Metric;
 
-use \Shopware\Connect\Struct\Metric;
+use Shopware\Connect\Struct\Metric;
 
 /**
  * Count metric
@@ -26,7 +26,7 @@ class Count extends Metric
     public function __toString()
     {
         return sprintf(
-            " METRIC_COUNT metric=%s value=%d ",
+            ' METRIC_COUNT metric=%s value=%d ',
             $this->name,
             $this->count
         );

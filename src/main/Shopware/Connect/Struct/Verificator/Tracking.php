@@ -20,7 +20,7 @@ class Tracking extends Verificator
 {
     protected function verifyDefault(VerificatorDispatcher $dispatcher, Struct $struct)
     {
-        $strings = array('id', 'url', 'vendor');
+        $strings = ['id', 'url', 'vendor'];
 
         foreach ($strings as $string) {
             if ($struct->$string === null) {

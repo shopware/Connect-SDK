@@ -58,7 +58,7 @@ class DirectAccess extends ShopFactory
      *
      * @var ShopGateway[]
      */
-    protected $shopGateways = array();
+    protected $shopGateways = [];
 
     public function __construct(
         ProductToShop $toShop,

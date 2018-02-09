@@ -15,5 +15,4 @@ namespace Shopware\Connect\Struct\Change\ToShop;
  */
 class Delete extends ToShopChange
 {
-
 }

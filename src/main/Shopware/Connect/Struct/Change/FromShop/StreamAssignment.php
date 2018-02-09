@@ -22,7 +22,7 @@ class StreamAssignment extends Change
      *
      * @var array
      */
-    public $supplierStreams = array();
+    public $supplierStreams = [];
 
     /**
      * Group id of the product shows if it has variants
