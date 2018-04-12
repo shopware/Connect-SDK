@@ -372,7 +372,7 @@ class ShopPurchaseContext extends SDKContext
             [
                 new Struct\Message(
                     [
-                        'message' => 'Availability of product %ptitle changed to %availability.',
+                        'message' => 'Availability of product %product changed to %availability.',
                         'values' => [
                             'product' => '23-1',
                             'availability' => 0,

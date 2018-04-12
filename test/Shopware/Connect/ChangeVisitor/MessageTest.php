@@ -45,7 +45,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $expectedMessages = [new Struct\Message([
-            'message' => 'Availability of product %ptitle changed to %availability.',
+            'message' => 'Availability of product %product changed to %availability.',
             'values' => [
                 'product' => 'FOO1234',
                 'availability' => 0,

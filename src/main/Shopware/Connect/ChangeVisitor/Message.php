@@ -65,7 +65,7 @@ class Message extends ChangeVisitor
 
                 case ($change instanceof Struct\Change\InterShop\Unavailable):
                     $messages[] = new Struct\Message([
-                        'message' => 'Availability of product %ptitle changed to %availability.',
+                        'message' => 'Availability of product %product changed to %availability.',
                         'values' => [
                             'shopId' => $change->shopId,
                             'product' => $change->sourceId,
