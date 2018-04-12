@@ -40,12 +40,17 @@ class MessageTest extends \PHPUnit_Framework_TestCase
             new Struct\Change\InterShop\Unavailable([
                 'availability' => 0,
                 'sourceId' => 'FOO1234',
+                'shop-Id' => 'shop-1'
             ])
         ]);
 
         $expectedMessages = [new Struct\Message([
-            'message' => 'Availability of product %product changed to %availability.',
-            'values' => ['product' => 'FOO1234', 'availability' => 0],
+            'message' => 'Availability of product %ptitle changed to %availability.',
+            'values' => [
+                'product' => 'FOO1234',
+                'availability' => 0,
+                'shop-Id' => 'shop-1'
+            ],
         ])];
 
         self::assertEquals($expectedMessages, $messages);
