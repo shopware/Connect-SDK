@@ -376,6 +376,7 @@ class ShopPurchaseContext extends SDKContext
                         'values' => [
                             'product' => '23-1',
                             'availability' => 0,
+                            'shopId' => 'shop-1'
                         ],
                     ]
                 )

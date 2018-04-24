@@ -67,6 +67,7 @@ class Message extends ChangeVisitor
                     $messages[] = new Struct\Message([
                         'message' => 'Availability of product %product changed to %availability.',
                         'values' => [
+                            'shopId' => $change->shopId,
                             'product' => $change->sourceId,
                             'availability' => $change->availability,
                         ]

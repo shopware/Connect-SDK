@@ -1,3 +1,6 @@
+# v2.0.13
+ChangeMessage now contains a value shopId if the change is of type `Struct\Change\InterShop\Unavailable`
+
 # v2.0.12
 Added new ISO-369-1 languages in Shopware\Connect\Translations
 
